@@ -71,6 +71,12 @@ public abstract class BaseActionProvider : IActionProvider
         return (from t in Object.FindObjectsOfType<BaseEntity>() where (ICombatEntity)t != owner && t.EntityType != owner.EntityType select t).ToArray();
     }
 
+    protected ICombatEntity LookForNearestEnemy()
+    {
+        var collection = GetEnemyEntities();
+        return collection.OrderBy(x => Vector3.Distance(x.transform.position, owner.transform.position)).FirstOrDefault();
+    }
+
     protected ICombatEntity LookForRandomEnemyTarget()
     {
         var collection = GetEnemyEntities();

@@ -6,9 +6,9 @@ public class RangedActionProvider : BaseActionProvider
 {
     GameObject projectilePrefab;
 
-    protected override float ActionCooldown => 0.9f;
-    protected override int Power => 20;
-    protected override float ResourceGain => Random.Range(0f, 1f) < 0.2f ? 0.3f : 0.15f;
+    protected override float ActionCooldown => HeroRangedData.Instance.ActionCooldown;
+    protected override int Power => HeroRangedData.Instance.Power;
+    protected override float ResourceGain => Random.Range(0f, 1f) < 0.2f ? HeroRangedData.Instance.ResourceGain * 2 : HeroRangedData.Instance.ResourceGain;
 
     public RangedActionProvider(ICombatEntity owner, float range, DamageType damageType, GameObject projectilePrefab) : base(owner, range)
     {

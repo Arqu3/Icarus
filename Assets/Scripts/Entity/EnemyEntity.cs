@@ -19,6 +19,8 @@ public class EnemyEntity : BaseEntity
 
     public override void GiveResource(float amount){}
 
+    public override void GiveResourcePercentage(float percentage) { }
+
     public override bool SpendResource(float amount)
     {
         return false;

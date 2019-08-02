@@ -37,6 +37,11 @@ public class EntityResourceProvider : IEntityResourceProvider
         Current = Mathf.Clamp(Current + Mathf.Abs(amount), 0f, Max);
     }
 
+    public void GivePercentage(float percentage)
+    {
+        Give(Max * Mathf.Clamp(Mathf.Abs(percentage), 0f, 1f));
+    }
+
     public void Update()
     {
         Current = Mathf.Clamp(Current + Time.deltaTime, 0f, Max);

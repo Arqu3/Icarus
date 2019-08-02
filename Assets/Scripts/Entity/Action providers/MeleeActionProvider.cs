@@ -5,10 +5,10 @@ using UnityEngine.AI;
 
 public class MeleeActionProvider : BaseActionProvider
 {
-    protected override float ActionCooldown => 0.5f;
+    protected override float ActionCooldown => HeroMeleeData.Instance.ActionCooldown;
 
-    protected override int Power => 10;
-    protected override float ResourceGain => 0.25f;
+    protected override int Power => HeroMeleeData.Instance.Power;
+    protected override float ResourceGain => HeroMeleeData.Instance.ResourceGain;
 
     DamageType damageType;
     NavMeshAgent agent;

@@ -7,6 +7,7 @@ public interface ICombatEntity
     int Health { get; }
     float HealthPercentage { get; }
     void GiveHealth(int amount);
+    void GiveHealthPercentage(float percentage);
     void RemoveHealth(int amount);
     void RemoveHealthPercentage(float percentage);
 
@@ -15,13 +16,17 @@ public interface ICombatEntity
     bool SpendResource(float amount);
     bool SpendResourcePercentage(float percentage);
     void GiveResource(float amount);
+    void GiveResourcePercentage(float percentage);
 
     EntityType EntityType { get; }
 
     bool Valid { get; }
 
+    void OverrideTarget(ICombatEntity newTarget);
+
     GameObject gameObject { get; }
     Transform transform { get; }
 
     Coroutine StartCoroutine(IEnumerator ienumerator);
+    void StopCoroutine(IEnumerator ienumerator);
 }

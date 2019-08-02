@@ -5,10 +5,10 @@ using UnityEngine.AI;
 
 public class HealingActionProvider : BaseActionProvider
 {
-    protected override float ActionCooldown => 0.8f;
+    protected override float ActionCooldown => HeroHealingData.Instance.ActionCooldown;
 
-    protected override int Power => 8;
-    protected override float ResourceGain => 0.15f;
+    protected override int Power => HeroHealingData.Instance.Power;
+    protected override float ResourceGain => HeroHealingData.Instance.ResourceGain;
 
     const float TargetUpdateCooldown = 4f;
     float targetUpdateTimer = 0f;

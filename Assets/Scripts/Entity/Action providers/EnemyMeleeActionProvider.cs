@@ -8,5 +8,7 @@ public class EnemyMeleeActionProvider : MeleeActionProvider
     {
     }
 
-    protected override float ActionCooldown => 1f;
+    protected override float ActionCooldown => EnemyMeleeData.Instance.ActionCooldown;
+    protected override float ResourceGain => EnemyMeleeData.Instance.ResourceGain;
+    protected override int Power => EnemyMeleeData.Instance.Power;
 }

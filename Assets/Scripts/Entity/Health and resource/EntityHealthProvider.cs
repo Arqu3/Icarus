@@ -29,6 +29,11 @@ public class EntityHealthProvider : IEntityHealthProvider
         Current = Mathf.Clamp(Current + Mathf.Abs(amount), 0, Max);
     }
 
+    public void GivePercentage(float percentage)
+    {
+        Give((int)(Max * Mathf.Clamp(Mathf.Abs(percentage), 0f, 1f)));
+    }
+
     //public void Update()
     //{
     //    Current = Mathf.Clamp(Current + Time.deltaTime, 0f, Max);

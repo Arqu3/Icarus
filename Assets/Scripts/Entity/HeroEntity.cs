@@ -40,8 +40,10 @@ public class HeroEntity : BaseEntity
             case HeroRole.None:
                 break;
             case HeroRole.Tank:
+                mainAction = new TankActionProvider(this, 3f);
                 break;
             case HeroRole.Support:
+                mainAction = new SupportActionProvider(this, 8f);
                 break;
             case HeroRole.DamageDealer:
 
@@ -105,6 +107,11 @@ public class HeroEntity : BaseEntity
     public override void GiveResource(float amount)
     {
         resourceProvider.Give(amount);
+    }
+
+    public override void GiveResourcePercentage(float percentage)
+    {
+        resourceProvider.GivePercentage(percentage);
     }
 
     #endregion

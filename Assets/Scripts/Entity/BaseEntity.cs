@@ -72,6 +72,11 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
         healthProvider.Give(amount);
     }
 
+    public void GiveHealthPercentage(float percentage)
+    {
+        healthProvider.GivePercentage(percentage);
+    }
+
     public void RemoveHealth(int amount)
     {
         healthProvider.Remove(amount);
@@ -89,6 +94,13 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     public abstract bool SpendResourcePercentage(float percentage);
 
     public abstract void GiveResource(float amount);
+
+    public abstract void GiveResourcePercentage(float percentage);
+
+    public void OverrideTarget(ICombatEntity newTarget)
+    {
+        currentAction?.OverrideTarget(newTarget);
+    }
 
     #endregion
 }
