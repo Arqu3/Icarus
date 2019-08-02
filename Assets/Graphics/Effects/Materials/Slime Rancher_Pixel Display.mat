@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Slime Rancher_Pixel Display
+  m_Shader: {fileID: 4800000, guid: cc70815989b86b24cbd631501dd23917, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _LCDPixels:
+        m_Texture: {fileID: 2800000, guid: 2b4ce7fea02c6374ea6e0bf0d0b4d1bf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTexture:
+        m_Texture: {fileID: 8400000, guid: 1cecdbea31b46054ca9f2834200dce0c, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Brightness: 1.8
+    - _CloseBrightness: 1
+    - _DimFreq: 1
+    - _DimPower: 2
+    - _DimSpeed: 0.25
+    - _DimStrength: 0.8
+    - _DimWidth: 0.01
+    - _FarBrightness: 1.2
+    - _GlitchPixelsX: 8
+    - _GlitchPixelsY: 8
+    - _MaxDistance: 100
+    - _MinDistance: 50
+    - _PixelsX: 256
+    - _PixelsY: 144
+    - _PulseFreq: 1
+    - _PulseLead: 0.1
+    - _PulsePower: 3
+    - _PulseSpeed: 1.25
+    - _PulseWidth: 0.06
+    - _WobbleFreq: -1
+    - _WobbleSpeed: 1
+    - _WobbleStrength: 0
+    - __dirty: 0
+    m_Colors:
+    - _EdgeGlowColour: {r: 0, g: 0, b: 0, a: 1}

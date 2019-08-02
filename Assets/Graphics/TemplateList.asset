@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b89e1a01c60153b46903a91b2b90235f, type: 3}
+  m_Name: TemplateList
+  m_EditorClassIdentifier: 
+  templates:
+  - itemName: Button
+    prefab: {fileID: 7200499166288379677, guid: a61adc8bbcc5b8243b64e56eb54583bf,
+      type: 3}
+  - itemName: Text
+    prefab: {fileID: 6710988565548216208, guid: ee9c71a61a3be8f41aef2bc71569b59d,
+      type: 3}
+  - itemName: Toggle
+    prefab: {fileID: 8661866073733668687, guid: 54f084f660711044baaa5204ea5666cf,
+      type: 3}
+  - itemName: Slider
+    prefab: {fileID: 138192766398175942, guid: 019d9a05b3f9a394aab0958402c6f725, type: 3}
+  - itemName: Dropdown
+    prefab: {fileID: 1390032710567569668, guid: 1c48e1d1d7089224694230fbfe8a06a1,
+      type: 3}
+  - itemName: Input Field
+    prefab: {fileID: 1477740530454137663, guid: 4a80c9d66c62ca24291487a2600efb83,
+      type: 3}
+  - itemName: Scroll View
+    prefab: {fileID: 4199464430992367640, guid: 2aae4d5a89454b64899edd9290bdd940,
+      type: 3}
