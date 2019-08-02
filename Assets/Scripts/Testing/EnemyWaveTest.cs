@@ -8,7 +8,7 @@ public class EnemyWaveTest : MonoBehaviour
 {
     [Header("Enemies to spawn")]
     [SerializeField]
-    List<EnemyEntity> enemies = new List<EnemyEntity>();
+    List<BaseEnemyEntity> enemies = new List<BaseEnemyEntity>();
 
     [Header("Testing params")]
     [SerializeField]
@@ -22,7 +22,7 @@ public class EnemyWaveTest : MonoBehaviour
     [SerializeField]
     Transform secondSpawnpoint;
 
-    List<EnemyEntity> currentEnemies = new List<EnemyEntity>();
+    List<BaseEnemyEntity> currentEnemies = new List<BaseEnemyEntity>();
     List<HeroEntity> currentHeroes = new List<HeroEntity>();
 
     IEnumerator Start()
@@ -63,7 +63,7 @@ public class EnemyWaveTest : MonoBehaviour
         return (from e in list where e != null select e).Count() > 0;
     }
 
-    bool ContainsNonNull(List<EnemyEntity> list)
+    bool ContainsNonNull(List<BaseEnemyEntity> list)
     {
         return (from e in list where e != null select e).Count() > 0;
     }

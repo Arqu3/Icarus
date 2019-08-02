@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 727192127475003552}
   - component: {fileID: 7635966241535067772}
   m_Layer: 0
-  m_Name: TestEnemy
+  m_Name: TestEnemyRanged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,7 +123,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 205b21a1a666c9048aaa0fd838ca6bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 100
+  startHealth: 50
+  role: 2
+  attackType: 1
+  projectilePrefab: {fileID: 5396764010486090531, guid: b970561c54af71942a433811d2183469,
+    type: 3}
+  damageType: 1
 --- !u!195 &727192127475003552
 NavMeshAgent:
   m_ObjectHideFlags: 0

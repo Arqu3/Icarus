@@ -2,36 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityHealthProvider : IEntityHealthProvider
+public class EntityHealthProvider : BaseEntityHealthProvider
 {
+    int Current, Max;
+
     public EntityHealthProvider(int startAmount)
     {
         Current = Max = startAmount;
     }
 
-    public int Current { get; private set; }
-    public float Percentage => (float)Current / Max;
-    public int Max { get; private set; }
-
-    public void Remove(int amount)
+    public override void Remove(int amount)
     {
         int absClamped = Mathf.Clamp(Mathf.Abs(amount), 0, Max);
         Current = Mathf.Clamp(Current - absClamped, 0, Max);
     }
 
-    public void RemovePercentage(float percentage)
+    public override void RemovePercentage(float percentage)
     {
         Remove((int)(Max * Mathf.Clamp(Mathf.Abs(percentage), 0f, 1f)));
     }
 
-    public void Give(int amount)
+    public override void Give(int amount)
     {
         Current = Mathf.Clamp(Current + Mathf.Abs(amount), 0, Max);
     }
 
-    public void GivePercentage(float percentage)
+    public override void GivePercentage(float percentage)
     {
         Give((int)(Max * Mathf.Clamp(Mathf.Abs(percentage), 0f, 1f)));
+    }
+
+    public override int GetCurrent()
+    {
+        return Current;
+    }
+
+    public override int GetMax()
+    {
+        return Max;
+    }
+
+    public override float GetPercentage()
+    {
+        return (float)GetCurrent() / GetMax();
     }
 
     //public void Update()

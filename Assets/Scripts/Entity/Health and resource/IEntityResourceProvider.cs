@@ -1,8 +1,8 @@
 ﻿public interface IEntityResourceProvider
 {
-    float Current { get; }
-    float Max { get; }
-    float Percentage { get; }
+    float GetCurrent();
+    float GetMax();
+    float GetPercentage();
 
     void Give(float amount);
     void GivePercentage(float percentage);

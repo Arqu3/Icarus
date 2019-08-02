@@ -57,8 +57,8 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     #region Combat entity interface
 
-    public virtual int Health => healthProvider.Current;
-    public virtual float HealthPercentage => healthProvider.Percentage;
+    public virtual int Health => healthProvider.GetCurrent();
+    public virtual float HealthPercentage => healthProvider.GetPercentage();
 
     public abstract float Resource { get; }
     public abstract float ResourcePercentage { get; }
@@ -81,14 +81,14 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     {
         healthProvider.Remove(amount);
         GetComponent<ObjectFlash>()?.Flash();
-        if (healthProvider.Current <= 0) Die();
+        if (healthProvider.GetCurrent() <= 0) Die();
     }
 
     public void RemoveHealthPercentage(float percentage)
     {
         healthProvider.RemovePercentage(percentage);
         GetComponent<ObjectFlash>()?.Flash();
-        if (healthProvider.Current <= 0) Die();
+        if (healthProvider.GetCurrent() <= 0) Die();
     }
 
     public abstract bool SpendResource(float amount);

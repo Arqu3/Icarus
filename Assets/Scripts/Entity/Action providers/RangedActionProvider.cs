@@ -60,11 +60,6 @@ public class RangedActionProvider : BaseActionProvider
         }
     }
 
-    //void Shoot()
-    //{
-    //    Shoot(owner.transform.position + (Target.transform.position - owner.transform.position).normalized * 1.5f, Quaternion.LookRotation(Target.transform.position - owner.transform.position));
-    //}
-
     void Shoot(Vector3 origin, Quaternion direction)
     {
         direction = Quaternion.Euler(0f, direction.eulerAngles.y, 0f);

@@ -37,6 +37,8 @@ public class HeroEntity : BaseEntity
 
         resourceProvider = new EntityResourceProvider(1f);
 
+        resourceProvider = new ResourceDecorator((BaseEntityResourceProvider)resourceProvider);
+
         switch (mainRole)
         {
             case HeroRole.None:
@@ -90,9 +92,9 @@ public class HeroEntity : BaseEntity
 
     #region Combat entity interface
 
-    public override float Resource => resourceProvider.Current;
+    public override float Resource => resourceProvider.GetCurrent();
 
-    public override float ResourcePercentage => resourceProvider.Percentage;
+    public override float ResourcePercentage => resourceProvider.GetPercentage();
 
     public override EntityType EntityType => EntityType.Friendly;
 

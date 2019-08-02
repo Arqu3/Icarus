@@ -1,8 +1,8 @@
 ﻿public interface IEntityHealthProvider
 {
-    int Current { get; }
-    int Max { get; }
-    float Percentage { get; }
+    int GetCurrent();
+    int GetMax();
+    float GetPercentage();
 
     void Give(int amount);
     void GivePercentage(float percentage);

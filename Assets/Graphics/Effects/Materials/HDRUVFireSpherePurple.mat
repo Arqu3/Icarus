@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HDRUVFireSpherePurple
+  m_Shader: {fileID: 4800000, guid: aebaf371659f7f043b34dfd40b2c1708, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 95646ea36a0abdd4693704ea7d021ad8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 28c7aad1372ff114b90d330f8a2dd938, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondaryUVNoise:
+        m_Texture: {fileID: 2800000, guid: cd460ee4ac5c1e746b7a734cc7cc64dd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UVNoise:
+        m_Texture: {fileID: 2800000, guid: 4c7a6f1807b2692498adcbf2346eb0fa, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _DropdownAlphaExponent: 1
+    - _Dropdowndistance: 1
+    - _InvFade: 1
+    - _NoiseExponent: 0.4
+    - _SinTimeMulti: 1
+    - _SpeedMulti: 1
+    - _UVLerp: 0.144
+    m_Colors:
+    - _Color0: {r: 0.97508913, g: 0, b: 55.06544, a: 1}
+    - _NoiseSpeed1: {r: 0, g: -1, b: 0, a: 0}
+    - _NoiseSpeed2: {r: -2, g: 1, b: 0, a: 0}
+    - _RegularNoiseSpeed: {r: -0.2, g: -1, b: 0, a: 0}
+    - _SinNoiseSpeed: {r: 0.5, g: -0.6, b: 0, a: 0}
+    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
