@@ -6,8 +6,9 @@ public class RangedActionProvider : BaseActionProvider
 {
     GameObject projectilePrefab;
 
-    const float ShootCooldown = 0.9f;
-    float shootTimestamp;
+    protected override float ActionCooldown => 0.9f;
+    protected override int Power => 20;
+    protected override float ResourceGain => Random.Range(0f, 1f) < 0.2f ? 0.3f : 0.15f;
 
     public RangedActionProvider(ICombatEntity owner, float range, DamageType damageType, GameObject projectilePrefab) : base(owner, range)
     {
@@ -21,9 +22,9 @@ public class RangedActionProvider : BaseActionProvider
         {
             UpdateMovement();
 
-            if (IsInRange)
+            if (IsInRange && !IsOnCooldown)
             {
-                if (owner.SpendResourcePercentage(0.99f)) PerformSpecial();
+                if (owner.SpendResourcePercentage(SpecialResourcePercentageCost)) PerformSpecial();
                 else PerformBasic();
             }
         }
@@ -31,12 +32,10 @@ public class RangedActionProvider : BaseActionProvider
 
     protected override void PerformBasic()
     {
-        if (Time.time - shootTimestamp < ShootCooldown) return;
-
-        owner.GiveResource(Random.Range(0f, 1f) < 0.2f ? 0.2f : 0.05f);
+        owner.GiveResource(ResourceGain);
         Shoot();
 
-        shootTimestamp = Time.time;
+        StartCooldown();
     }
 
     protected override void PerformSpecial()
@@ -52,6 +51,8 @@ public class RangedActionProvider : BaseActionProvider
             Vector3 rotatedDirection = Quaternion.Euler(0f, (-arc / 2f) + arcIteration * i, 0f) * direction;
             Shoot(owner.transform.position + rotatedDirection.normalized * 1.5f, Quaternion.LookRotation(rotatedDirection));
         }
+
+        StartCooldown();
     }
 
     void Shoot()
@@ -62,7 +63,7 @@ public class RangedActionProvider : BaseActionProvider
     void Shoot(Vector3 origin, Quaternion direction)
     {
         var projectile = Object.Instantiate(projectilePrefab);
-        projectile.GetComponent<Projectile>()?.Initialize(DamageType.Magical, 20, owner.EntityType);
+        projectile.GetComponent<Projectile>()?.Initialize(DamageType.Magical, Power, owner.EntityType);
         projectile.transform.position = origin;
         projectile.transform.rotation = direction;
 

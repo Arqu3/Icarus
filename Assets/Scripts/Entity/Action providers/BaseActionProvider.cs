@@ -12,6 +12,8 @@ public abstract class BaseActionProvider : IActionProvider
     protected float range;
     protected NavMeshAgent agent;
 
+    protected float actionTimestamp;
+
     public BaseActionProvider(ICombatEntity owner, float range)
     {
         this.range = range;
@@ -32,6 +34,25 @@ public abstract class BaseActionProvider : IActionProvider
     public abstract void Update();
     protected abstract void PerformBasic();
     protected abstract void PerformSpecial();
+
+    #region Cooldown
+
+    protected abstract float ActionCooldown { get; }
+    protected void StartCooldown()
+    {
+        actionTimestamp = Time.time;
+    }
+    protected bool IsOnCooldown => Time.time - actionTimestamp < ActionCooldown;
+
+    #endregion
+
+    #region Power/resource
+
+    protected abstract int Power { get; }
+    protected abstract float ResourceGain { get; }
+    protected virtual float SpecialResourcePercentageCost => 0.99f;
+
+    #endregion
 
     #region Targeting help functions
 
