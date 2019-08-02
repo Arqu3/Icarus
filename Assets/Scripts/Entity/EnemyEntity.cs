@@ -6,7 +6,7 @@ public class EnemyEntity : BaseEntity
 {
     private void Start()
     {
-        currentAction = mainAction = new EnemyMeleeActionProvider(this, 3f, DamageType.Physical);
+        currentAction = mainAction = new EnemyMeleeActionProvider(this, DamageType.Physical);
     }
 
     #region Combat entity interface

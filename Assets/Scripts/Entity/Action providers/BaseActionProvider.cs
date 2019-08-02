@@ -9,22 +9,23 @@ public abstract class BaseActionProvider : IActionProvider
     [System.Obsolete("cyclic, rework later")]
     protected ICombatEntity owner;
 
-    protected float range;
     protected NavMeshAgent agent;
 
     protected float actionTimestamp;
 
-    public BaseActionProvider(ICombatEntity owner, float range)
+    protected BaseStatProvider statProvider;
+
+    public BaseActionProvider(ICombatEntity owner)
     {
-        this.range = range;
         this.owner = owner;
         agent = owner.gameObject.GetComponent<NavMeshAgent>();
+        statProvider = CreateStatProvider();
     }
 
     public bool HasTarget => Target != null && Target.Valid;
     public ICombatEntity Target { get; protected set; }
 
-    public bool IsInRange => HasTarget ? Vector3.Distance(Target.transform.position, owner.transform.position) < range : false;
+    public bool IsInRange => HasTarget ? Vector3.Distance(Target.transform.position, owner.transform.position) < statProvider.GetRange() : false;
 
     public void OverrideTarget(ICombatEntity target)
     {
@@ -37,19 +38,17 @@ public abstract class BaseActionProvider : IActionProvider
 
     #region Cooldown
 
-    protected abstract float ActionCooldown { get; }
     protected void StartCooldown()
     {
         actionTimestamp = Time.time;
     }
-    protected bool IsOnCooldown => Time.time - actionTimestamp < ActionCooldown;
+    protected bool IsOnCooldown => Time.time - actionTimestamp < statProvider.GetActionCooldown();
 
     #endregion
 
     #region Power/resource
 
-    protected abstract int Power { get; }
-    protected abstract float ResourceGain { get; }
+    protected abstract BaseStatProvider CreateStatProvider();
     protected virtual float SpecialResourcePercentageCost => 0.99f;
 
     #endregion
@@ -104,7 +103,7 @@ public abstract class BaseActionProvider : IActionProvider
     {
         if (HasTarget)
         {
-            if (Vector3.Distance(owner.transform.position, Target.transform.position) > range)
+            if (Vector3.Distance(owner.transform.position, Target.transform.position) > statProvider.GetRange())
             {
                 if (agent.isStopped) agent.isStopped = false;
                 agent.SetDestination(Target.transform.position);

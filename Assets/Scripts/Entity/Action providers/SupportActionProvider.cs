@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class SupportActionProvider : BaseActionProvider
 {
-    public SupportActionProvider(ICombatEntity owner, float range) : base(owner, range)
+    public SupportActionProvider(ICombatEntity owner) : base(owner)
     {
     }
-
-    protected override float ActionCooldown => HeroSupportData.Instance.ActionCooldown;
-
-    protected override int Power => HeroSupportData.Instance.Power;
-
-    protected override float ResourceGain => HeroSupportData.Instance.ResourceGain;
 
     public override void Update()
     {
@@ -31,10 +25,15 @@ public class SupportActionProvider : BaseActionProvider
         }
     }
 
+    protected override BaseStatProvider CreateStatProvider()
+    {
+        return new DefaultStatProvider(HeroSupportData.Instance.Power, HeroSupportData.Instance.ResourceGain, HeroSupportData.Instance.ActionCooldown, HeroSupportData.Instance.Range);
+    }
+
     protected override void PerformBasic()
     {
         Target.GiveResource(0.025f);
-        owner.GiveResource(ResourceGain);
+        owner.GiveResource(statProvider.GetResourceGain());
 
         StartCooldown();
     }

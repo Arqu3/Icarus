@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class EnemyMeleeActionProvider : MeleeActionProvider
 {
-    public EnemyMeleeActionProvider(ICombatEntity owner, float range, DamageType damageType) : base(owner, range, damageType)
+    public EnemyMeleeActionProvider(ICombatEntity owner, DamageType damageType) : base(owner, damageType)
     {
     }
 
-    protected override float ActionCooldown => EnemyMeleeData.Instance.ActionCooldown;
-    protected override float ResourceGain => EnemyMeleeData.Instance.ResourceGain;
-    protected override int Power => EnemyMeleeData.Instance.Power;
+    protected override BaseStatProvider CreateStatProvider()
+    {
+        return new DefaultStatProvider(EnemyMeleeData.Instance.Power, EnemyMeleeData.Instance.ResourceGain, EnemyMeleeData.Instance.ActionCooldown, EnemyMeleeData.Instance.Range);
+    }
 }

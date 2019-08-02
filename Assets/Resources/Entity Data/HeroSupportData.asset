@@ -15,3 +15,4 @@ MonoBehaviour:
   Power: 0
   ResourceGain: 0.2
   ActionCooldown: 1
+  Range: 8

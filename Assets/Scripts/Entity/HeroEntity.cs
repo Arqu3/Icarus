@@ -16,7 +16,9 @@ public class HeroEntity : BaseEntity
     [SerializeField]
     AttackType attackType = AttackType.Melee;
     [SerializeField]
+    #if UNITY_EDITOR
     [ConditionalField(nameof(attackType), AttackType.Ranged)]
+    #endif
     GameObject projectilePrefab;
     [SerializeField]
     DamageType damageType = DamageType.Physical;
@@ -40,20 +42,20 @@ public class HeroEntity : BaseEntity
             case HeroRole.None:
                 break;
             case HeroRole.Tank:
-                mainAction = new TankActionProvider(this, 3f);
+                mainAction = new TankActionProvider(this);
                 break;
             case HeroRole.Support:
-                mainAction = new SupportActionProvider(this, 8f);
+                mainAction = new SupportActionProvider(this);
                 break;
             case HeroRole.DamageDealer:
 
                 switch (attackType)
                 {
                     case AttackType.Melee:
-                        mainAction = new MeleeActionProvider(this, 3f, damageType);
+                        mainAction = new MeleeActionProvider(this, damageType);
                         break;
                     case AttackType.Ranged:
-                        mainAction = new RangedActionProvider(this, 12f, damageType, projectilePrefab);
+                        mainAction = new RangedActionProvider(this, damageType, projectilePrefab);
                         break;
                     default:
                         break;
@@ -61,7 +63,7 @@ public class HeroEntity : BaseEntity
 
                 break;
             case HeroRole.Healer:
-                mainAction = new HealingActionProvider(this, 10f, damageType);
+                mainAction = new HealingActionProvider(this, damageType);
                 break;
             default:
                 break;

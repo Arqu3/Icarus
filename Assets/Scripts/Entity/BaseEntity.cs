@@ -80,12 +80,14 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     public void RemoveHealth(int amount)
     {
         healthProvider.Remove(amount);
+        GetComponent<ObjectFlash>()?.Flash();
         if (healthProvider.Current <= 0) Die();
     }
 
     public void RemoveHealthPercentage(float percentage)
     {
         healthProvider.RemovePercentage(percentage);
+        GetComponent<ObjectFlash>()?.Flash();
         if (healthProvider.Current <= 0) Die();
     }
 

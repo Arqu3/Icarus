@@ -5,15 +5,10 @@ using UnityEngine.AI;
 
 public class HealingActionProvider : BaseActionProvider
 {
-    protected override float ActionCooldown => HeroHealingData.Instance.ActionCooldown;
-
-    protected override int Power => HeroHealingData.Instance.Power;
-    protected override float ResourceGain => HeroHealingData.Instance.ResourceGain;
-
     const float TargetUpdateCooldown = 4f;
     float targetUpdateTimer = 0f;
 
-    public HealingActionProvider(ICombatEntity owner, float range, DamageType damageType) : base(owner, range)
+    public HealingActionProvider(ICombatEntity owner, DamageType damageType) : base(owner)
     {
         
     }
@@ -45,17 +40,22 @@ public class HealingActionProvider : BaseActionProvider
         }
     }
 
+    protected override BaseStatProvider CreateStatProvider()
+    {
+        return new DefaultStatProvider(HeroHealingData.Instance.Power, HeroHealingData.Instance.ResourceGain, HeroHealingData.Instance.ActionCooldown, HeroHealingData.Instance.Range);
+    }
+
     protected override void PerformBasic()
     {
-        Target.GiveHealth(Power);
-        owner.GiveResource(ResourceGain);
+        Target.GiveHealth(statProvider.GetPower());
+        owner.GiveResource(statProvider.GetResourceGain());
 
         StartCooldown();
     }
 
     protected override void PerformSpecial()
     {
-        Target.GiveHealth(Power + 2);
+        Target.GiveHealth(statProvider.GetPower() + 2);
         Target.GiveHealthPercentage(0.1f);
         Target.StartCoroutine(_HealOverTime(2f, 0.5f));
 
@@ -75,7 +75,7 @@ public class HealingActionProvider : BaseActionProvider
             if (intervalTimer >= interval)
             {
                 intervalTimer = 0.0f;
-                Target.GiveHealth((Power / 2) + 1);
+                Target.GiveHealth((statProvider.GetPower() / 2) + 1);
             }
 
             yield return null;

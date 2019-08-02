@@ -5,14 +5,12 @@ using UnityEngine;
 public class RangedActionProvider : BaseActionProvider
 {
     GameObject projectilePrefab;
+    protected BaseRangedStatProvider rangedStatProvider;
 
-    protected override float ActionCooldown => HeroRangedData.Instance.ActionCooldown;
-    protected override int Power => HeroRangedData.Instance.Power;
-    protected override float ResourceGain => Random.Range(0f, 1f) < 0.2f ? HeroRangedData.Instance.ResourceGain * 2 : HeroRangedData.Instance.ResourceGain;
-
-    public RangedActionProvider(ICombatEntity owner, float range, DamageType damageType, GameObject projectilePrefab) : base(owner, range)
+    public RangedActionProvider(ICombatEntity owner, DamageType damageType, GameObject projectilePrefab) : base(owner)
     {
         this.projectilePrefab = projectilePrefab;
+        rangedStatProvider = statProvider as BaseRangedStatProvider;
     }
 
     public override void Update()
@@ -32,42 +30,54 @@ public class RangedActionProvider : BaseActionProvider
 
     protected override void PerformBasic()
     {
-        owner.GiveResource(ResourceGain);
-        Shoot();
+        owner.GiveResource(Random.Range(0f, 1f) < 0.2f ? rangedStatProvider.GetResourceGain() * 2 : rangedStatProvider.GetResourceGain());
+        ShootSpread(rangedStatProvider.GetProjectileCount());
 
         StartCooldown();
     }
 
     protected override void PerformSpecial()
     {
-        int iterations = 5;
-
-        float arc = 80f;
-        float arcIteration = arc / iterations;
-
-        for (int i = 0; i < iterations; ++i)
-        {
-            Vector3 direction = Target.transform.position - owner.transform.position;
-            Vector3 rotatedDirection = Quaternion.Euler(0f, (-arc / 2f) + arcIteration * i, 0f) * direction;
-            Shoot(owner.transform.position + rotatedDirection.normalized * 1.5f, Quaternion.LookRotation(rotatedDirection));
-        }
+        ShootSpread(rangedStatProvider.GetProjectileCount() + 4);
 
         StartCooldown();
     }
 
-    void Shoot()
+    void ShootSpread(int projectileCount)
     {
-        Shoot(owner.transform.position + (Target.transform.position - owner.transform.position).normalized * 1.5f, Quaternion.LookRotation(Target.transform.position - owner.transform.position));
+        int iterations = Mathf.Max(1, projectileCount);
+
+        float arc = 80f;
+        Vector3 direction = Target.transform.position - owner.transform.position;
+        Quaternion rot = Quaternion.Euler(0f, 0, 0f);
+
+        for (int i = 0; i < iterations; ++i)
+        {
+            if (iterations > 1) rot = Quaternion.Euler(0f, (-arc / 2f) + Mathf.Lerp(0f, arc, (float)i / (iterations - 1)), 0f);
+            Vector3 rotatedDirection = rot * direction;
+
+            Shoot(owner.transform.position, Quaternion.LookRotation(rotatedDirection));
+        }
     }
+
+    //void Shoot()
+    //{
+    //    Shoot(owner.transform.position + (Target.transform.position - owner.transform.position).normalized * 1.5f, Quaternion.LookRotation(Target.transform.position - owner.transform.position));
+    //}
 
     void Shoot(Vector3 origin, Quaternion direction)
     {
         direction = Quaternion.Euler(0f, direction.eulerAngles.y, 0f);
         var projectile = Object.Instantiate(projectilePrefab);
-        projectile.GetComponent<Projectile>()?.Initialize(DamageType.Magical, Power, owner.EntityType);
+        projectile.GetComponent<Projectile>()?.Initialize(DamageType.Magical, rangedStatProvider.GetPower(), owner.EntityType);
         projectile.transform.position = origin;
         projectile.transform.rotation = direction;
 
         Object.Destroy(projectile, 5f);
+    }
+
+    protected override BaseStatProvider CreateStatProvider()
+    {
+        return new RangedStatProvider(HeroRangedData.Instance.Power, HeroRangedData.Instance.ResourceGain, HeroRangedData.Instance.ActionCooldown, 1, HeroRangedData.Instance.Range);
     }
 }

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4457974636460465461}
   - component: {fileID: 4457974636460465448}
   - component: {fileID: 4457974636460465455}
+  - component: {fileID: 707662293}
   m_Layer: 0
   m_Name: TestHeroMelee
   m_TagString: Untagged
@@ -111,6 +112,7 @@ MonoBehaviour:
   mainRole: 2
   secondaryRole: -1
   attackType: 0
+  projectilePrefab: {fileID: 0}
   damageType: 0
 --- !u!195 &4457974636460465448
 NavMeshAgent:
@@ -150,3 +152,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &707662293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4457974636460465454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e8a173a9dec05947be850a695540cb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toColor: {r: 1, g: 1, b: 1, a: 1}
+  duration: 0.1

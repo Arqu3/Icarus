@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class TankActionProvider : BaseActionProvider
 {
-    public TankActionProvider(ICombatEntity owner, float range) : base(owner, range)
+    public TankActionProvider(ICombatEntity owner) : base(owner)
     {
     }
-
-    protected override float ActionCooldown => HeroTankData.Instance.ActionCooldown;
-
-    protected override int Power => HeroTankData.Instance.Power;
-
-    protected override float ResourceGain => HeroTankData.Instance.ResourceGain;
 
     public override void Update()
     {
@@ -29,11 +23,16 @@ public class TankActionProvider : BaseActionProvider
         }
     }
 
+    protected override BaseStatProvider CreateStatProvider()
+    {
+        return new DefaultStatProvider(HeroTankData.Instance.Power, HeroTankData.Instance.ResourceGain, HeroTankData.Instance.ActionCooldown, HeroTankData.Instance.Range);
+    }
+
     protected override void PerformBasic()
     {
         Target.RemoveHealthPercentage(0.01f);
-        owner.GiveHealth(Power);
-        owner.GiveResource(ResourceGain);
+        owner.GiveHealth(statProvider.GetPower());
+        owner.GiveResource(statProvider.GetResourceGain());
 
         StartCooldown();
     }
@@ -48,7 +47,7 @@ public class TankActionProvider : BaseActionProvider
             var entity = hits[i].GetComponent<BaseEntity>();
             if (entity && entity.EntityType != owner.EntityType)
             {
-                owner.GiveHealth(Power);
+                owner.GiveHealth(statProvider.GetPower());
                 entity.OverrideTarget(owner);
             }
         }

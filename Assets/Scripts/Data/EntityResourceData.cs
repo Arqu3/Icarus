@@ -23,4 +23,5 @@ public abstract class EntityResourceData<TData> : ScriptableObject where TData :
     public int Power = 10;
     public float ResourceGain = 0.25f;
     public float ActionCooldown = 0.5f;
+    public float Range = 3f;
 }
