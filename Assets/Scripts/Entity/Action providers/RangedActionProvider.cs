@@ -62,6 +62,7 @@ public class RangedActionProvider : BaseActionProvider
 
     void Shoot(Vector3 origin, Quaternion direction)
     {
+        direction = Quaternion.Euler(0f, direction.eulerAngles.y, 0f);
         var projectile = Object.Instantiate(projectilePrefab);
         projectile.GetComponent<Projectile>()?.Initialize(DamageType.Magical, Power, owner.EntityType);
         projectile.transform.position = origin;

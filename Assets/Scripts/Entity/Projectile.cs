@@ -12,8 +12,9 @@ public class Projectile : MonoBehaviour
     DamageType damageType = DamageType.Magical;
     EntityType ownerType = EntityType.Neutral;
 
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return null;
         GetComponent<Rigidbody>().AddForce(transform.forward * speed, ForceMode.Impulse);
     }
 

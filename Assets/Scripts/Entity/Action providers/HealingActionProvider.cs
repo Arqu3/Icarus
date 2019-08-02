@@ -56,6 +56,7 @@ public class HealingActionProvider : BaseActionProvider
     protected override void PerformSpecial()
     {
         Target.GiveHealth(Power + 2);
+        Target.GiveHealthPercentage(0.1f);
         Target.StartCoroutine(_HealOverTime(2f, 0.5f));
 
         StartCooldown();
