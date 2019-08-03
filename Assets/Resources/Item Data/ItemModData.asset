@@ -13,30 +13,84 @@ MonoBehaviour:
   m_Name: ItemModData
   m_EditorClassIdentifier: 
   mods:
-  - name: Powerful
+  - debugShowUnused: 0
+    name: Powerful
     modType: 0
-    valueType: 0
     tier: 3
+    health:
+      valueType: 0
+      mathType: 0
+      value: 0
     power:
+      valueType: 0
       mathType: 0
       value: 1
     resourceGain:
+      valueType: 0
       mathType: 0
       value: 0
     actionCooldown:
+      valueType: 0
       mathType: 0
       value: 0
-  - name: Of Power
+  - debugShowUnused: 0
+    name: Of Power
     modType: 1
-    valueType: 0
     tier: 3
+    health:
+      valueType: 0
+      mathType: 0
+      value: 0
     power:
+      valueType: 0
       mathType: 0
       value: 1
     resourceGain:
+      valueType: 0
       mathType: 0
       value: 0
     actionCooldown:
+      valueType: 0
       mathType: 0
       value: 0
-  showBools: 0101
+  - debugShowUnused: 0
+    name: Healthy
+    modType: 0
+    tier: 3
+    health:
+      valueType: 0
+      mathType: 0
+      value: 10
+    power:
+      valueType: 0
+      mathType: 0
+      value: 0
+    resourceGain:
+      valueType: 0
+      mathType: 0
+      value: 0
+    actionCooldown:
+      valueType: 0
+      mathType: 0
+      value: 0
+  - debugShowUnused: 0
+    name: Of Health
+    modType: 1
+    tier: 3
+    health:
+      valueType: 0
+      mathType: 1
+      value: 1.1
+    power:
+      valueType: 0
+      mathType: 0
+      value: 0
+    resourceGain:
+      valueType: 0
+      mathType: 0
+      value: 0
+    actionCooldown:
+      valueType: 0
+      mathType: 0
+      value: 0
+  showBools: 00010101

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -10,6 +11,8 @@ public class ItemModData : ItemResourceData<ItemModData>
 {
     public List<ItemMod> mods = new List<ItemMod>();
     public List<bool> showBools = new List<bool>();
+
+    public const float UseThreshold = 0.0001f;
 }
 
 public enum ModType
@@ -33,27 +36,35 @@ public enum ValueType
 [System.Serializable]
 public struct Mod
 {
+    public ValueType valueType;
     public ModMathType mathType;
     public float value;
-    public int GetIntValue => Mathf.CeilToInt(value);
+    public int IntValue => Mathf.CeilToInt(value);
+
+    public float GetValue => valueType == ValueType.Float ? value : IntValue;
 }
 
 [System.Serializable]
 public struct ItemMod
 {
-    //[Header("Debug")]
-    //public bool debug;
+#if UNITY_EDITOR
+
+    public bool debugShowUnused;
+
+#endif
 
     //[Header("Name, type")]
     public string name;
     public ModType modType;
-    public ValueType valueType;
     public int tier;
 
     //[Header("Stats")]
+    public Mod health;
     public Mod power;
     public Mod resourceGain;
     public Mod actionCooldown;
+
+    public Mod[] GetAllMods => new[] { health, power, resourceGain, actionCooldown };
 }
 
 #if UNITY_EDITOR
@@ -111,7 +122,9 @@ public class ItemModDataEditor : Editor
 
                 EditorGUILayout.BeginHorizontal();
 
-                targetData.showBools[i] = EditorGUILayout.Foldout(targetData.showBools[i], mod.name + " - " + mod.modType, true, EditorStyles.foldoutHeader);
+                targetData.showBools[i] = EditorGUILayout.Foldout(targetData.showBools[i], mod.name + " - " + mod.modType + "(" + mod.tier.ToString() + ")", true, EditorStyles.foldoutHeader);
+
+                GUILayout.FlexibleSpace();
 
                 col = GUI.backgroundColor;
                 GUI.backgroundColor = Color.red;
@@ -125,26 +138,44 @@ public class ItemModDataEditor : Editor
                 }
                 GUI.backgroundColor = col;
 
+                GUILayout.FlexibleSpace();
+                GUILayout.FlexibleSpace();
+
                 EditorGUILayout.EndHorizontal();
 
                 if (!targetData.showBools[i]) continue;
 
                 var property = listProperty.GetArrayElementAtIndex(i);
 
-                foreach (var pro in mod.GetType().GetFields())
+                foreach (var field in mod.GetType().GetFields())
                 {
-                    var m = property.FindPropertyRelative(pro.Name);
+                    var relativeProp = property.FindPropertyRelative(field.Name);
 
-                    if (pro.FieldType == typeof(Mod))
+                    if (field.FieldType == typeof(Mod))
                     {
-                        EditorGUILayout.LabelField(m.displayName, EditorStyles.boldLabel);
-                        foreach(var childPro in pro.FieldType.GetFields())
+                        EditorGUILayout.Space();
+
+                        var val = ((Mod)field.GetValue(mod)).value;
+                        bool showAsUsed = Mathf.Abs(val) > ItemModData.UseThreshold;
+
+                        if (!mod.debugShowUnused && !showAsUsed) continue;
+
+                        string extra = showAsUsed ? " - "  + val.ToString() : "";
+
+                        if (showAsUsed)
                         {
-                            var mm = m.FindPropertyRelative(childPro.Name);
-                            EditorGUILayout.PropertyField(mm);
+                            col = GUI.contentColor;
+                            GUI.contentColor = Color.green;
+                        }
+                        EditorGUILayout.LabelField(relativeProp.displayName + extra, showAsUsed ? EditorStyles.boldLabel : EditorStyles.label);
+                        if (showAsUsed) GUI.contentColor = col;
+
+                        foreach (var childPro in field.FieldType.GetFields())
+                        {
+                            EditorGUILayout.PropertyField(relativeProp.FindPropertyRelative(childPro.Name));
                         }
                     }
-                    else EditorGUILayout.PropertyField(m);
+                    else EditorGUILayout.PropertyField(relativeProp);
                 }
 
                 EditorGUILayout.Space();
