@@ -6,11 +6,9 @@ using UnityEngine.AI;
 public class MeleeActionProvider : BaseActionProvider
 {
     DamageType damageType;
-    NavMeshAgent agent;
 
     public MeleeActionProvider(ICombatEntity owner, DamageType damageType) : base(owner)
     {
-        agent = owner.gameObject.GetComponent<NavMeshAgent>();
         this.damageType = damageType;
     }
 
@@ -32,27 +30,27 @@ public class MeleeActionProvider : BaseActionProvider
 
     protected override void PerformBasic()
     {
-        Target.RemoveHealth(baseStatProvider.GetPower());
-        owner.GiveResource(baseStatProvider.GetResourceGain());
+        Target.RemoveHealth(CurrentStatProvider.GetPower());
+        owner.GiveResource(CurrentStatProvider.GetResourceGain());
 
         StartCooldown();
     }
 
     protected override void PerformSpecial()
     {
-        Target.RemoveHealth(baseStatProvider.GetPower());
+        Target.RemoveHealth(CurrentStatProvider.GetPower());
         var hits = Physics.OverlapSphere(owner.transform.position, 5f);
 
         foreach(var hit in hits)
         {
             var entity = hit.GetComponent<BaseEntity>();
-            if (entity && entity.EntityType != owner.EntityType) entity.RemoveHealth(baseStatProvider.GetPower() * 2);
+            if (entity && entity.EntityType != owner.EntityType) entity.RemoveHealth(CurrentStatProvider.GetPower() * 2);
         }
 
         StartCooldown();
     }
 
-    protected override BaseStatProvider CreateStatProvider()
+    public override BaseStatProvider CreateBaseStatProvider()
     {
         return new DefaultStatProvider(HeroMeleeData.Instance.Power, HeroMeleeData.Instance.ResourceGain, HeroMeleeData.Instance.ActionCooldown, HeroMeleeData.Instance.Range);
     }

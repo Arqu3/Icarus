@@ -40,22 +40,22 @@ public class HealingActionProvider : BaseActionProvider
         }
     }
 
-    protected override BaseStatProvider CreateStatProvider()
+    public override BaseStatProvider CreateBaseStatProvider()
     {
         return new DefaultStatProvider(HeroHealingData.Instance.Power, HeroHealingData.Instance.ResourceGain, HeroHealingData.Instance.ActionCooldown, HeroHealingData.Instance.Range);
     }
 
     protected override void PerformBasic()
     {
-        Target.GiveHealth(baseStatProvider.GetPower());
-        owner.GiveResource(baseStatProvider.GetResourceGain());
+        Target.GiveHealth(CurrentStatProvider.GetPower());
+        owner.GiveResource(CurrentStatProvider.GetResourceGain());
 
         StartCooldown();
     }
 
     protected override void PerformSpecial()
     {
-        Target.GiveHealth(baseStatProvider.GetPower() + 2);
+        Target.GiveHealth(CurrentStatProvider.GetPower() + 2);
         Target.GiveHealthPercentage(0.1f);
         Target.StartCoroutine(_HealOverTime(2f, 0.5f));
 
@@ -75,7 +75,7 @@ public class HealingActionProvider : BaseActionProvider
             if (intervalTimer >= interval)
             {
                 intervalTimer = 0.0f;
-                Target.GiveHealth((baseStatProvider.GetPower() / 2) + 1);
+                Target.GiveHealth((CurrentStatProvider.GetPower() / 2) + 1);
             }
 
             yield return null;

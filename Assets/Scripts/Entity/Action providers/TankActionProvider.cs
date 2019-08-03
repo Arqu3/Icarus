@@ -23,7 +23,7 @@ public class TankActionProvider : BaseActionProvider
         }
     }
 
-    protected override BaseStatProvider CreateStatProvider()
+    public override BaseStatProvider CreateBaseStatProvider()
     {
         return new DefaultStatProvider(HeroTankData.Instance.Power, HeroTankData.Instance.ResourceGain, HeroTankData.Instance.ActionCooldown, HeroTankData.Instance.Range);
     }
@@ -31,8 +31,8 @@ public class TankActionProvider : BaseActionProvider
     protected override void PerformBasic()
     {
         Target.RemoveHealthPercentage(0.01f);
-        owner.GiveHealth(baseStatProvider.GetPower());
-        owner.GiveResource(baseStatProvider.GetResourceGain());
+        owner.GiveHealth(CurrentStatProvider.GetPower());
+        owner.GiveResource(CurrentStatProvider.GetResourceGain());
 
         StartCooldown();
     }
@@ -47,7 +47,7 @@ public class TankActionProvider : BaseActionProvider
             var entity = hits[i].GetComponent<BaseEntity>();
             if (entity && entity.EntityType != owner.EntityType)
             {
-                owner.GiveHealth(baseStatProvider.GetPower());
+                owner.GiveHealth(CurrentStatProvider.GetPower());
                 entity.OverrideTarget(owner);
             }
         }

@@ -13,19 +13,18 @@ public abstract class BaseActionProvider : IActionProvider
 
     protected float actionTimestamp;
 
-    protected BaseStatProvider baseStatProvider;
+    protected virtual BaseStatProvider CurrentStatProvider => owner.GetModifier().GetCurrentStatProvider();
 
     public BaseActionProvider(ICombatEntity owner)
     {
         this.owner = owner;
         agent = owner.gameObject.GetComponent<NavMeshAgent>();
-        baseStatProvider = CreateStatProvider();
     }
 
     public bool HasTarget => Target != null && Target.Valid;
     public ICombatEntity Target { get; protected set; }
 
-    public bool IsInRange => HasTarget ? Vector3.Distance(Target.transform.position, owner.transform.position) < baseStatProvider.GetRange() : false;
+    public bool IsInRange => HasTarget ? Vector3.Distance(Target.transform.position, owner.transform.position) < CurrentStatProvider.GetRange() : false;
 
     public void OverrideTarget(ICombatEntity target)
     {
@@ -42,18 +41,14 @@ public abstract class BaseActionProvider : IActionProvider
     {
         actionTimestamp = Time.time;
     }
-    protected bool IsOnCooldown => Time.time - actionTimestamp < baseStatProvider.GetActionCooldown();
+    protected bool IsOnCooldown => Time.time - actionTimestamp < CurrentStatProvider.GetActionCooldown();
 
     #endregion
 
     #region Power/resource
 
-    protected abstract BaseStatProvider CreateStatProvider();
+    public abstract BaseStatProvider CreateBaseStatProvider();
     protected virtual float SpecialResourcePercentageCost => 0.99f;
-    public BaseStatProvider GetBaseStatProvider()
-    {
-        return baseStatProvider;
-    }
 
     #endregion
 
@@ -107,7 +102,7 @@ public abstract class BaseActionProvider : IActionProvider
     {
         if (HasTarget)
         {
-            if (Vector3.Distance(owner.transform.position, Target.transform.position) > baseStatProvider.GetRange())
+            if (Vector3.Distance(owner.transform.position, Target.transform.position) > CurrentStatProvider.GetRange())
             {
                 if (agent.isStopped) agent.isStopped = false;
                 agent.SetDestination(Target.transform.position);

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceDecorator : BaseEntityResourceProvider
+public class ResourceDecorator : BaseEntityResourceProvider, IResourceDecorator
 {
-    protected BaseEntityResourceProvider provider;
+    public BaseEntityResourceProvider provider { get; set; }
 
     public ResourceDecorator(BaseEntityResourceProvider provider)
     {

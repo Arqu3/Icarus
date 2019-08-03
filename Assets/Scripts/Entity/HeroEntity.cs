@@ -91,7 +91,7 @@ public class HeroEntity : BaseEntity
 
     protected override EntityModifier CreateModifier()
     {
-        return new EntityModifier((BaseEntityHealthProvider)healthProvider, (BaseEntityResourceProvider)resourceProvider, mainAction.GetBaseStatProvider());
+        return new EntityModifier((BaseEntityHealthProvider)healthProvider, (BaseEntityResourceProvider)resourceProvider, mainAction.CreateBaseStatProvider());
     }
 
     #region Combat entity interface

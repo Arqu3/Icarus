@@ -25,7 +25,7 @@ public class SupportActionProvider : BaseActionProvider
         }
     }
 
-    protected override BaseStatProvider CreateStatProvider()
+    public override BaseStatProvider CreateBaseStatProvider()
     {
         return new DefaultStatProvider(HeroSupportData.Instance.Power, HeroSupportData.Instance.ResourceGain, HeroSupportData.Instance.ActionCooldown, HeroSupportData.Instance.Range);
     }
@@ -33,7 +33,7 @@ public class SupportActionProvider : BaseActionProvider
     protected override void PerformBasic()
     {
         Target.GiveResource(0.025f);
-        owner.GiveResource(baseStatProvider.GetResourceGain());
+        owner.GiveResource(CurrentStatProvider.GetResourceGain());
 
         StartCooldown();
     }

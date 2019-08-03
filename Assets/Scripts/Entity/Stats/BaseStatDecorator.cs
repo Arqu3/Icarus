@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseStatDecorator : BaseStatProvider
+public class BaseStatDecorator : BaseStatProvider, IStatDecorator
 {
-    public BaseStatProvider provider;
+    public BaseStatProvider provider { get; set; }
 
     public BaseStatDecorator(BaseStatProvider provider)
     {

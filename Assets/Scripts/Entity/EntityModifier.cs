@@ -22,35 +22,33 @@ public class EntityModifier
         allowStat = statProvider != null;
     }
 
-    List<RangedStatDecorator> statDecorators = new List<RangedStatDecorator>();
+    List<IStatDecorator> statDecorators = new List<IStatDecorator>();
 
-    public void ApplyStatDecorator()
-    {
-        statDecorators.Add(new RangedStatDecorator(statDecorators.Last()));
-    }
+    //public void ApplyStatDecorator()
+    //{
+    //    statDecorators.Add(new RangedStatDecorator(statDecorators.Last() as BaseRangedStatProvider));
+    //}
 
     public void ApplyProjectileDecorator(int extra)
     {
-        statDecorators.Add(new AdditiveRangedStatDecorator((statDecorators.Count > 0 ? statDecorators.Last() : statProvider) as BaseRangedStatProvider, extra));
+        statDecorators.Add(new AdditiveRangedStatDecorator(statDecorators.Count > 0 ? statDecorators.Last() as BaseRangedStatProvider : statProvider as BaseRangedStatProvider, extra));
     }
 
     public void RemoveProjectileDecorator()
     {
-        if (statDecorators.Count > 0) statDecorators.RemoveAt(statDecorators.Count() - 1);
+        if (statDecorators.Count > 0) RemoveDecoratorAtIndex(statDecorators.Count - 1);
     }
 
-    public void RemoveProjectileDecoratorTest()
+    void RemoveDecoratorAtIndex(int index)
     {
-        if (statDecorators.Count > 1)
-        {
-            statDecorators[2].provider = statDecorators[0];
+        if (index + 1 < statDecorators.Count && index - 1 >= 0) statDecorators[index + 1].provider = statDecorators[index - 1] as BaseStatProvider;
+        else if (index == 0 && statDecorators.Count > 1) statDecorators[index + 1].provider = statProvider as BaseStatProvider;
 
-            statDecorators.RemoveAt(1);
-        }
+        statDecorators.RemoveAt(index);
     }
 
     public BaseStatProvider GetCurrentStatProvider()
     {
-        return statDecorators.Count > 0 ? statDecorators.Last() : statProvider;
+        return statDecorators.Count > 0 ? statDecorators.Last() as BaseStatProvider : statProvider;
     }
 }

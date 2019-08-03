@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthDecorator : BaseEntityHealthProvider
+public class HealthDecorator : BaseEntityHealthProvider, IHealthDecorator
 {
-    protected BaseEntityHealthProvider provider;
+    public BaseEntityHealthProvider provider { get; set; }
 
     public HealthDecorator(BaseEntityHealthProvider provider)
     {

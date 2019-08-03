@@ -6,7 +6,7 @@
 
     bool IsInRange { get; }
 
-    BaseStatProvider GetBaseStatProvider();
+    BaseStatProvider CreateBaseStatProvider();
 
     void Update();
 }

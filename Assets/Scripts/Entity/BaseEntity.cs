@@ -32,7 +32,6 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     {
         healthProvider = new EntityHealthProvider(startHealth);
 
-
         var agent = GetComponent<NavMeshAgent>();
         if (agent) agent.updateUpAxis = false;
     }

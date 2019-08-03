@@ -5,7 +5,7 @@ using UnityEngine;
 public class RangedActionProvider : BaseActionProvider
 {
     GameObject projectilePrefab;
-    protected BaseRangedStatProvider CurrentStatProvider => owner.GetModifier().GetCurrentStatProvider() as BaseRangedStatProvider;
+    protected BaseRangedStatProvider CurrentRangedStatProvider => owner.GetModifier().GetCurrentStatProvider() as BaseRangedStatProvider;
 
     public RangedActionProvider(ICombatEntity owner, DamageType damageType, GameObject projectilePrefab) : base(owner)
     {
@@ -15,8 +15,7 @@ public class RangedActionProvider : BaseActionProvider
     public override void Update()
     {
         //if (Input.GetKeyDown(KeyCode.K)) owner.GetModifier().ApplyProjectileDecorator(2);
-        //else if (Input.GetKeyDown(KeyCode.L)) owner.GetModifier().RemoveProjectileDecoratorTest();
-        //else if (Input.GetKeyDown(KeyCode.O)) owner.GetModifier().ApplyProjectileDecorator(1);
+        //else if (Input.GetKeyDown(KeyCode.L)) owner.GetModifier().RemoveProjectileDecorator();
 
         if (!HasTarget) Target = LookForRandomEnemyTarget();
         else
@@ -33,15 +32,15 @@ public class RangedActionProvider : BaseActionProvider
 
     protected override void PerformBasic()
     {
-        owner.GiveResource(Random.Range(0f, 1f) < 0.2f ? CurrentStatProvider.GetResourceGain() * 2 : CurrentStatProvider.GetResourceGain());
-        ShootSpread(CurrentStatProvider.GetProjectileCount());
+        owner.GiveResource(Random.Range(0f, 1f) < 0.2f ? CurrentRangedStatProvider.GetResourceGain() * 2 : CurrentRangedStatProvider.GetResourceGain());
+        ShootSpread(CurrentRangedStatProvider.GetProjectileCount());
 
         StartCooldown();
     }
 
     protected override void PerformSpecial()
     {
-        ShootSpread(CurrentStatProvider.GetProjectileCount() + 4);
+        ShootSpread(CurrentRangedStatProvider.GetProjectileCount() + 4);
 
         StartCooldown();
     }
@@ -67,14 +66,14 @@ public class RangedActionProvider : BaseActionProvider
     {
         direction = Quaternion.Euler(0f, direction.eulerAngles.y, 0f);
         var projectile = Object.Instantiate(projectilePrefab);
-        projectile.GetComponent<Projectile>()?.Initialize(DamageType.Magical, CurrentStatProvider.GetPower(), owner.EntityType);
+        projectile.GetComponent<Projectile>()?.Initialize(DamageType.Magical, CurrentRangedStatProvider.GetPower(), owner.EntityType);
         projectile.transform.position = origin;
         projectile.transform.rotation = direction;
 
         Object.Destroy(projectile, 5f);
     }
 
-    protected override BaseStatProvider CreateStatProvider()
+    public override BaseStatProvider CreateBaseStatProvider()
     {
         return new RangedStatProvider(HeroRangedData.Instance.Power, HeroRangedData.Instance.ResourceGain, HeroRangedData.Instance.ActionCooldown, 1, HeroRangedData.Instance.Range);
     }
