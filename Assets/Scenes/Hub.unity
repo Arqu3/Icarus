@@ -901,6 +901,7 @@ GameObject:
   - component: {fileID: 2147465783}
   - component: {fileID: 2147465785}
   - component: {fileID: 2147465786}
+  - component: {fileID: 2147465787}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1082,6 +1083,22 @@ MonoBehaviour:
   maxEnemiesToSpawn: 6
   firstSpawnpoint: {fileID: 656880769}
   secondSpawnpoint: {fileID: 835893445}
+--- !u!114 &2147465787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2147465779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35371f2c3fe89ab4fbb2460d964a6585, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  boostMulti: 2.5
+  rotationSpeed: 1.5
+  rotationXClamp: {x: 20, y: 80}
 --- !u!1001 &2923582103431152481
 PrefabInstance:
   m_ObjectHideFlags: 0
