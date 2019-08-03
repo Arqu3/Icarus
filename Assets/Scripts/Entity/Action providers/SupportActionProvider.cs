@@ -33,7 +33,7 @@ public class SupportActionProvider : BaseActionProvider
     protected override void PerformBasic()
     {
         Target.GiveResource(0.025f);
-        owner.GiveResource(statProvider.GetResourceGain());
+        owner.GiveResource(baseStatProvider.GetResourceGain());
 
         StartCooldown();
     }

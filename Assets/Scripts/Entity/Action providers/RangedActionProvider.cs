@@ -5,16 +5,19 @@ using UnityEngine;
 public class RangedActionProvider : BaseActionProvider
 {
     GameObject projectilePrefab;
-    protected BaseRangedStatProvider rangedStatProvider;
+    protected BaseRangedStatProvider CurrentStatProvider => owner.GetModifier().GetCurrentStatProvider() as BaseRangedStatProvider;
 
     public RangedActionProvider(ICombatEntity owner, DamageType damageType, GameObject projectilePrefab) : base(owner)
     {
         this.projectilePrefab = projectilePrefab;
-        rangedStatProvider = statProvider as BaseRangedStatProvider;
     }
 
     public override void Update()
     {
+        //if (Input.GetKeyDown(KeyCode.K)) owner.GetModifier().ApplyProjectileDecorator(2);
+        //else if (Input.GetKeyDown(KeyCode.L)) owner.GetModifier().RemoveProjectileDecoratorTest();
+        //else if (Input.GetKeyDown(KeyCode.O)) owner.GetModifier().ApplyProjectileDecorator(1);
+
         if (!HasTarget) Target = LookForRandomEnemyTarget();
         else
         {
@@ -30,15 +33,15 @@ public class RangedActionProvider : BaseActionProvider
 
     protected override void PerformBasic()
     {
-        owner.GiveResource(Random.Range(0f, 1f) < 0.2f ? rangedStatProvider.GetResourceGain() * 2 : rangedStatProvider.GetResourceGain());
-        ShootSpread(rangedStatProvider.GetProjectileCount());
+        owner.GiveResource(Random.Range(0f, 1f) < 0.2f ? CurrentStatProvider.GetResourceGain() * 2 : CurrentStatProvider.GetResourceGain());
+        ShootSpread(CurrentStatProvider.GetProjectileCount());
 
         StartCooldown();
     }
 
     protected override void PerformSpecial()
     {
-        ShootSpread(rangedStatProvider.GetProjectileCount() + 4);
+        ShootSpread(CurrentStatProvider.GetProjectileCount() + 4);
 
         StartCooldown();
     }
@@ -64,7 +67,7 @@ public class RangedActionProvider : BaseActionProvider
     {
         direction = Quaternion.Euler(0f, direction.eulerAngles.y, 0f);
         var projectile = Object.Instantiate(projectilePrefab);
-        projectile.GetComponent<Projectile>()?.Initialize(DamageType.Magical, rangedStatProvider.GetPower(), owner.EntityType);
+        projectile.GetComponent<Projectile>()?.Initialize(DamageType.Magical, CurrentStatProvider.GetPower(), owner.EntityType);
         projectile.transform.position = origin;
         projectile.transform.rotation = direction;
 

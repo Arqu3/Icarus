@@ -11,15 +11,16 @@ public class EntityHealthProvider : BaseEntityHealthProvider
         Current = Max = startAmount;
     }
 
-    public override void Remove(int amount)
+    public override DamageResult Remove(int amount)
     {
         int absClamped = Mathf.Clamp(Mathf.Abs(amount), 0, Max);
         Current = Mathf.Clamp(Current - absClamped, 0, Max);
+        return DamageResult.Hit;
     }
 
-    public override void RemovePercentage(float percentage)
+    public override DamageResult RemovePercentage(float percentage)
     {
-        Remove((int)(Max * Mathf.Clamp(Mathf.Abs(percentage), 0f, 1f)));
+        return Remove((int)(Max * Mathf.Clamp(Mathf.Abs(percentage), 0f, 1f)));
     }
 
     public override void Give(int amount)

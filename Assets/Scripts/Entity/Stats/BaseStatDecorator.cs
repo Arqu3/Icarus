@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseStatDecorator : BaseStatProvider
 {
-    protected BaseStatProvider provider;
+    public BaseStatProvider provider;
 
     public BaseStatDecorator(BaseStatProvider provider)
     {

@@ -11,6 +11,6 @@ public abstract class BaseEntityHealthProvider : IEntityHealthProvider
     public abstract void Give(int amount);
     public abstract void GivePercentage(float percentage);
 
-    public abstract void Remove(int amount);
-    public abstract void RemovePercentage(float percentage);
+    public abstract DamageResult Remove(int amount);
+    public abstract DamageResult RemovePercentage(float percentage);
 }

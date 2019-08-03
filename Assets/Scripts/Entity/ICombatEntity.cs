@@ -8,8 +8,8 @@ public interface ICombatEntity
     float HealthPercentage { get; }
     void GiveHealth(int amount);
     void GiveHealthPercentage(float percentage);
-    void RemoveHealth(int amount);
-    void RemoveHealthPercentage(float percentage);
+    DamageResult RemoveHealth(int amount);
+    DamageResult RemoveHealthPercentage(float percentage);
 
     float Resource { get; }
     float ResourcePercentage { get; }
@@ -29,4 +29,15 @@ public interface ICombatEntity
 
     Coroutine StartCoroutine(IEnumerator ienumerator);
     void StopCoroutine(IEnumerator ienumerator);
+
+    EntityModifier GetModifier();
+}
+
+public enum DamageResult
+{
+    Hit = 0,
+    Missed = 1,
+    Avoided = 2,
+    Negated = 3,
+    Immune = 4
 }

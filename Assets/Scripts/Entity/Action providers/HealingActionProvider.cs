@@ -47,15 +47,15 @@ public class HealingActionProvider : BaseActionProvider
 
     protected override void PerformBasic()
     {
-        Target.GiveHealth(statProvider.GetPower());
-        owner.GiveResource(statProvider.GetResourceGain());
+        Target.GiveHealth(baseStatProvider.GetPower());
+        owner.GiveResource(baseStatProvider.GetResourceGain());
 
         StartCooldown();
     }
 
     protected override void PerformSpecial()
     {
-        Target.GiveHealth(statProvider.GetPower() + 2);
+        Target.GiveHealth(baseStatProvider.GetPower() + 2);
         Target.GiveHealthPercentage(0.1f);
         Target.StartCoroutine(_HealOverTime(2f, 0.5f));
 
@@ -75,7 +75,7 @@ public class HealingActionProvider : BaseActionProvider
             if (intervalTimer >= interval)
             {
                 intervalTimer = 0.0f;
-                Target.GiveHealth((statProvider.GetPower() / 2) + 1);
+                Target.GiveHealth((baseStatProvider.GetPower() / 2) + 1);
             }
 
             yield return null;

@@ -24,25 +24,30 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     #region Components
 
+    EntityModifier modifier;
+
     #endregion
 
     protected virtual void Awake()
     {
         healthProvider = new EntityHealthProvider(startHealth);
 
+
         var agent = GetComponent<NavMeshAgent>();
-        if (agent)
-        {
-            agent.updateRotation = false;
-            agent.updateUpAxis = false;
-            Debug.Log(gameObject.name + " Updated navmesh agent settings");
-        }
+        if (agent) agent.updateUpAxis = false;
+    }
+
+    protected virtual void Start()
+    {
+        modifier = CreateModifier();
     }
 
     protected virtual void Update()
     {
         currentAction?.Update();
     }
+
+    protected abstract EntityModifier CreateModifier();
 
     protected virtual void Die()
     {
@@ -53,6 +58,12 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     protected void SwapAction(IActionProvider from, IActionProvider to)
     {
         (currentAction = to)?.OverrideTarget(from?.Target);
+    }
+
+    protected virtual void OnHealthRemoveAttempt(DamageResult result)
+    {
+        if (result == DamageResult.Hit) GetComponent<ObjectFlash>()?.Flash();
+        if (healthProvider.GetCurrent() <= 0) Die();
     }
 
     #region Combat entity interface
@@ -77,18 +88,18 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
         healthProvider.GivePercentage(percentage);
     }
 
-    public void RemoveHealth(int amount)
+    public DamageResult RemoveHealth(int amount)
     {
-        healthProvider.Remove(amount);
-        GetComponent<ObjectFlash>()?.Flash();
-        if (healthProvider.GetCurrent() <= 0) Die();
+        var result = healthProvider.Remove(amount);
+        OnHealthRemoveAttempt(result);
+        return result;
     }
 
-    public void RemoveHealthPercentage(float percentage)
+    public DamageResult RemoveHealthPercentage(float percentage)
     {
-        healthProvider.RemovePercentage(percentage);
-        GetComponent<ObjectFlash>()?.Flash();
-        if (healthProvider.GetCurrent() <= 0) Die();
+        var result = healthProvider.RemovePercentage(percentage);
+        OnHealthRemoveAttempt(result);
+        return result;
     }
 
     public abstract bool SpendResource(float amount);
@@ -102,6 +113,11 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     public void OverrideTarget(ICombatEntity newTarget)
     {
         currentAction?.OverrideTarget(newTarget);
+    }
+
+    public EntityModifier GetModifier()
+    {
+        return modifier;
     }
 
     #endregion

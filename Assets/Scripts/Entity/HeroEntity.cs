@@ -37,14 +37,13 @@ public class HeroEntity : BaseEntity
 
         resourceProvider = new EntityResourceProvider(1f);
 
-        resourceProvider = new ResourceDecorator((BaseEntityResourceProvider)resourceProvider);
-
         switch (mainRole)
         {
             case HeroRole.None:
                 break;
             case HeroRole.Tank:
                 mainAction = new TankActionProvider(this);
+                healthProvider = new HealthBlockDecorator((BaseEntityHealthProvider)healthProvider, 0.2f);
                 break;
             case HeroRole.Support:
                 mainAction = new SupportActionProvider(this);
@@ -90,6 +89,11 @@ public class HeroEntity : BaseEntity
         currentAction = mainAction;
     }
 
+    protected override EntityModifier CreateModifier()
+    {
+        return new EntityModifier((BaseEntityHealthProvider)healthProvider, (BaseEntityResourceProvider)resourceProvider, mainAction.GetBaseStatProvider());
+    }
+
     #region Combat entity interface
 
     public override float Resource => resourceProvider.GetCurrent();
@@ -117,6 +121,27 @@ public class HeroEntity : BaseEntity
     {
         resourceProvider.GivePercentage(percentage);
     }
+
+    #endregion
+
+    #region DEBUG
+
+#if UNITY_EDITOR
+
+    [Header("EDITOR ONLY DEBUG")]
+    [SerializeField]
+    bool debug = false;
+    [SerializeField]
+    float radius = 1f;
+
+    private void OnDrawGizmosSelected()
+    {
+        if (!debug) return;
+
+        Gizmos.DrawWireSphere(transform.position, radius);
+    }
+
+#endif
 
     #endregion
 }

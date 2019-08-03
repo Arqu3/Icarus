@@ -31,8 +31,8 @@ public class TankActionProvider : BaseActionProvider
     protected override void PerformBasic()
     {
         Target.RemoveHealthPercentage(0.01f);
-        owner.GiveHealth(statProvider.GetPower());
-        owner.GiveResource(statProvider.GetResourceGain());
+        owner.GiveHealth(baseStatProvider.GetPower());
+        owner.GiveResource(baseStatProvider.GetResourceGain());
 
         StartCooldown();
     }
@@ -47,7 +47,7 @@ public class TankActionProvider : BaseActionProvider
             var entity = hits[i].GetComponent<BaseEntity>();
             if (entity && entity.EntityType != owner.EntityType)
             {
-                owner.GiveHealth(statProvider.GetPower());
+                owner.GiveHealth(baseStatProvider.GetPower());
                 entity.OverrideTarget(owner);
             }
         }

@@ -15,8 +15,9 @@ public class BaseEnemyEntity : BaseEntity
     [SerializeField]
     DamageType damageType = DamageType.Physical;
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         switch (role)
         {
             case HeroRole.None:
@@ -46,6 +47,11 @@ public class BaseEnemyEntity : BaseEntity
                 break;
         }
         currentAction = mainAction;
+    }
+
+    protected override EntityModifier CreateModifier()
+    {
+        return new EntityModifier((BaseEntityHealthProvider)healthProvider, null, mainAction.GetBaseStatProvider());
     }
 
     #region Combat entity interface

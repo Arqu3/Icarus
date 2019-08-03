@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RangedStatDecorator : BaseRangedStatProvider
 {
-    protected BaseRangedStatProvider provider;
+    public BaseRangedStatProvider provider;
 
     public RangedStatDecorator(BaseRangedStatProvider provider)
     {

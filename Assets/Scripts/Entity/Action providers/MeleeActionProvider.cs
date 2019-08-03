@@ -32,21 +32,21 @@ public class MeleeActionProvider : BaseActionProvider
 
     protected override void PerformBasic()
     {
-        Target.RemoveHealth(statProvider.GetPower());
-        owner.GiveResource(statProvider.GetResourceGain());
+        Target.RemoveHealth(baseStatProvider.GetPower());
+        owner.GiveResource(baseStatProvider.GetResourceGain());
 
         StartCooldown();
     }
 
     protected override void PerformSpecial()
     {
-        Target.RemoveHealth(statProvider.GetPower());
+        Target.RemoveHealth(baseStatProvider.GetPower());
         var hits = Physics.OverlapSphere(owner.transform.position, 5f);
 
         foreach(var hit in hits)
         {
             var entity = hit.GetComponent<BaseEntity>();
-            if (entity && entity.EntityType != owner.EntityType) entity.RemoveHealth(statProvider.GetPower() * 2);
+            if (entity && entity.EntityType != owner.EntityType) entity.RemoveHealth(baseStatProvider.GetPower() * 2);
         }
 
         StartCooldown();
