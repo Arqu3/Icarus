@@ -27,7 +27,7 @@ public class HeroEntity : BaseEntity
 
     #region Private
 
-    IEntityResourceProvider resourceProvider;
+    IEntityResourceProvider baseResourceProvider;
 
     #endregion
 
@@ -35,7 +35,7 @@ public class HeroEntity : BaseEntity
     {
         base.Awake();
 
-        resourceProvider = new EntityResourceProvider(1f);
+        baseResourceProvider = new EntityResourceProvider(1f);
 
         switch (mainRole)
         {
@@ -43,7 +43,7 @@ public class HeroEntity : BaseEntity
                 break;
             case HeroRole.Tank:
                 mainAction = new TankActionProvider(this);
-                healthProvider = new HealthBlockDecorator((BaseEntityHealthProvider)healthProvider, 0.2f);
+                baseHealthProvider = new HealthBlockDecorator((BaseEntityHealthProvider)baseHealthProvider, 0.2f);
                 break;
             case HeroRole.Support:
                 mainAction = new SupportActionProvider(this);
@@ -91,35 +91,35 @@ public class HeroEntity : BaseEntity
 
     protected override EntityModifier CreateModifier()
     {
-        return new EntityModifier((BaseEntityHealthProvider)healthProvider, (BaseEntityResourceProvider)resourceProvider, mainAction.CreateBaseStatProvider());
+        return new EntityModifier((BaseEntityHealthProvider)baseHealthProvider, (BaseEntityResourceProvider)baseResourceProvider, mainAction.CreateBaseStatProvider());
     }
 
     #region Combat entity interface
 
-    public override float Resource => resourceProvider.GetCurrent();
+    public override float Resource => CurrentResourceProvider.GetCurrent();
 
-    public override float ResourcePercentage => resourceProvider.GetPercentage();
+    public override float ResourcePercentage => CurrentResourceProvider.GetPercentage();
 
     public override EntityType EntityType => EntityType.Friendly;
 
     public override bool SpendResource(float amount)
     {
-        return resourceProvider.Spend(amount);
+        return CurrentResourceProvider.Spend(amount);
     }
 
     public override bool SpendResourcePercentage(float percentage)
     {
-        return resourceProvider.SpendPercentage(percentage);
+        return CurrentResourceProvider.SpendPercentage(percentage);
     }
 
     public override void GiveResource(float amount)
     {
-        resourceProvider.Give(amount);
+        CurrentResourceProvider.Give(amount);
     }
 
     public override void GiveResourcePercentage(float percentage)
     {
-        resourceProvider.GivePercentage(percentage);
+        CurrentResourceProvider.GivePercentage(percentage);
     }
 
     #endregion

@@ -8,8 +8,11 @@ public class EntityModifier
     BaseEntityHealthProvider healthProvider;
     BaseEntityResourceProvider resourceProvider;
     BaseStatProvider statProvider;
-
     bool allowHealth, allowResource, allowStat;
+
+    List<IStatDecorator> statDecorators = new List<IStatDecorator>();
+    List<IResourceDecorator> resourceDecorators = new List<IResourceDecorator>();
+    List<IHealthDecorator> healthDecorators = new List<IHealthDecorator>();
 
     public EntityModifier(BaseEntityHealthProvider healthProvider, BaseEntityResourceProvider resourceProvider, BaseStatProvider statProvider)
     {
@@ -22,8 +25,6 @@ public class EntityModifier
         allowStat = statProvider != null;
     }
 
-    List<IStatDecorator> statDecorators = new List<IStatDecorator>();
-
     //public void ApplyStatDecorator()
     //{
     //    statDecorators.Add(new RangedStatDecorator(statDecorators.Last() as BaseRangedStatProvider));
@@ -31,24 +32,50 @@ public class EntityModifier
 
     public void ApplyProjectileDecorator(int extra)
     {
-        statDecorators.Add(new AdditiveRangedStatDecorator(statDecorators.Count > 0 ? statDecorators.Last() as BaseRangedStatProvider : statProvider as BaseRangedStatProvider, extra));
+        var provider = statDecorators.Count > 0 ? statDecorators.Last() as BaseStatProvider : statProvider;
+        statDecorators.Add(new AdditiveRangedStatDecorator(provider as BaseRangedStatProvider, extra));
     }
 
     public void RemoveProjectileDecorator()
     {
-        if (statDecorators.Count > 0) RemoveDecoratorAtIndex(statDecorators.Count - 1);
+        if (statDecorators.Count > 0) RemoveDecoratorAtIndex(statDecorators, statDecorators.Count - 1, statProvider);
     }
 
-    void RemoveDecoratorAtIndex(int index)
+    public void RemoveAll()
     {
-        if (index + 1 < statDecorators.Count && index - 1 >= 0) statDecorators[index + 1].provider = statDecorators[index - 1] as BaseStatProvider;
-        else if (index == 0 && statDecorators.Count > 1) statDecorators[index + 1].provider = statProvider as BaseStatProvider;
+        statDecorators.Clear();
+        healthDecorators.Clear();
+        resourceDecorators.Clear();
+    }
 
-        statDecorators.RemoveAt(index);
+    void RemoveDecoratorAtIndex<TDecorator, TProvider>(List<TDecorator> decorators, int index, TProvider baseProvider)
+        where TProvider : BaseProvider
+        where TDecorator : IDecorator<TProvider>
+    {
+        if (index >= decorators.Count || index < 0)
+        {
+            Debug.LogError("Index out of range " + index + " " + decorators.Count);
+            return;
+        }
+
+        if (index + 1 < decorators.Count && index - 1 >= 0) decorators[index + 1].provider = decorators[index - 1] as TProvider;
+        else if (index == 0 && decorators.Count > 1) decorators[index + 1].provider = baseProvider;
+
+        decorators.RemoveAt(index);
     }
 
     public BaseStatProvider GetCurrentStatProvider()
     {
         return statDecorators.Count > 0 ? statDecorators.Last() as BaseStatProvider : statProvider;
+    }
+
+    public BaseEntityHealthProvider GetCurrentHealthProvider()
+    {
+        return healthDecorators.Count > 0 ? healthDecorators.Last() as BaseEntityHealthProvider : healthProvider;
+    }
+
+    public BaseEntityResourceProvider GetCurrentResourceProvider()
+    {
+        return resourceDecorators.Count > 0 ? resourceDecorators.Last() as BaseEntityResourceProvider : resourceProvider;
     }
 }

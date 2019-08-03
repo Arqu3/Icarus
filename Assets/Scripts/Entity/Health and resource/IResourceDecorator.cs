@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IResourceDecorator
+public interface IResourceDecorator : IDecorator<BaseEntityResourceProvider>
 {
-    BaseEntityResourceProvider provider { get; set; }
 }

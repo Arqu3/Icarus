@@ -6,9 +6,11 @@ public class RangedActionProvider : BaseActionProvider
 {
     GameObject projectilePrefab;
     protected BaseRangedStatProvider CurrentRangedStatProvider => owner.GetModifier().GetCurrentStatProvider() as BaseRangedStatProvider;
+    DamageType damageType;
 
     public RangedActionProvider(ICombatEntity owner, DamageType damageType, GameObject projectilePrefab) : base(owner)
     {
+        this.damageType = damageType;
         this.projectilePrefab = projectilePrefab;
     }
 
@@ -66,7 +68,7 @@ public class RangedActionProvider : BaseActionProvider
     {
         direction = Quaternion.Euler(0f, direction.eulerAngles.y, 0f);
         var projectile = Object.Instantiate(projectilePrefab);
-        projectile.GetComponent<Projectile>()?.Initialize(DamageType.Magical, CurrentRangedStatProvider.GetPower(), owner.EntityType);
+        projectile.GetComponent<Projectile>()?.Initialize(damageType, CurrentRangedStatProvider.GetPower(), owner.EntityType);
         projectile.transform.position = origin;
         projectile.transform.rotation = direction;
 

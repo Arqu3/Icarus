@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseEntityHealthProvider : IEntityHealthProvider
+public abstract class BaseEntityHealthProvider : BaseProvider, IEntityHealthProvider
 {
     public abstract int GetCurrent();
     public abstract int GetMax();

@@ -15,7 +15,7 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     #region Providers
 
-    protected IEntityHealthProvider healthProvider;
+    protected IEntityHealthProvider baseHealthProvider;
     protected IActionProvider mainAction;
     protected IActionProvider secondaryAction;
     protected IActionProvider currentAction;
@@ -30,7 +30,7 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     protected virtual void Awake()
     {
-        healthProvider = new EntityHealthProvider(startHealth);
+        baseHealthProvider = new EntityHealthProvider(startHealth);
 
         var agent = GetComponent<NavMeshAgent>();
         if (agent) agent.updateUpAxis = false;
@@ -62,14 +62,16 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     protected virtual void OnHealthRemoveAttempt(DamageResult result)
     {
         if (result == DamageResult.Hit) GetComponent<ObjectFlash>()?.Flash();
-        if (healthProvider.GetCurrent() <= 0) Die();
+        if (CurrentHealthProvider.GetCurrent() <= 0) Die();
     }
+
+    protected IEntityHealthProvider CurrentHealthProvider => GetModifier().GetCurrentHealthProvider();
+    protected IEntityResourceProvider CurrentResourceProvider => GetModifier().GetCurrentResourceProvider();
 
     #region Combat entity interface
 
-    public virtual int Health => healthProvider.GetCurrent();
-    public virtual float HealthPercentage => healthProvider.GetPercentage();
-
+    public virtual int Health => CurrentHealthProvider.GetCurrent();
+    public virtual float HealthPercentage => CurrentHealthProvider.GetPercentage();
     public abstract float Resource { get; }
     public abstract float ResourcePercentage { get; }
 
@@ -79,24 +81,24 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     public void GiveHealth(int amount)
     {
-        healthProvider.Give(amount);
+        CurrentHealthProvider.Give(amount);
     }
 
     public void GiveHealthPercentage(float percentage)
     {
-        healthProvider.GivePercentage(percentage);
+        CurrentHealthProvider.GivePercentage(percentage);
     }
 
     public DamageResult RemoveHealth(int amount)
     {
-        var result = healthProvider.Remove(amount);
+        var result = CurrentHealthProvider.Remove(amount);
         OnHealthRemoveAttempt(result);
         return result;
     }
 
     public DamageResult RemoveHealthPercentage(float percentage)
     {
-        var result = healthProvider.RemovePercentage(percentage);
+        var result = CurrentHealthProvider.RemovePercentage(percentage);
         OnHealthRemoveAttempt(result);
         return result;
     }

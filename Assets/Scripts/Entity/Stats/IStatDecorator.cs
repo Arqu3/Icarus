@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IStatDecorator
+public interface IDecorator<T>
 {
-    BaseStatProvider provider { get; set; }
+    T provider { get; set; }
+}
+
+public interface IStatDecorator : IDecorator<BaseStatProvider>
+{
 }

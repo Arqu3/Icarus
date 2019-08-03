@@ -30,7 +30,7 @@ public class TankActionProvider : BaseActionProvider
 
     protected override void PerformBasic()
     {
-        Target.RemoveHealthPercentage(0.01f);
+        Target.RemoveHealth(5);
         owner.GiveHealth(CurrentStatProvider.GetPower());
         owner.GiveResource(CurrentStatProvider.GetResourceGain());
 
@@ -39,7 +39,7 @@ public class TankActionProvider : BaseActionProvider
 
     protected override void PerformSpecial()
     {
-        Target.RemoveHealthPercentage(0.02f);
+        Target.RemoveHealthPercentage(0.1f);
         owner.GiveHealthPercentage(0.05f);
         var hits = Physics.OverlapSphere(owner.transform.position, 7f);
         for(int i = 0; i < hits.Length; ++i)

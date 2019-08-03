@@ -51,7 +51,7 @@ public class BaseEnemyEntity : BaseEntity
 
     protected override EntityModifier CreateModifier()
     {
-        return new EntityModifier((BaseEntityHealthProvider)healthProvider, null, mainAction.CreateBaseStatProvider());
+        return new EntityModifier((BaseEntityHealthProvider)baseHealthProvider, null, mainAction.CreateBaseStatProvider());
     }
 
     #region Combat entity interface

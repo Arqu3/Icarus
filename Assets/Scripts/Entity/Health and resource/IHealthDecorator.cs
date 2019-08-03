@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IHealthDecorator
+public interface IHealthDecorator : IDecorator<BaseEntityHealthProvider>
 {
-    BaseEntityHealthProvider provider { get; set; }
 }
