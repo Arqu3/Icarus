@@ -65,19 +65,19 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
         if (CurrentHealthProvider.GetCurrent() <= 0) Die();
     }
 
-    protected IEntityHealthProvider CurrentHealthProvider => GetModifier().GetCurrentHealthProvider();
-    protected IEntityResourceProvider CurrentResourceProvider => GetModifier().GetCurrentResourceProvider();
+    protected IEntityHealthProvider CurrentHealthProvider => GetModifier()?.GetCurrentHealthProvider();
+    protected IEntityResourceProvider CurrentResourceProvider => GetModifier()?.GetCurrentResourceProvider();
 
     #region Combat entity interface
 
-    public virtual int Health => CurrentHealthProvider.GetCurrent();
-    public virtual float HealthPercentage => CurrentHealthProvider.GetPercentage();
+    public virtual int Health => CurrentHealthProvider != null ? CurrentHealthProvider.GetCurrent() : 0;
+    public virtual float HealthPercentage => CurrentHealthProvider != null ? CurrentHealthProvider.GetPercentage() : 0f;
     public abstract float Resource { get; }
     public abstract float ResourcePercentage { get; }
 
     public abstract EntityType EntityType { get; }
 
-    public bool Valid { get; private set; } = true;
+    public bool Valid { get; protected set; } = true;
 
     public void GiveHealth(int amount)
     {
@@ -89,14 +89,14 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
         CurrentHealthProvider.GivePercentage(percentage);
     }
 
-    public DamageResult RemoveHealth(int amount)
+    public virtual DamageResult RemoveHealth(int amount)
     {
         var result = CurrentHealthProvider.Remove(amount);
         OnHealthRemoveAttempt(result);
         return result;
     }
 
-    public DamageResult RemoveHealthPercentage(float percentage)
+    public virtual DamageResult RemoveHealthPercentage(float percentage)
     {
         var result = CurrentHealthProvider.RemovePercentage(percentage);
         OnHealthRemoveAttempt(result);

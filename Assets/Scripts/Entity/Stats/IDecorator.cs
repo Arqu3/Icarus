@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
-public class HeroHealingData : EntityResourceData<HeroHealingData>
+public interface IDecorator<T>
 {
-
+    T provider { get; set; }
 }

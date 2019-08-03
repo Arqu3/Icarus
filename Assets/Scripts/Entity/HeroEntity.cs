@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class HeroEntity : BaseEntity
 {
@@ -23,11 +24,20 @@ public class HeroEntity : BaseEntity
     [SerializeField]
     DamageType damageType = DamageType.Physical;
 
+    [Header("Down times")]
+    [SerializeField]
+    int timesDownedBeforeDeath = 3;
+    [SerializeField]
+    float downTime = 2f;
+    [SerializeField]
+    float healthPercentageToReturn = 0.33f;
+
     #endregion
 
     #region Private
 
     IEntityResourceProvider baseResourceProvider;
+    int numTimesDowned = 0;
 
     #endregion
 
@@ -94,7 +104,45 @@ public class HeroEntity : BaseEntity
         return new EntityModifier((BaseEntityHealthProvider)baseHealthProvider, (BaseEntityResourceProvider)baseResourceProvider, mainAction.CreateBaseStatProvider());
     }
 
+    protected override void Update()
+    {
+        if (Valid) base.Update();
+    }
+
+    IEnumerator _GetDowned()
+    {
+        Valid = false;
+        Downed = true;
+
+        GetComponent<NavMeshAgent>().isStopped = true;
+
+        float timer = 0.0f;
+
+        while (timer < downTime)
+        {
+            timer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        GiveHealthPercentage(healthPercentageToReturn);
+
+        Downed = false;
+        Valid = true;
+    }
+
     #region Combat entity interface
+
+    protected override void Die()
+    {
+        if (numTimesDowned >= timesDownedBeforeDeath) base.Die();
+        else
+        {
+            ++numTimesDowned;
+
+            StartCoroutine(_GetDowned());
+        }
+    }
 
     public override float Resource => CurrentResourceProvider.GetCurrent();
 
@@ -122,7 +170,21 @@ public class HeroEntity : BaseEntity
         CurrentResourceProvider.GivePercentage(percentage);
     }
 
+    public override DamageResult RemoveHealth(int amount)
+    {
+        if (Valid) return base.RemoveHealth(amount);
+        else return DamageResult.Immune;
+    }
+
+    public override DamageResult RemoveHealthPercentage(float percentage)
+    {
+        if (Valid) return base.RemoveHealthPercentage(percentage);
+        else return DamageResult.Immune;
+    }
+
     #endregion
+
+    public bool Downed { get; protected set; } = false;
 
     #region DEBUG
 

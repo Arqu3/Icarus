@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = nameof(EnemyMeleeData), menuName = "Entity Data/" + nameof(EnemyMeleeData))]
 public class EnemyMeleeData : EntityResourceData<EnemyMeleeData>
 {
 }

@@ -9,8 +9,3 @@ public abstract class BaseStatProvider : BaseProvider
     public abstract float GetActionCooldown();
     public abstract float GetRange();
 }
-
-public abstract class BaseProvider
-{
-
-}

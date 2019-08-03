@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdditiveRangedStatDecorator : RangedStatDecorator
+public class ExtraProjectilesDecorator : RangedStatDecorator
 {
     int additionalProjectiles;
 
-    public AdditiveRangedStatDecorator(BaseRangedStatProvider provider, int additionalProjectiles) : base(provider)
+    public ExtraProjectilesDecorator(BaseRangedStatProvider provider, int additionalProjectiles) : base(provider)
     {
         this.additionalProjectiles = additionalProjectiles;
     }

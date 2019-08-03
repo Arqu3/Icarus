@@ -33,7 +33,7 @@ public class EntityModifier
     public void ApplyProjectileDecorator(int extra)
     {
         var provider = statDecorators.Count > 0 ? statDecorators.Last() as BaseStatProvider : statProvider;
-        statDecorators.Add(new AdditiveRangedStatDecorator(provider as BaseRangedStatProvider, extra));
+        statDecorators.Add(new ExtraProjectilesDecorator(provider as BaseRangedStatProvider, extra));
     }
 
     public void RemoveProjectileDecorator()

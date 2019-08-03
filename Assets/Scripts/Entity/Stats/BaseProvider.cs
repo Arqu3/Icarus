@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
-public class HeroRangedData : EntityResourceData<HeroRangedData>
+public abstract class BaseProvider
 {
+
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = nameof(HeroSupportData), menuName = "Entity Data/" + nameof(HeroSupportData))]
 public class HeroSupportData : EntityResourceData<HeroSupportData>
 {
 }
