@@ -21,18 +21,22 @@ MonoBehaviour:
       valueType: 0
       mathType: 0
       value: 0
+      iValue: 0
     power:
       valueType: 0
       mathType: 0
       value: 1
+      iValue: 1
     resourceGain:
       valueType: 0
       mathType: 0
       value: 0
+      iValue: 0
     actionCooldown:
       valueType: 0
       mathType: 0
       value: 0
+      iValue: 0
   - debugShowUnused: 0
     name: Of Power
     modType: 1
@@ -41,18 +45,22 @@ MonoBehaviour:
       valueType: 0
       mathType: 0
       value: 0
+      iValue: 0
     power:
       valueType: 0
       mathType: 0
       value: 1
+      iValue: 1
     resourceGain:
       valueType: 0
       mathType: 0
       value: 0
+      iValue: 0
     actionCooldown:
       valueType: 0
       mathType: 0
       value: 0
+      iValue: 0
   - debugShowUnused: 0
     name: Healthy
     modType: 0
@@ -61,36 +69,140 @@ MonoBehaviour:
       valueType: 0
       mathType: 0
       value: 10
+      iValue: 10
     power:
       valueType: 0
       mathType: 0
       value: 0
+      iValue: 0
     resourceGain:
       valueType: 0
       mathType: 0
       value: 0
+      iValue: 0
     actionCooldown:
       valueType: 0
       mathType: 0
       value: 0
+      iValue: 0
   - debugShowUnused: 0
     name: Of Health
     modType: 1
     tier: 3
     health:
-      valueType: 0
+      valueType: 1
       mathType: 1
       value: 1.1
+      iValue: 0
     power:
       valueType: 0
       mathType: 0
       value: 0
+      iValue: 0
     resourceGain:
       valueType: 0
       mathType: 0
       value: 0
+      iValue: 0
     actionCooldown:
       valueType: 0
       mathType: 0
       value: 0
-  showBools: 00010101
+      iValue: 0
+  - debugShowUnused: 0
+    name: ResourceFul
+    modType: 0
+    tier: 3
+    health:
+      valueType: 0
+      mathType: 0
+      value: 0
+      iValue: 0
+    power:
+      valueType: 0
+      mathType: 0
+      value: 0
+      iValue: 0
+    resourceGain:
+      valueType: 1
+      mathType: 0
+      value: 0.05
+      iValue: 0
+    actionCooldown:
+      valueType: 0
+      mathType: 0
+      value: 0
+      iValue: 0
+  - debugShowUnused: 0
+    name: Of Resource
+    modType: 1
+    tier: 3
+    health:
+      valueType: 0
+      mathType: 0
+      value: 0
+      iValue: 0
+    power:
+      valueType: 0
+      mathType: 0
+      value: 0
+      iValue: 0
+    resourceGain:
+      valueType: 1
+      mathType: 1
+      value: 0.1
+      iValue: 0
+    actionCooldown:
+      valueType: 0
+      mathType: 0
+      value: 0
+      iValue: 0
+  - debugShowUnused: 0
+    name: Speedy
+    modType: 0
+    tier: 3
+    health:
+      valueType: 0
+      mathType: 0
+      value: 0
+      iValue: 0
+    power:
+      valueType: 0
+      mathType: 0
+      value: 0
+      iValue: 0
+    resourceGain:
+      valueType: 0
+      mathType: 0
+      value: 0
+      iValue: 0
+    actionCooldown:
+      valueType: 1
+      mathType: 0
+      value: -0.1
+      iValue: 0
+  - debugShowUnused: 0
+    name: Of SPeed
+    modType: 1
+    tier: 3
+    health:
+      valueType: 0
+      mathType: 0
+      value: 0
+      iValue: 0
+    power:
+      valueType: 0
+      mathType: 0
+      value: 0
+      iValue: 0
+    resourceGain:
+      valueType: 0
+      mathType: 0
+      value: 0
+      iValue: 0
+    actionCooldown:
+      valueType: 1
+      mathType: 1
+      value: 0.9
+      iValue: 0
+  showBools: 0000000000000000

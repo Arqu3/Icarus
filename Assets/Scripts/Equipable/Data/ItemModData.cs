@@ -38,10 +38,12 @@ public struct Mod
 {
     public ValueType valueType;
     public ModMathType mathType;
+    [ConditionalField(nameof(valueType), ValueType.Float)]
     public float value;
-    public int IntValue => Mathf.CeilToInt(value);
+    [ConditionalField(nameof(valueType), ValueType.Int)]
+    public int iValue;
 
-    public float GetValue => valueType == ValueType.Float ? value : IntValue;
+    public float GetValue => valueType == ValueType.Float ? value : iValue;
 }
 
 [System.Serializable]
@@ -155,7 +157,7 @@ public class ItemModDataEditor : Editor
                     {
                         EditorGUILayout.Space();
 
-                        var val = ((Mod)field.GetValue(mod)).value;
+                        var val = ((Mod)field.GetValue(mod)).GetValue;
                         bool showAsUsed = Mathf.Abs(val) > ItemModData.UseThreshold;
 
                         if (!mod.debugShowUnused && !showAsUsed) continue;
