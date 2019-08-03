@@ -13,11 +13,30 @@ MonoBehaviour:
   m_Name: ItemModData
   m_EditorClassIdentifier: 
   mods:
-  - debug: 0
-    name: Powerful
+  - name: Powerful
     modType: 0
+    valueType: 0
+    tier: 3
     power:
       mathType: 0
       value: 1
-    resourceGain: 0
-    actionCooldown: 0
+    resourceGain:
+      mathType: 0
+      value: 0
+    actionCooldown:
+      mathType: 0
+      value: 0
+  - name: Of Power
+    modType: 1
+    valueType: 0
+    tier: 3
+    power:
+      mathType: 0
+      value: 1
+    resourceGain:
+      mathType: 0
+      value: 0
+    actionCooldown:
+      mathType: 0
+      value: 0
+  showBools: 0101
