@@ -90,16 +90,16 @@ public class ItemModDataEditor : Editor
                 {
                     var relativeProp = property.FindPropertyRelative(field.Name);
 
-                    if (field.FieldType == typeof(Mod))
+                    if (field.FieldType.IsSubclassOf(typeof(Stat)))
                     {
                         EditorGUILayout.Space();
 
-                        var val = ((Mod)field.GetValue(mod)).GetValue;
-                        bool showAsUsed = Mathf.Abs(val) > ItemModData.UseThreshold;
+                        var val = (Stat)field.GetValue(mod);
+                        bool showAsUsed = val.IsUsed();
 
                         if (!mod.debugShowUnused && !showAsUsed) continue;
 
-                        string extra = showAsUsed ? " - " + val.ToString() : "";
+                        string extra = showAsUsed ? " - " + val.GetValue.ToString() : "";
 
                         if (showAsUsed)
                         {

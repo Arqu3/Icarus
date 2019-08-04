@@ -25,21 +25,21 @@ public class EntityModifier
         allowStat = statProvider != null;
     }
 
-    //public void ApplyStatDecorator()
-    //{
-    //    statDecorators.Add(new RangedStatDecorator(statDecorators.Last() as BaseRangedStatProvider));
-    //}
+    #region Projectile
 
     public void ApplyProjectileDecorator(int extra)
     {
-        var provider = statDecorators.Count > 0 ? statDecorators.Last() as BaseStatProvider : statProvider;
-        statDecorators.Add(new ExtraProjectilesDecorator(provider as BaseRangedStatProvider, extra));
+        statDecorators.Add(new ExtraProjectilesDecorator(GetCurrentStatProvider() as BaseRangedStatProvider, extra));
     }
 
     public void RemoveProjectileDecorator()
     {
         if (statDecorators.Count > 0) RemoveDecoratorAtIndex(statDecorators, statDecorators.Count - 1, statProvider);
     }
+
+    #endregion
+
+    #region Remove
 
     public void RemoveAll()
     {
@@ -64,6 +64,66 @@ public class EntityModifier
         decorators.RemoveAt(index);
     }
 
+    void RemoveDecorator<TDecorator, TProvider>(List<TDecorator> decorators, TDecorator decorator, TProvider baseProvider)
+        where TProvider : BaseProvider
+        where TDecorator : IDecorator<TProvider>
+    {
+        RemoveDecoratorAtIndex(decorators, decorators.IndexOf(decorator), baseProvider);
+    }
+
+    #endregion
+
+    public void ApplyItem(EquipItem item)
+    {
+        foreach (var mod in item.mods)
+        {
+            foreach(var stat in mod.GetUsedStats())
+            {
+                EvaluateStatDecorator(stat, out IHealthDecorator hpDec, out IStatDecorator statDec);
+                if (hpDec != null) item.healthDecorators.Add(hpDec);
+                if (statDec != null) item.statDecorators.Add(statDec);
+            }
+        }
+    }
+
+    void EvaluateStatDecorator(ConvertedStat stat, out IHealthDecorator hpDec, out IStatDecorator statDec)
+    {
+        var value = stat.value;
+        bool add = stat.mathType == ModMathType.Additive;
+        var p = GetCurrentStatProvider();
+        var h = GetCurrentHealthProvider();
+
+        hpDec = null;
+        statDec = null;
+
+        switch (stat.type)
+        {
+            case StatType.Health:
+
+                if (add) healthDecorators.Add(hpDec = new HealthAddDecorator(h, (int)value));
+                else healthDecorators.Add(hpDec = new HealthMultiDecorator(h, value));
+
+                break;
+            case StatType.ActionCooldown:
+            case StatType.Resource:
+            case StatType.Power:
+
+                statDecorators.Add(statDec = new SingleStatDecorator(p, stat.type, stat.mathType, value));
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void RemoveItem(EquipItem item)
+    {
+        foreach (var stat in item.statDecorators) RemoveDecorator(statDecorators, stat, statProvider);
+        foreach (var hp in item.healthDecorators) RemoveDecorator(healthDecorators, hp, healthProvider);
+    }
+
+    #region Current
+
     public BaseStatProvider GetCurrentStatProvider()
     {
         return statDecorators.Count > 0 ? statDecorators.Last() as BaseStatProvider : statProvider;
@@ -78,4 +138,6 @@ public class EntityModifier
     {
         return resourceDecorators.Count > 0 ? resourceDecorators.Last() as BaseEntityResourceProvider : resourceProvider;
     }
+
+    #endregion
 }

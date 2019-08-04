@@ -8,5 +8,8 @@ public class GameMenuInitializer : MonoBehaviour
     {
         var ui = new HealthAndResourceUI();
         ui.Show();
+
+        var iUi = new InventoryUI();
+        iUi.Show();
     }
 }
