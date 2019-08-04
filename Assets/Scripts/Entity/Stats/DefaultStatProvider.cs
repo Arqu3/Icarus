@@ -34,4 +34,9 @@ public class DefaultStatProvider : BaseStatProvider
     {
         return Range;
     }
+
+    public override int GetProjectileCount()
+    {
+        return 1;
+    }
 }

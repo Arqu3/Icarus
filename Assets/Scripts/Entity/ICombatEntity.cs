@@ -31,6 +31,12 @@ public interface ICombatEntity
     void StopCoroutine(IEnumerator ienumerator);
 
     EntityModifier GetModifier();
+
+    void Stop();
+    void Resume();
+    Coroutine Stop(float duration);
+
+    bool IsStopped();
 }
 
 public enum DamageResult

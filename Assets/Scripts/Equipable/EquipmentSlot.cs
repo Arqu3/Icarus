@@ -19,6 +19,7 @@ public class EquipmentSlot
         if (current != null) UnEquip(current);
 
         current = item;
+        modifier.ApplyItem(current as EquipItem);
 
         return current;
     }
@@ -29,4 +30,6 @@ public class EquipmentSlot
         current = null;
         return item;
     }
+
+    public EquipItem Current => current == null ? null : current as EquipItem;
 }

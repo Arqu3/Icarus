@@ -29,7 +29,7 @@ public class EntityModifier
 
     public void ApplyProjectileDecorator(int extra)
     {
-        statDecorators.Add(new ExtraProjectilesDecorator(GetCurrentStatProvider() as BaseRangedStatProvider, extra));
+        statDecorators.Add(new ExtraProjectilesDecorator(GetCurrentStatProvider(), extra));
     }
 
     public void RemoveProjectileDecorator()

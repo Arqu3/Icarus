@@ -6,7 +6,7 @@ public class ExtraProjectilesDecorator : RangedStatDecorator
 {
     int additionalProjectiles;
 
-    public ExtraProjectilesDecorator(BaseRangedStatProvider provider, int additionalProjectiles) : base(provider)
+    public ExtraProjectilesDecorator(BaseStatProvider provider, int additionalProjectiles) : base(provider)
     {
         this.additionalProjectiles = additionalProjectiles;
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Spark.UI;
 using TMPro;
+using System.Linq;
 
 [AddComponentMenu("")]
 public class InventoryCanvas : InstantiatableCanvas
@@ -17,25 +18,49 @@ public class InventoryCanvas : InstantiatableCanvas
 
     private void Start()
     {
+
+    }
+
+#if UNITY_EDITOR
+
+    List<EquipItemUIElement> testElements = new List<EquipItemUIElement>();
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            var hero = FindObjectsOfType<HeroEntity>().Random();
+            Test(hero.EquipmentSlots.Select(x => x.Current).ToArray());
+        }
+        if (Input.GetKeyDown(KeyCode.I)) testElements.ForEach(x => x.gameObject.SetActive(false));
+    }
+
+    void Test(EquipItem[] items)
+    {
         Vector3 from = new Vector3(-500, 0, 0);
         Vector3 to = new Vector3(500, 0, 0);
 
-        int amount = 3;
+        int amount = items.Length;
 
-        for(int i = 0; i < amount; ++i)
+        for (int i = 0; i < amount; ++i)
         {
-            var element = CreateElement();
-            var item = ItemCreator.CreateRandomItem();
-            element.SetItem(item);
+            var element = i >= testElements.Count ? CreateElement() : testElements[i];
+            element.gameObject.SetActive(true);
+            element.SetItem(items[i]);
 
-            element.transform.localPosition = Vector3.Lerp(from, to, (float)i / (amount  - 1));
+            element.transform.localPosition = Vector3.Lerp(from, to, (float)i / (amount - 1));
         }
     }
+
+#endif
 
     EquipItemUIElement CreateElement()
     {
         var ele = Instantiate(baseElement, baseElement.transform.parent);
         ele.gameObject.SetActive(true);
+#if UNITY_EDITOR
+        testElements.Add(ele);
+#endif
         return ele;
     }
 }

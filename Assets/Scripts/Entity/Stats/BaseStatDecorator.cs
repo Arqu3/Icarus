@@ -30,4 +30,9 @@ public class BaseStatDecorator : BaseStatProvider, IStatDecorator
     {
         return provider.GetRange();
     }
+
+    public override int GetProjectileCount()
+    {
+        return provider.GetProjectileCount();
+    }
 }

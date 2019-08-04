@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedStatProvider : BaseRangedStatProvider
+public class RangedStatProvider : BaseStatProvider
 {
     int Power, ProjectileCount;
     float ResourceGain, ActionCooldown, Range;

@@ -22,17 +22,21 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     #endregion
 
-    #region Components
+    #region Private
 
     EntityModifier modifier;
+    ObjectFlash flash;
+    NavMeshAgent agent;
+    int locks;
 
     #endregion
 
     protected virtual void Awake()
     {
         baseHealthProvider = new EntityHealthProvider(startHealth);
+        flash = GetComponent<ObjectFlash>();
 
-        var agent = GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
         if (agent) agent.updateUpAxis = false;
     }
 
@@ -43,6 +47,8 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     protected virtual void Update()
     {
+        if (IsStopped()) return;
+
         currentAction?.Update();
     }
 
@@ -61,7 +67,7 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     protected virtual void OnHealthRemoveAttempt(DamageResult result)
     {
-        if (result == DamageResult.Hit) GetComponent<ObjectFlash>()?.Flash();
+        if (result == DamageResult.Hit) flash?.Flash();
         if (CurrentHealthProvider.GetCurrent() <= 0) Die();
     }
 
@@ -119,6 +125,35 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     public EntityModifier GetModifier()
     {
         return modifier;
+    }
+
+    public void Stop()
+    {
+        locks++;
+        if (agent) agent.isStopped = true;
+    }
+
+    public void Resume()
+    {
+        locks = Mathf.Clamp(locks - 1, 0, locks + 1);
+        if (agent) agent.isStopped = IsStopped();
+    }
+
+    public bool IsStopped()
+    {
+        return locks > 0;
+    }
+
+    public Coroutine Stop(float duration)
+    {
+        return StartCoroutine(_Stop(duration));
+    }
+
+    IEnumerator _Stop(float duration)
+    {
+        Stop();
+        yield return new WaitForSeconds(duration);
+        Resume();
     }
 
     #endregion

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedStatDecorator : BaseRangedStatProvider, IStatDecorator
+public class RangedStatDecorator : BaseStatProvider, IStatDecorator
 {
     public BaseStatProvider provider { get; set; }
 
-    public RangedStatDecorator(BaseRangedStatProvider provider)
+    public RangedStatDecorator(BaseStatProvider provider)
     {
         this.provider = provider;
     }
@@ -23,7 +23,7 @@ public class RangedStatDecorator : BaseRangedStatProvider, IStatDecorator
 
     public override int GetProjectileCount()
     {
-        return (provider as BaseRangedStatProvider).GetProjectileCount();
+        return provider.GetProjectileCount();
     }
 
     public override float GetResourceGain()

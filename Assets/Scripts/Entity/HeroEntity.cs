@@ -39,6 +39,8 @@ public class HeroEntity : BaseEntity
     IEntityResourceProvider baseResourceProvider;
     int numTimesDowned = 0;
 
+    List<EquipmentSlot> equipmentSlots = new List<EquipmentSlot>();
+
     #endregion
 
     protected override void Awake()
@@ -97,6 +99,15 @@ public class HeroEntity : BaseEntity
         }
 
         currentAction = mainAction;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        var inventory = new EntityInventory();
+        for(int i = 0; i < 3; ++i) equipmentSlots.Add(new EquipmentSlot(GetModifier(), inventory));
+        foreach(var s in equipmentSlots) s.Equip(ItemCreator.CreateRandomItem());
     }
 
     protected override EntityModifier CreateModifier()
@@ -185,6 +196,8 @@ public class HeroEntity : BaseEntity
     #endregion
 
     public bool Downed { get; protected set; } = false;
+
+    public EquipmentSlot[] EquipmentSlots => equipmentSlots.ToArray();
 
     #region DEBUG
 

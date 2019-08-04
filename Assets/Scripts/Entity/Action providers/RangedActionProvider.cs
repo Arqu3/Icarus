@@ -5,7 +5,6 @@ using UnityEngine;
 public class RangedActionProvider : BaseActionProvider
 {
     GameObject projectilePrefab;
-    protected BaseRangedStatProvider CurrentRangedStatProvider => owner.GetModifier().GetCurrentStatProvider() as BaseRangedStatProvider;
     DamageType damageType;
 
     public RangedActionProvider(ICombatEntity owner, DamageType damageType, GameObject projectilePrefab) : base(owner)
@@ -34,15 +33,15 @@ public class RangedActionProvider : BaseActionProvider
 
     protected override void PerformBasic()
     {
-        owner.GiveResource(Random.Range(0f, 1f) < 0.2f ? CurrentRangedStatProvider.GetResourceGain() * 2 : CurrentRangedStatProvider.GetResourceGain());
-        ShootSpread(CurrentRangedStatProvider.GetProjectileCount());
+        owner.GiveResource(Random.Range(0f, 1f) < 0.2f ? CurrentStatProvider.GetResourceGain() * 2 : CurrentStatProvider.GetResourceGain());
+        ShootSpread(CurrentStatProvider.GetProjectileCount());
 
         StartCooldown();
     }
 
     protected override void PerformSpecial()
     {
-        ShootSpread(CurrentRangedStatProvider.GetProjectileCount() + 4);
+        ShootSpread(CurrentStatProvider.GetProjectileCount() + 4);
 
         StartCooldown();
     }
@@ -68,7 +67,7 @@ public class RangedActionProvider : BaseActionProvider
     {
         direction = Quaternion.Euler(0f, direction.eulerAngles.y, 0f);
         var projectile = Object.Instantiate(projectilePrefab);
-        projectile.GetComponent<Projectile>()?.Initialize(damageType, CurrentRangedStatProvider.GetPower(), owner.EntityType);
+        projectile.GetComponent<Projectile>()?.Initialize(damageType, CurrentStatProvider.GetPower(), owner.EntityType);
         projectile.transform.position = origin;
         projectile.transform.rotation = direction;
 
