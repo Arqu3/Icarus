@@ -52,6 +52,7 @@ public class MeleeActionProvider : BaseActionProvider
 
     public override BaseStatProvider CreateBaseStatProvider()
     {
-        return new DefaultStatProvider(HeroMeleeData.Instance.Power, HeroMeleeData.Instance.ResourceGain, HeroMeleeData.Instance.ActionCooldown, HeroMeleeData.Instance.Range);
+        var data = HeroMeleeData.Instance;
+        return new DefaultStatProvider(data.Power, data.ResourceGain, data.ActionCooldown, data.Range);
     }
 }

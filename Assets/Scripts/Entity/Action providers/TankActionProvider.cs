@@ -25,7 +25,8 @@ public class TankActionProvider : BaseActionProvider
 
     public override BaseStatProvider CreateBaseStatProvider()
     {
-        return new DefaultStatProvider(HeroTankData.Instance.Power, HeroTankData.Instance.ResourceGain, HeroTankData.Instance.ActionCooldown, HeroTankData.Instance.Range);
+        var data = HeroTankData.Instance;
+        return new DefaultStatProvider(data.Power, data.ResourceGain, data.ActionCooldown, data.Range);
     }
 
     protected override void PerformBasic()

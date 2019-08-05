@@ -5,16 +5,16 @@ using UnityEngine;
 public class EntityInventory : BaseInventory
 {
     [SerializeField]
-    List<IItem> items = new List<IItem>();
+    List<EquipableItem> items = new List<EquipableItem>();
 
-    public override InventoryInteraction Give(IItem item, out IItem result)
+    public override InventoryInteraction Give(EquipableItem item, out EquipableItem result)
     {
-        result = item;
+        result = null;
         items.Add(item);
         return InventoryInteraction.Give;
     }
 
-    public override InventoryInteraction Take(IItem item, out IItem result)
+    public override InventoryInteraction Take(EquipableItem item, out EquipableItem result)
     {
         result = item;
         items.Remove(item);

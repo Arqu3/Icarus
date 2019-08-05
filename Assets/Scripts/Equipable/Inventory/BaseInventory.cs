@@ -4,6 +4,6 @@ using UnityEngine;
 
 public abstract class BaseInventory : IInventory
 {
-    public abstract InventoryInteraction Give(IItem item, out IItem result);
-    public abstract InventoryInteraction Take(IItem item, out IItem result);
+    public abstract InventoryInteraction Give(EquipableItem item, out EquipableItem result);
+    public abstract InventoryInteraction Take(EquipableItem item, out EquipableItem result);
 }

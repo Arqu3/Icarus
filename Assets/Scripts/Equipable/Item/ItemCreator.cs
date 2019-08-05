@@ -5,9 +5,9 @@ using System.Linq;
 
 public static class ItemCreator
 {
-    public static EquipItem CreateRandomItem()
+    public static EquipableItem CreateRandomItem()
     {
-        var baseItem = new EquipItem();
+        var baseItem = new EquipableItem();
         int prefixNum = Random.Range(0, 4);
         int suffixNum = Random.Range(0, 4);
 

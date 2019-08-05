@@ -6,7 +6,7 @@ public class EquipmentSlot
 {
     EntityModifier modifier;
     IInventory inventory;
-    IItem current;
+    EquipableItem current;
 
     public EquipmentSlot(EntityModifier modifier, IInventory inventory)
     {
@@ -14,22 +14,23 @@ public class EquipmentSlot
         this.modifier = modifier;
     }
 
-    public IItem Equip(IItem item)
+    public EquipableItem Equip(EquipableItem item)
     {
-        if (current != null) UnEquip(current);
+        if (current != null) UnEquip(item);
 
         current = item;
-        modifier.ApplyItem(current as EquipItem);
+        modifier.ApplyItem(current);
 
         return current;
     }
 
-    public IItem UnEquip(IItem item)
+    public EquipableItem UnEquip(EquipableItem item)
     {
-        inventory.Give(current, out IItem result);
+        inventory.Give(current, out EquipableItem result);
+        modifier.RemoveItem(current);
         current = null;
         return item;
     }
 
-    public EquipItem Current => current == null ? null : current as EquipItem;
+    public EquipableItem Current => current ?? null;
 }

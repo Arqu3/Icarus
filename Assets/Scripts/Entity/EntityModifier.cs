@@ -25,20 +25,6 @@ public class EntityModifier
         allowStat = statProvider != null;
     }
 
-    #region Projectile
-
-    public void ApplyProjectileDecorator(int extra)
-    {
-        statDecorators.Add(new ExtraProjectilesDecorator(GetCurrentStatProvider(), extra));
-    }
-
-    public void RemoveProjectileDecorator()
-    {
-        if (statDecorators.Count > 0) RemoveDecoratorAtIndex(statDecorators, statDecorators.Count - 1, statProvider);
-    }
-
-    #endregion
-
     #region Remove
 
     public void RemoveAll()
@@ -73,7 +59,7 @@ public class EntityModifier
 
     #endregion
 
-    public void ApplyItem(EquipItem item)
+    public void ApplyItem(EquipableItem item)
     {
         foreach (var mod in item.mods)
         {
@@ -86,7 +72,7 @@ public class EntityModifier
         }
     }
 
-    void EvaluateStatDecorator(ConvertedStat stat, out IHealthDecorator hpDec, out IStatDecorator statDec)
+    void EvaluateStatDecorator(StatStruct stat, out IHealthDecorator hpDec, out IStatDecorator statDec)
     {
         var value = stat.value;
         bool add = stat.mathType == ModMathType.Additive;
@@ -116,7 +102,7 @@ public class EntityModifier
         }
     }
 
-    public void RemoveItem(EquipItem item)
+    public void RemoveItem(EquipableItem item)
     {
         foreach (var stat in item.statDecorators) RemoveDecorator(statDecorators, stat, statProvider);
         foreach (var hp in item.healthDecorators) RemoveDecorator(healthDecorators, hp, healthProvider);

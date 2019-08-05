@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IInventory
 {
-    InventoryInteraction Give(IItem item, out IItem result);
-    InventoryInteraction Take(IItem item, out IItem result);
+    InventoryInteraction Give(EquipableItem item, out EquipableItem result);
+    InventoryInteraction Take(EquipableItem item, out EquipableItem result);
 }

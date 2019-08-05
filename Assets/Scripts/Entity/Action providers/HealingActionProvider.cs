@@ -42,7 +42,8 @@ public class HealingActionProvider : BaseActionProvider
 
     public override BaseStatProvider CreateBaseStatProvider()
     {
-        return new DefaultStatProvider(HeroHealingData.Instance.Power, HeroHealingData.Instance.ResourceGain, HeroHealingData.Instance.ActionCooldown, HeroHealingData.Instance.Range);
+        var data = HeroHealingData.Instance;
+        return new DefaultStatProvider(data.Power, data.ResourceGain, data.ActionCooldown, data.Range);
     }
 
     protected override void PerformBasic()

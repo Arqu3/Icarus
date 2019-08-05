@@ -30,12 +30,13 @@ public class InventoryCanvas : InstantiatableCanvas
         if (Input.GetKeyDown(KeyCode.U))
         {
             var hero = FindObjectsOfType<HeroEntity>().Random();
-            Test(hero.EquipmentSlots.Select(x => x.Current).ToArray());
+            testElements.ForEach(x => x.gameObject.SetActive(false));
+            Test((from s in hero.EquipmentSlots where s.Current != null select s.Current).ToArray());
         }
         if (Input.GetKeyDown(KeyCode.I)) testElements.ForEach(x => x.gameObject.SetActive(false));
     }
 
-    void Test(EquipItem[] items)
+    void Test(EquipableItem[] items)
     {
         Vector3 from = new Vector3(-500, 0, 0);
         Vector3 to = new Vector3(500, 0, 0);
@@ -48,7 +49,7 @@ public class InventoryCanvas : InstantiatableCanvas
             element.gameObject.SetActive(true);
             element.SetItem(items[i]);
 
-            element.transform.localPosition = Vector3.Lerp(from, to, (float)i / (amount - 1));
+            element.transform.localPosition = Vector3.Lerp(from, to, (float)i / Mathf.Max(amount - 1, 1));
         }
     }
 

@@ -24,7 +24,7 @@ public class EquipItemUIElement : MonoBehaviour
         extra.text = text;
     }
 
-    public void SetItem(EquipItem item)
+    public void SetItem(EquipableItem item)
     {
         SetHeader(item.ToString() + "\n" + item.rarity);
 
@@ -32,7 +32,7 @@ public class EquipItemUIElement : MonoBehaviour
         string body = "";
 
         var sameMath = stats.GroupBy(x => x.mathType).Where(y => y.Count() > 1).Select(y => y.ToArray()).ToArray();
-        List<ConvertedStat[]> pairs = new List<ConvertedStat[]>();
+        List<StatStruct[]> pairs = new List<StatStruct[]>();
         foreach (var stat in sameMath)
         {
             var pair = stat.GroupBy(x => x.type).Where(y => y.Count() > 1).Select(y => y.ToArray()).ToArray();

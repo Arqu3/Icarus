@@ -76,6 +76,7 @@ public class RangedActionProvider : BaseActionProvider
 
     public override BaseStatProvider CreateBaseStatProvider()
     {
-        return new RangedStatProvider(HeroRangedData.Instance.Power, HeroRangedData.Instance.ResourceGain, HeroRangedData.Instance.ActionCooldown, 1, HeroRangedData.Instance.Range);
+        var data = HeroRangedData.Instance;
+        return new RangedStatProvider(data.Power, data.ResourceGain, data.ActionCooldown, 1, data.Range);
     }
 }

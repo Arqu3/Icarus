@@ -107,7 +107,12 @@ public class HeroEntity : BaseEntity
 
         var inventory = new EntityInventory();
         for(int i = 0; i < 3; ++i) equipmentSlots.Add(new EquipmentSlot(GetModifier(), inventory));
-        foreach(var s in equipmentSlots) s.Equip(ItemCreator.CreateRandomItem());
+        foreach (var s in equipmentSlots)
+        {
+            var item = ItemCreator.CreateRandomItem();
+            s.Equip(item);
+            if (Random.Range(0f, 1f) < 0.33f) s.UnEquip(item);
+        }
     }
 
     protected override EntityModifier CreateModifier()

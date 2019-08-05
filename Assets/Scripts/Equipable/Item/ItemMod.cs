@@ -22,22 +22,22 @@ public struct ItemMod
 
     public Stat[] GetAllStats() => new Stat[] { health, power, resourceGain, actionCooldown };
 
-    public ConvertedStat[] GetUsedStats()
+    public StatStruct[] GetUsedStats()
     {
-        List<ConvertedStat> stats = new List<ConvertedStat>();
+        List<StatStruct> stats = new List<StatStruct>();
 
         foreach (var stat in GetAllStats())
         {
             if (!stat.IsUsed()) continue;
 
-            stats.Add(new ConvertedStat { mathType = stat.mathType, type = stat.GetSType(), value = stat.GetValue });
+            stats.Add(new StatStruct { mathType = stat.mathType, type = stat.GetSType(), value = stat.GetValue });
         }
 
         return stats.ToArray();
     }
 }
 
-public struct ConvertedStat
+public struct StatStruct
 {
     public StatType type;
     public ModMathType mathType;

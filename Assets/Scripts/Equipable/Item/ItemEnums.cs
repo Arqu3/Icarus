@@ -33,7 +33,7 @@ public enum InventoryInteraction
     Delete = 4
 }
 
-public enum Rarity
+public enum ItemRarity
 {
     Common = 0,
     Rare = 1,
