@@ -14,6 +14,19 @@ public class ItemModDataEditor : Editor
     ItemModData targetData;
     SerializedProperty listProperty;
 
+    bool drawDefault = false;
+
+    enum SortMode
+    {
+        None = -1,
+        Name = 0,
+        Type = 1,
+        StatType = 2,
+        Tier = 3
+    }
+
+    SortMode sortMode = SortMode.None;
+
     private void OnEnable()
     {
         targetData = target as ItemModData;
@@ -27,27 +40,36 @@ public class ItemModDataEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        drawDefault = EditorGUILayout.Toggle("Draw default editor", drawDefault);
+        if (drawDefault)
+        {
+            base.OnInspectorGUI();
+            return;
+        }
+
         serializedObject.Update();
 
         var col = GUI.backgroundColor;
         GUI.backgroundColor = Color.green;
         if (GUILayout.Button("Add new mod"))
         {
-            Add();
+            AddNew();
             return;
         }
         GUI.backgroundColor = col;
 
         EditorGUILayout.BeginHorizontal();
 
-        if (GUILayout.Button("Show all"))
-        {
-            for (int i = 0; i < targetData.showBools.Count; ++i) targetData.showBools[i] = true;
-        }
-        if (GUILayout.Button("Hide all"))
-        {
-            for (int i = 0; i < targetData.showBools.Count; ++i) targetData.showBools[i] = false;
-        }
+        if (GUILayout.Button("Show all")) ToggleAllShow(true);
+        if (GUILayout.Button("Hide all")) ToggleAllShow(false);
+
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+
+        EditorGUILayout.LabelField("Sort mode", EditorStyles.largeLabel);
+        if (GUILayout.Button("Sort")) Sort();
+        sortMode = (SortMode)EditorGUILayout.EnumPopup(sortMode);
 
         EditorGUILayout.EndHorizontal();
 
@@ -55,6 +77,8 @@ public class ItemModDataEditor : Editor
 
         if (targetData.mods.Count > 0)
         {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Mods", EditorStyles.whiteLargeLabel);
             for (int i = 0; i < targetData.mods.Count; ++i)
             {
                 var mod = targetData.mods[i];
@@ -76,6 +100,12 @@ public class ItemModDataEditor : Editor
                     }
                 }
                 GUI.backgroundColor = col;
+
+                if (GUILayout.Button("Copy"))
+                {
+                    AddCopy(i);
+                    break;
+                }
 
                 GUILayout.FlexibleSpace();
                 GUILayout.FlexibleSpace();
@@ -124,6 +154,39 @@ public class ItemModDataEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 
+    #region Sorting
+
+    void Sort()
+    {
+        if (sortMode != SortMode.None) Undo.RecordObject(targetData, "Sorted list");
+
+        switch (sortMode)
+        {
+            case SortMode.None:
+                break;
+            case SortMode.Name:
+                targetData.mods = targetData.mods.OrderBy(x => x.name).ToList();
+                break;
+            case SortMode.Type:
+                targetData.mods = targetData.mods.OrderBy(x => x.modType).ToList();
+                break;
+            case SortMode.StatType:
+                targetData.mods = targetData.mods.OrderBy(x => x.GetUsedStats().FirstOrDefault().type).ToList();
+                break;
+            case SortMode.Tier:
+                targetData.mods = targetData.mods.OrderBy(x => x.tier).ToList();
+                break;
+            default:
+                break;
+        }
+
+        ToggleAllShow(false);
+    }
+
+    #endregion
+
+    #region Add/remove
+
     void Remove(int index)
     {
         Undo.RecordObject(targetData, "Removed mod");
@@ -131,12 +194,38 @@ public class ItemModDataEditor : Editor
         targetData.showBools.RemoveAt(index);
     }
 
-    void Add()
+    void AddNew()
+    {
+        Add(new ItemMod());
+    }
+
+    void AddCopy(int index)
+    {
+        AddCopy(targetData.mods[index]);
+    }
+
+    void AddCopy(ItemMod mod)
+    {
+        Add(mod);
+    }
+
+    void Add(ItemMod mod)
     {
         Undo.RecordObject(targetData, "Added mod");
-        targetData.mods.Add(new ItemMod());
+        targetData.mods.Add(mod);
         targetData.showBools.Add(true);
     }
+
+    #endregion
+
+    #region Help func
+
+    void ToggleAllShow(bool show)
+    {
+        for (int i = 0; i < targetData.showBools.Count; ++i) targetData.showBools[i] = show;
+    }
+
+    #endregion
 }
 
 #endif

@@ -86,3 +86,16 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 PhotoshopFiles/
+Assets/AmplifyShaderEditor/Examples/HD SRP Samples.unitypackage.meta
+Assets/AmplifyShaderEditor/Examples/LW SRP Samples.unitypackage.meta
+Assets/AmplifyShaderEditor/Examples/Official/CustomRTRain/Custom RT Samples.unitypackage.meta
+Assets/AmplifyShaderEditor/Examples/Official/Mosaic Effect PPS/MosaicEffectPPS.unitypackage.meta
+Assets/AmplifyShaderEditor/Examples/Official/SimpleTerrain/ApplyGrassWindToTerrain.unitypackage.meta
+Assets/AmplifyShaderEditor/Examples/Official/Substance/LegacySubstanceExample.unitypackage.meta
+Assets/AmplifyShaderEditor/Examples/Official/Substance2018/Substance2018.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/CustomRTTemplates.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/PPStackTemplates.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/SRP/HDSRPTemplates (Legacy).unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/SRP/HDSRPTemplates.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/SRP/LWSRPTemplates (Legacy).unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/SRP/LWSRPTemplates.unitypackage.meta

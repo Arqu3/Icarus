@@ -82,20 +82,23 @@ public class HeroEntity : BaseEntity
                 break;
         }
 
-        switch (secondaryRole)
+        if (secondaryRole != mainRole)
         {
-            case HeroRole.None:
-                break;
-            case HeroRole.Tank:
-                break;
-            case HeroRole.Support:
-                break;
-            case HeroRole.DamageDealer:
-                break;
-            case HeroRole.Healer:
-                break;
-            default:
-                break;
+            switch (secondaryRole)
+            {
+                case HeroRole.None:
+                    break;
+                case HeroRole.Tank:
+                    break;
+                case HeroRole.Support:
+                    break;
+                case HeroRole.DamageDealer:
+                    break;
+                case HeroRole.Healer:
+                    break;
+                default:
+                    break;
+            }
         }
 
         currentAction = mainAction;
@@ -105,8 +108,7 @@ public class HeroEntity : BaseEntity
     {
         base.Start();
 
-        var inventory = new EntityInventory();
-        for(int i = 0; i < 3; ++i) equipmentSlots.Add(new EquipmentSlot(GetModifier(), inventory));
+        for(int i = 0; i < 3; ++i) equipmentSlots.Add(new EquipmentSlot(GetModifier(), FindObjectOfType<BasePlayer>().Inventory));
         foreach (var s in equipmentSlots)
         {
             var item = ItemCreator.CreateRandomItem();

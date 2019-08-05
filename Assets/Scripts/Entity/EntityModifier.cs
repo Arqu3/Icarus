@@ -10,15 +10,24 @@ public class EntityModifier
     BaseStatProvider statProvider;
     bool allowHealth, allowResource, allowStat;
 
-    List<IStatDecorator> statDecorators = new List<IStatDecorator>();
+    List<List<IStatDecorator>> sortedStatDecorators = new List<List<IStatDecorator>>();
+    List<List<IHealthDecorator>> sortedHealthDecorators = new List<List<IHealthDecorator>>();
+
+    //List<IStatDecorator> statDecorators = new List<IStatDecorator>();
     List<IResourceDecorator> resourceDecorators = new List<IResourceDecorator>();
-    List<IHealthDecorator> healthDecorators = new List<IHealthDecorator>();
+    //List<IHealthDecorator> healthDecorators = new List<IHealthDecorator>();
 
     public EntityModifier(BaseEntityHealthProvider healthProvider, BaseEntityResourceProvider resourceProvider, BaseStatProvider statProvider)
     {
         this.statProvider = statProvider;
         this.healthProvider = healthProvider;
         this.resourceProvider = resourceProvider;
+
+        for (int i = 0; i < 3; ++i)
+        {
+            sortedStatDecorators.Add(new List<IStatDecorator>());
+            sortedHealthDecorators.Add(new List<IHealthDecorator>());
+        }
 
         allowHealth = healthProvider != null;
         allowResource = resourceProvider != null;
@@ -29,32 +38,50 @@ public class EntityModifier
 
     public void RemoveAll()
     {
-        statDecorators.Clear();
-        healthDecorators.Clear();
+        sortedStatDecorators.ForEach(x => x.Clear());
+        sortedHealthDecorators.ForEach(x => x.Clear());
         resourceDecorators.Clear();
     }
 
-    void RemoveDecoratorAtIndex<TDecorator, TProvider>(List<TDecorator> decorators, int index, TProvider baseProvider)
+    //void RemoveDecoratorAtIndex<TDecorator, TProvider>(List<TDecorator> decorators, int index, TProvider baseProvider)
+    //    where TProvider : BaseProvider
+    //    where TDecorator : IDecorator<TProvider>
+    //{
+    //    if (index >= decorators.Count || index < 0)
+    //    {
+    //        Debug.LogError("Index out of range " + index + " " + decorators.Count);
+    //        return;
+    //    }
+
+    //    if (index + 1 < decorators.Count && index - 1 >= 0) decorators[index + 1].provider = decorators[index - 1] as TProvider;
+    //    else if (index == 0 && decorators.Count > 1) decorators[index + 1].provider = baseProvider;
+
+    //    decorators.RemoveAt(index);
+    //}
+
+
+    void RemoveDecorator<TDecorator, TProvider>(List<List<TDecorator>> decorators, TDecorator decorator, TProvider baseProvider)
         where TProvider : BaseProvider
         where TDecorator : IDecorator<TProvider>
     {
-        if (index >= decorators.Count || index < 0)
+        foreach(var sublist in decorators)
         {
-            Debug.LogError("Index out of range " + index + " " + decorators.Count);
-            return;
+            if (sublist.Contains(decorator))
+            {
+                sublist.Remove(decorator);
+                break;
+            }
         }
 
-        if (index + 1 < decorators.Count && index - 1 >= 0) decorators[index + 1].provider = decorators[index - 1] as TProvider;
-        else if (index == 0 && decorators.Count > 1) decorators[index + 1].provider = baseProvider;
+        List<TDecorator> builtList = new List<TDecorator>();
+        decorators.ForEach(x =>
+        {
+            x.ForEach(y => builtList.Add(y));
+        });
 
-        decorators.RemoveAt(index);
-    }
+        if (builtList.Count > 0) builtList[0].provider = baseProvider;
 
-    void RemoveDecorator<TDecorator, TProvider>(List<TDecorator> decorators, TDecorator decorator, TProvider baseProvider)
-        where TProvider : BaseProvider
-        where TDecorator : IDecorator<TProvider>
-    {
-        RemoveDecoratorAtIndex(decorators, decorators.IndexOf(decorator), baseProvider);
+        for (int i = 0; i < builtList.Count - 1; i++) builtList[i + 1].provider = builtList[i] as TProvider;
     }
 
     #endregion
@@ -86,15 +113,17 @@ public class EntityModifier
         {
             case StatType.Health:
 
-                if (add) healthDecorators.Add(hpDec = new HealthAddDecorator(h, (int)value));
-                else healthDecorators.Add(hpDec = new HealthMultiDecorator(h, value));
+                if (add) hpDec = new HealthAddDecorator(h, (int)value);
+                else hpDec = new HealthMultiDecorator(h, value);
+                AddDecoratorSorted(sortedHealthDecorators, hpDec, healthProvider, ModMathType.Additive);
 
                 break;
             case StatType.ActionCooldown:
             case StatType.Resource:
             case StatType.Power:
 
-                statDecorators.Add(statDec = new SingleStatDecorator(p, stat.type, stat.mathType, value));
+                statDec = new SingleStatDecorator(p, stat.type, stat.mathType, value);
+                AddDecoratorSorted(sortedStatDecorators, statDec, statProvider, stat.mathType);
 
                 break;
             default:
@@ -102,27 +131,75 @@ public class EntityModifier
         }
     }
 
+    //Additive - multiplicative - other
+    void AddDecoratorSorted<TDecorator, TProvider>(List<List<TDecorator>> decorators, TDecorator decorator, TProvider baseProvider, ModMathType mathtype)
+        where TProvider : BaseProvider
+        where TDecorator : IDecorator<TProvider>
+    {
+        if (decorator as SingleStatDecorator != null)
+        {
+            switch (mathtype)
+            {
+                case ModMathType.Additive:
+                    AddDecoratorToSingle(decorators, 0, decorator, baseProvider);
+                    break;
+                case ModMathType.Multiplicative:
+                    AddDecoratorToSingle(decorators, 1, decorator, decorators[0].Count > 0 ? decorators[0].Last() as TProvider : baseProvider);
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (decorator as HealthAddDecorator != null) AddDecoratorToSingle(decorators, 0, decorator, baseProvider);
+        else if (decorator as HealthMultiDecorator != null) AddDecoratorToSingle(decorators, 1, decorator, decorators[0].Count > 0 ? decorators[0].Last() as TProvider : baseProvider);
+        else
+        {
+            Debug.Log(typeof(TDecorator));
+            AddDecoratorToSingle(decorators, 2, decorator, decorators[1].Count > 0 ? decorators[1].Last() as TProvider : baseProvider);
+        }
+    }
+
+    void AddDecoratorToSingle<TDecorator, TProvider>(List<List<TDecorator>> decorators, int subIndex, TDecorator decorator, TProvider baseProvider)
+        where TProvider : BaseProvider
+        where TDecorator : IDecorator<TProvider>
+    {
+        decorator.provider = decorators[subIndex].Count > 0 ? decorators[subIndex].Last() as TProvider : baseProvider;
+        decorators[subIndex].Add(decorator);
+        if (subIndex != decorators.Count - 1)
+        {
+            if (decorators[subIndex + 1].Count > 0) decorators[subIndex + 1].First().provider = decorator as TProvider;
+        }
+    }
+
     public void RemoveItem(EquipableItem item)
     {
-        foreach (var stat in item.statDecorators) RemoveDecorator(statDecorators, stat, statProvider);
-        foreach (var hp in item.healthDecorators) RemoveDecorator(healthDecorators, hp, healthProvider);
+        foreach (var stat in item.statDecorators) RemoveDecorator(sortedStatDecorators, stat, statProvider);
+        foreach (var hp in item.healthDecorators) RemoveDecorator(sortedHealthDecorators, hp, healthProvider);
     }
 
     #region Current
 
     public BaseStatProvider GetCurrentStatProvider()
     {
-        return statDecorators.Count > 0 ? statDecorators.Last() as BaseStatProvider : statProvider;
+        return GetProvider(sortedStatDecorators, statProvider);
     }
 
     public BaseEntityHealthProvider GetCurrentHealthProvider()
     {
-        return healthDecorators.Count > 0 ? healthDecorators.Last() as BaseEntityHealthProvider : healthProvider;
+        return GetProvider(sortedHealthDecorators, healthProvider);
     }
 
     public BaseEntityResourceProvider GetCurrentResourceProvider()
     {
         return resourceDecorators.Count > 0 ? resourceDecorators.Last() as BaseEntityResourceProvider : resourceProvider;
+    }
+
+    TProvider GetProvider<TDecorator, TProvider>(List<List<TDecorator>> list, TProvider baseProvider) 
+        where TProvider : BaseProvider
+        where TDecorator : IDecorator<TProvider>
+    {
+        if (list.Select(x => x.Count).Sum() > 0) return (from s in list where s.Count > 0 select s).Last().Last() as TProvider;
+        else return baseProvider;
     }
 
     #endregion

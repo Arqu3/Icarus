@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityInventory : BaseInventory
+public class PlayerInventory : BaseInventory
 {
     [SerializeField]
     List<EquipableItem> items = new List<EquipableItem>();

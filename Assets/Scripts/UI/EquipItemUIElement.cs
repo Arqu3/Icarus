@@ -43,10 +43,11 @@ public class EquipItemUIElement : MonoBehaviour
         {
             foreach(var s in p) stats.Remove(s);
 
-            float sum = p.Select(x => x.value).Sum();
+            bool add = p.First().mathType == ModMathType.Additive;
+
+            float sum = add ? p.Select(x => x.value).Sum() : p.Select(x => x.value).Aggregate(1f, (y, z) => y * z);
             StatType type = p.First().type;
 
-            bool add = p.First().mathType == ModMathType.Additive;
             string toAdd = "";
 
             if (add) toAdd += Additive(sum);
