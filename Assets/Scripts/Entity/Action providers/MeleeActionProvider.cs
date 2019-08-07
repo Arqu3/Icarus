@@ -50,7 +50,7 @@ public class MeleeActionProvider : BaseActionProvider
         StartCooldown();
     }
 
-    public override BaseStatProvider CreateBaseStatProvider()
+    public override IStatProvider CreateBaseStatProvider()
     {
         var data = HeroMeleeData.Instance;
         return new DefaultStatProvider(data.Power, data.ResourceGain, data.ActionCooldown, data.Range);

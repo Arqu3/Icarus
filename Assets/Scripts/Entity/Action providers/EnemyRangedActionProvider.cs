@@ -8,7 +8,7 @@ public class EnemyRangedActionProvider : RangedActionProvider
     {
     }
 
-    public override BaseStatProvider CreateBaseStatProvider()
+    public override IStatProvider CreateBaseStatProvider()
     {
         var data = EnemyRangedData.Instance;
         return new RangedStatProvider(data.Power, data.ResourceGain, data.ActionCooldown, 1, data.Range);

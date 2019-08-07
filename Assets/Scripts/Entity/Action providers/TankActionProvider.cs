@@ -23,7 +23,7 @@ public class TankActionProvider : BaseActionProvider
         }
     }
 
-    public override BaseStatProvider CreateBaseStatProvider()
+    public override IStatProvider CreateBaseStatProvider()
     {
         var data = HeroTankData.Instance;
         return new DefaultStatProvider(data.Power, data.ResourceGain, data.ActionCooldown, data.Range);

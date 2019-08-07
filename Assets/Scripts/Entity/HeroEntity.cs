@@ -119,7 +119,7 @@ public class HeroEntity : BaseEntity
 
     protected override EntityModifier CreateModifier()
     {
-        return new EntityModifier((BaseEntityHealthProvider)baseHealthProvider, (BaseEntityResourceProvider)baseResourceProvider, mainAction.CreateBaseStatProvider());
+        return new EntityModifier(baseHealthProvider, baseResourceProvider, mainAction.CreateBaseStatProvider());
     }
 
     protected override void Update()

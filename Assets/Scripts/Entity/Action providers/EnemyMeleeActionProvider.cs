@@ -8,7 +8,7 @@ public class EnemyMeleeActionProvider : MeleeActionProvider
     {
     }
 
-    public override BaseStatProvider CreateBaseStatProvider()
+    public override IStatProvider CreateBaseStatProvider()
     {
         var data = EnemyMeleeData.Instance;
         return new DefaultStatProvider(data.Power, data.ResourceGain, data.ActionCooldown, data.Range);

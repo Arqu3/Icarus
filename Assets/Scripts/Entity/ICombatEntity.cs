@@ -5,6 +5,7 @@ using UnityEngine;
 public interface ICombatEntity
 {
     int Health { get; }
+    int MaxHealth { get; }
     float HealthPercentage { get; }
     void GiveHealth(int amount);
     void GiveHealthPercentage(float percentage);

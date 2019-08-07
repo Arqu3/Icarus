@@ -4,4 +4,5 @@ using UnityEngine;
 
 public interface IHealthDecorator : IDecorator<BaseEntityHealthProvider>
 {
+
 }

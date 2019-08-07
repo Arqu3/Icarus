@@ -40,7 +40,7 @@ public class HealingActionProvider : BaseActionProvider
         }
     }
 
-    public override BaseStatProvider CreateBaseStatProvider()
+    public override IStatProvider CreateBaseStatProvider()
     {
         var data = HeroHealingData.Instance;
         return new DefaultStatProvider(data.Power, data.ResourceGain, data.ActionCooldown, data.Range);

@@ -76,6 +76,7 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     #region Combat entity interface
 
+    public virtual int MaxHealth => CurrentHealthProvider != null ? CurrentHealthProvider.GetMax() : 0;
     public virtual int Health => CurrentHealthProvider != null ? CurrentHealthProvider.GetCurrent() : 0;
     public virtual float HealthPercentage => CurrentHealthProvider != null ? CurrentHealthProvider.GetPercentage() : 0f;
     public abstract float Resource { get; }

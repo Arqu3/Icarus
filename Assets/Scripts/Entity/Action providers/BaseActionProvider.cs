@@ -8,12 +8,11 @@ public abstract class BaseActionProvider : IActionProvider
 {
     [System.Obsolete("cyclic, rework later")]
     protected ICombatEntity owner;
-
     protected NavMeshAgent agent;
-
     protected float actionTimestamp;
+    protected virtual IStatProvider CurrentStatProvider => owner.GetModifier().GetCurrentStatProvider();
 
-    protected virtual BaseStatProvider CurrentStatProvider => owner.GetModifier().GetCurrentStatProvider();
+    public const float MinimumActionCooldown = 0.1f;
 
     public BaseActionProvider(ICombatEntity owner)
     {
@@ -41,13 +40,13 @@ public abstract class BaseActionProvider : IActionProvider
     {
         actionTimestamp = Time.time;
     }
-    protected bool IsOnCooldown => Time.time - actionTimestamp < CurrentStatProvider.GetActionCooldown();
+    protected bool IsOnCooldown => Time.time - actionTimestamp < Mathf.Max(CurrentStatProvider.GetActionCooldown(), MinimumActionCooldown);
 
     #endregion
 
     #region Power/resource
 
-    public abstract BaseStatProvider CreateBaseStatProvider();
+    public abstract IStatProvider CreateBaseStatProvider();
     protected virtual float SpecialResourcePercentageCost => 0.99f;
 
     #endregion

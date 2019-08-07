@@ -23,7 +23,7 @@ public class ResourceDecorator : BaseEntityResourceProvider, IResourceDecorator
 
     public override float GetPercentage()
     {
-        return provider.GetPercentage();
+        return GetCurrent() / GetMax();
     }
 
     public override void Give(float amount)

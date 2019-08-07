@@ -25,7 +25,7 @@ public class SupportActionProvider : BaseActionProvider
         }
     }
 
-    public override BaseStatProvider CreateBaseStatProvider()
+    public override IStatProvider CreateBaseStatProvider()
     {
         var data = HeroSupportData.Instance;
         return new DefaultStatProvider(data.Power, data.ResourceGain, data.ActionCooldown, data.Range);

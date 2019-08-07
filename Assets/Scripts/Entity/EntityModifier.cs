@@ -17,11 +17,11 @@ public class EntityModifier
     List<IResourceDecorator> resourceDecorators = new List<IResourceDecorator>();
     //List<IHealthDecorator> healthDecorators = new List<IHealthDecorator>();
 
-    public EntityModifier(BaseEntityHealthProvider healthProvider, BaseEntityResourceProvider resourceProvider, BaseStatProvider statProvider)
+    public EntityModifier(IEntityHealthProvider healthProvider, IEntityResourceProvider resourceProvider, IStatProvider statProvider)
     {
-        this.statProvider = statProvider;
-        this.healthProvider = healthProvider;
-        this.resourceProvider = resourceProvider;
+        this.statProvider = statProvider as BaseStatProvider;
+        this.healthProvider = healthProvider as BaseEntityHealthProvider;
+        this.resourceProvider = resourceProvider as BaseEntityResourceProvider;
 
         for (int i = 0; i < 3; ++i)
         {
@@ -103,8 +103,6 @@ public class EntityModifier
     {
         var value = stat.value;
         bool add = stat.mathType == ModMathType.Additive;
-        var p = GetCurrentStatProvider();
-        var h = GetCurrentHealthProvider();
 
         hpDec = null;
         statDec = null;
@@ -113,8 +111,8 @@ public class EntityModifier
         {
             case StatType.Health:
 
-                if (add) hpDec = new HealthAddDecorator(h, (int)value);
-                else hpDec = new HealthMultiDecorator(h, value);
+                if (add) hpDec = new HealthAddDecorator(null, (int)value);
+                else hpDec = new HealthMultiDecorator(null, value);
                 AddDecoratorSorted(sortedHealthDecorators, hpDec, healthProvider, ModMathType.Additive);
 
                 break;
@@ -122,7 +120,7 @@ public class EntityModifier
             case StatType.Resource:
             case StatType.Power:
 
-                statDec = new SingleStatDecorator(p, stat.type, stat.mathType, value);
+                statDec = new SingleStatDecorator(null, stat.type, stat.mathType, value);
                 AddDecoratorSorted(sortedStatDecorators, statDec, statProvider, stat.mathType);
 
                 break;
@@ -179,17 +177,17 @@ public class EntityModifier
 
     #region Current
 
-    public BaseStatProvider GetCurrentStatProvider()
+    public IStatProvider GetCurrentStatProvider()
     {
         return GetProvider(sortedStatDecorators, statProvider);
     }
 
-    public BaseEntityHealthProvider GetCurrentHealthProvider()
+    public IEntityHealthProvider GetCurrentHealthProvider()
     {
         return GetProvider(sortedHealthDecorators, healthProvider);
     }
 
-    public BaseEntityResourceProvider GetCurrentResourceProvider()
+    public IEntityResourceProvider GetCurrentResourceProvider()
     {
         return resourceDecorators.Count > 0 ? resourceDecorators.Last() as BaseEntityResourceProvider : resourceProvider;
     }
@@ -201,6 +199,28 @@ public class EntityModifier
         if (list.Select(x => x.Count).Sum() > 0) return (from s in list where s.Count > 0 select s).Last().Last() as TProvider;
         else return baseProvider;
     }
+
+    #endregion
+
+    #region Debug
+
+#if UNITY_EDITOR
+
+    public void OutputHealthDecorators()
+    {
+        foreach(var list in sortedHealthDecorators)
+        {
+            foreach(var dec in list)
+            {
+                Debug.Log(dec);
+                Debug.Log(dec.provider.GetCurrent());
+                Debug.Log(dec.provider.GetMax());
+                Debug.Log(dec.provider.GetPercentage());
+            }
+        }
+    }
+
+#endif
 
     #endregion
 }

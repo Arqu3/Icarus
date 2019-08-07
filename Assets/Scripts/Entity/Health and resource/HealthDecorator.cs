@@ -23,7 +23,7 @@ public class HealthDecorator : BaseEntityHealthProvider, IHealthDecorator
 
     public override float GetPercentage()
     {
-        return provider.GetPercentage();
+        return (float)GetCurrent() / GetMax();
     }
 
     public override void Give(int amount)
