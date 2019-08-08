@@ -113,7 +113,7 @@ public class HeroEntity : BaseEntity
         {
             var item = ItemCreator.CreateRandomItem();
             s.Equip(item);
-            if (Random.Range(0f, 1f) < 0.33f) s.UnEquip(item);
+            //if (Random.Range(0f, 1f) < 0.33f) s.UnEquip(item);
         }
     }
 

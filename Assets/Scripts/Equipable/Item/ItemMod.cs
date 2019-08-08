@@ -29,7 +29,6 @@ public struct ItemMod
         foreach (var stat in GetAllStats())
         {
             if (!stat.IsUsed()) continue;
-
             stats.Add(new StatStruct { mathType = stat.mathType, type = stat.GetSType(), value = stat.GetValue });
         }
 

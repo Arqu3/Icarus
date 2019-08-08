@@ -149,6 +149,18 @@ public class ItemModDataEditor : Editor
 
                 EditorGUILayout.Space();
             }
+
+            if (GUILayout.Button("Validate mods"))
+            {
+                var unusedMods = (from m in targetData.mods where m.GetUsedStats().Count() == 0 select m).ToArray();
+                if (unusedMods.Length == 0) Debug.Log("No unused mods found");
+                else
+                {
+                    Debug.Log("----FOUND UNUSED MODS----");
+                    unusedMods.ToList().ForEach(x => Debug.Log(x.name));
+                    Debug.Log("----END OF WARNING----");
+                }
+            }
         }
 
         serializedObject.ApplyModifiedProperties();
@@ -201,12 +213,7 @@ public class ItemModDataEditor : Editor
 
     void AddCopy(int index)
     {
-        AddCopy(targetData.mods[index]);
-    }
-
-    void AddCopy(ItemMod mod)
-    {
-        Add(mod);
+        Add(ObjectCopier.Clone(targetData.mods[index]));
     }
 
     void Add(ItemMod mod)

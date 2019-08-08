@@ -7,9 +7,9 @@
 public enum StatType
 {
     Health = 0,
-    ActionCooldown = 1,
-    Resource = 2,
-    Power = 3
+    Power = 1,
+    ActionCooldown = 2,
+    Resource = 3,
 }
 
 public enum ModMathType

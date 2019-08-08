@@ -4,6 +4,12 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 
+struct StatText
+{
+    public StatType type;
+    public string text;
+}
+
 public class EquipItemUIElement : MonoBehaviour
 {
     [SerializeField]
@@ -26,22 +32,35 @@ public class EquipItemUIElement : MonoBehaviour
 
     public void SetItem(EquipableItem item)
     {
-        SetHeader(item.ToString() + "\n" + item.rarity);
+        ItemStringBuilder.Build(item, out string header, out string body, out string extra);
+        SetHeader(header);
+        SetBody(body);
+        SetExtra(extra);
+    }
+}
+
+public static class ItemStringBuilder
+{
+    public static void Build(EquipableItem item, out string header, out string body, out string extra)
+    {
+        header = "Item\n" + item.rarity;
+        extra = "Generated Item";
 
         var stats = item.GetUsedStats().ToList();
-        string body = "";
+        body = "";
+        List<StatText> statTexts = new List<StatText>();
 
         var sameMath = stats.GroupBy(x => x.mathType).Where(y => y.Count() > 1).Select(y => y.ToArray()).ToArray();
         List<StatStruct[]> pairs = new List<StatStruct[]>();
         foreach (var stat in sameMath)
         {
             var pair = stat.GroupBy(x => x.type).Where(y => y.Count() > 1).Select(y => y.ToArray()).ToArray();
-            foreach(var p in pair) pairs.Add(p);
+            foreach (var p in pair) pairs.Add(p);
         }
 
         foreach (var p in pairs)
         {
-            foreach(var s in p) stats.Remove(s);
+            foreach (var s in p) stats.Remove(s);
 
             bool add = p.First().mathType == ModMathType.Additive;
 
@@ -71,8 +90,7 @@ public class EquipItemUIElement : MonoBehaviour
                     break;
             }
 
-            body += toAdd;
-            body += "\n";
+            statTexts.Add(new StatText { text = toAdd, type = p.First().type });
         }
 
         for (int i = 0; i < stats.Count; ++i)
@@ -102,25 +120,28 @@ public class EquipItemUIElement : MonoBehaviour
                     break;
             }
 
-            body += toAdd;
-            if (i < stats.Count - 1) body += "\n";
+            statTexts.Add(new StatText { text = toAdd, type = stat.type });
         }
 
-        SetBody(body);
-        SetExtra("Randomly generated item");
+        statTexts = statTexts.OrderBy(x => x.type).ToList();
+        for (int i = 0; i < statTexts.Count; ++i)
+        {
+            body += statTexts[i].text;
+            if (i != statTexts.Count - 1) body += "\n";
+        }
     }
 
     #region Help functions
 
-    string Multiplicative(float value)
+    static string Multiplicative(float value)
     {
         float formattedValue = Mathf.Abs((value - 1f) * 100f);
-        return formattedValue + "%" + (value > 1f ? " Increased" : " Reduced");
+        return formattedValue.ToString("0.##") + "%" + (value > 1f ? " Increased" : " Reduced");
     }
 
-    string Additive(float value)
+    static string Additive(float value)
     {
-        return (value > 0 ? "+" : "") + value;
+        return (value > 0 ? "+" : "") + value.ToString("0.##");
     }
 
     #endregion
