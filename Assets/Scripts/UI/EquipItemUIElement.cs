@@ -72,23 +72,7 @@ public static class ItemStringBuilder
             if (add) toAdd += Additive(sum);
             else toAdd += Multiplicative(sum);
 
-            switch (p.First().type)
-            {
-                case StatType.Health:
-                    toAdd += " Health";
-                    break;
-                case StatType.ActionCooldown:
-                    toAdd += " Action Cooldown";
-                    break;
-                case StatType.Resource:
-                    toAdd += " Resource Gain";
-                    break;
-                case StatType.Power:
-                    toAdd += " Power";
-                    break;
-                default:
-                    break;
-            }
+            toAdd += GetStatSuffixText(p.First().type);
 
             statTexts.Add(new StatText { text = toAdd, type = p.First().type });
         }
@@ -102,23 +86,7 @@ public static class ItemStringBuilder
             if (add) toAdd += Additive(stat.value);
             else toAdd += Multiplicative(stat.value);
 
-            switch (stat.type)
-            {
-                case StatType.Health:
-                    toAdd += " Health";
-                    break;
-                case StatType.ActionCooldown:
-                    toAdd += " Action Cooldown";
-                    break;
-                case StatType.Resource:
-                    toAdd += " Resource Gain";
-                    break;
-                case StatType.Power:
-                    toAdd += " Power";
-                    break;
-                default:
-                    break;
-            }
+            toAdd += GetStatSuffixText(stat.type);
 
             statTexts.Add(new StatText { text = toAdd, type = stat.type });
         }
@@ -132,6 +100,34 @@ public static class ItemStringBuilder
     }
 
     #region Help functions
+
+    static string GetStatSuffixText(StatType type)
+    {
+        string suffix = "";
+
+        switch (type)
+        {
+            case StatType.Health:
+                suffix = " Health";
+                break;
+            case StatType.ActionCooldown:
+                suffix = " Action Cooldown";
+                break;
+            case StatType.Resource:
+                suffix = " Resource Gain";
+                break;
+            case StatType.Power:
+                suffix = " Power";
+                break;
+            case StatType.Range:
+                Debug.LogWarning("NO RANGE");
+                break;
+            default:
+                break;
+        }
+
+        return suffix;
+    }
 
     static string Multiplicative(float value)
     {

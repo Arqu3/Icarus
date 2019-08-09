@@ -10,6 +10,7 @@ public enum StatType
     Power = 1,
     ActionCooldown = 2,
     Resource = 3,
+    Range = 4
 }
 
 public enum ModMathType

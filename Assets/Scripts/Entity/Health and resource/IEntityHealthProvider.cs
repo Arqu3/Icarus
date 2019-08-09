@@ -8,4 +8,7 @@
     void GivePercentage(float percentage);
     DamageResult Remove(int amount);
     DamageResult RemovePercentage(float percentage);
+
+    int GetRegenAmount();
+    float GetRegenInterval();
 }

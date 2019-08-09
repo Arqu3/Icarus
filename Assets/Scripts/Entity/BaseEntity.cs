@@ -28,14 +28,17 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     ObjectFlash flash;
     NavMeshAgent agent;
     int locks;
+    float regenTimestamp = 0f;
 
     #endregion
 
     protected virtual void Awake()
     {
         baseHealthProvider = new EntityHealthProvider(startHealth);
-        flash = GetComponent<ObjectFlash>();
+        //Needed to make sure that the internal logics of this provider are properly updated no matter what provider is active
+        (baseHealthProvider as EntityHealthProvider).GetCurrentProvider = () => CurrentHealthProvider;
 
+        flash = GetComponent<ObjectFlash>();
         agent = GetComponent<NavMeshAgent>();
         if (agent) agent.updateUpAxis = false;
     }
@@ -47,7 +50,13 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     protected virtual void Update()
     {
-        if (IsStopped()) return;
+        if (Time.time - regenTimestamp > CurrentHealthProvider.GetRegenInterval())
+        {
+            GiveHealth(CurrentHealthProvider.GetRegenAmount());
+            regenTimestamp = Time.time;
+        }
+
+        if (IsStopped() || !Valid) return;
 
         currentAction?.Update();
     }

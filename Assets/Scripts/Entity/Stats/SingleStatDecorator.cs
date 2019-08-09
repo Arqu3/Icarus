@@ -35,4 +35,10 @@ public class SingleStatDecorator : BaseStatDecorator
         if (statType != StatType.Resource) return base.GetResourceGain();
         else return MathType == ModMathType.Additive ? base.GetResourceGain() + value : base.GetResourceGain() * value;
     }
+
+    public override float GetRange()
+    {
+        if (statType != StatType.Range) return base.GetRange();
+        else return MathType == ModMathType.Additive ? base.GetRange() + value : base.GetRange() * value;
+    }
 }

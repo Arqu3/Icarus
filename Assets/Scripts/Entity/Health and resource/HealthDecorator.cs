@@ -45,4 +45,14 @@ public class HealthDecorator : BaseEntityHealthProvider, IHealthDecorator
     {
         return provider.RemovePercentage(percentage);
     }
+
+    public override int GetRegenAmount()
+    {
+        return provider.GetRegenAmount();
+    }
+
+    public override float GetRegenInterval()
+    {
+        return provider.GetRegenInterval();
+    }
 }

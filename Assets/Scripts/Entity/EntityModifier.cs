@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class EntityModifier
 {
@@ -12,10 +11,7 @@ public class EntityModifier
 
     List<List<IStatDecorator>> sortedStatDecorators = new List<List<IStatDecorator>>();
     List<List<IHealthDecorator>> sortedHealthDecorators = new List<List<IHealthDecorator>>();
-
-    //List<IStatDecorator> statDecorators = new List<IStatDecorator>();
     List<IResourceDecorator> resourceDecorators = new List<IResourceDecorator>();
-    //List<IHealthDecorator> healthDecorators = new List<IHealthDecorator>();
 
     public EntityModifier(IEntityHealthProvider healthProvider, IEntityResourceProvider resourceProvider, IStatProvider statProvider)
     {
@@ -43,33 +39,16 @@ public class EntityModifier
         resourceDecorators.Clear();
     }
 
-    //void RemoveDecoratorAtIndex<TDecorator, TProvider>(List<TDecorator> decorators, int index, TProvider baseProvider)
-    //    where TProvider : BaseProvider
-    //    where TDecorator : IDecorator<TProvider>
-    //{
-    //    if (index >= decorators.Count || index < 0)
-    //    {
-    //        Debug.LogError("Index out of range " + index + " " + decorators.Count);
-    //        return;
-    //    }
 
-    //    if (index + 1 < decorators.Count && index - 1 >= 0) decorators[index + 1].provider = decorators[index - 1] as TProvider;
-    //    else if (index == 0 && decorators.Count > 1) decorators[index + 1].provider = baseProvider;
-
-    //    decorators.RemoveAt(index);
-    //}
-
-
-    void RemoveDecorator<TDecorator, TProvider>(List<List<TDecorator>> decorators, TDecorator decorator, TProvider baseProvider)
+    void RemoveDecorator<TDecorator, TProvider>(List<List<TDecorator>> decorators, TDecorator[] decoratorsToRemove, TProvider baseProvider)
         where TProvider : BaseProvider
         where TDecorator : IDecorator<TProvider>
     {
         foreach(var sublist in decorators)
         {
-            if (sublist.Contains(decorator))
+            foreach (var decorator in decoratorsToRemove)
             {
                 sublist.Remove(decorator);
-                break;
             }
         }
 
@@ -92,14 +71,14 @@ public class EntityModifier
         {
             foreach(var stat in mod.GetUsedStats())
             {
-                EvaluateStatDecorator(stat, out IHealthDecorator hpDec, out IStatDecorator statDec);
+                CreateDecoratorsFromStat(stat, out IHealthDecorator hpDec, out IStatDecorator statDec);
                 if (hpDec != null) item.healthDecorators.Add(hpDec);
                 if (statDec != null) item.statDecorators.Add(statDec);
             }
         }
     }
 
-    void EvaluateStatDecorator(StatStruct stat, out IHealthDecorator hpDec, out IStatDecorator statDec)
+    void CreateDecoratorsFromStat(StatStruct stat, out IHealthDecorator hpDec, out IStatDecorator statDec)
     {
         var value = stat.value;
         bool add = stat.mathType == ModMathType.Additive;
@@ -119,6 +98,7 @@ public class EntityModifier
             case StatType.ActionCooldown:
             case StatType.Resource:
             case StatType.Power:
+            case StatType.Range:
 
                 statDec = new SingleStatDecorator(null, stat.type, stat.mathType, value);
                 AddDecoratorSorted(sortedStatDecorators, statDec, statProvider, stat.mathType);
@@ -152,7 +132,6 @@ public class EntityModifier
         else if (decorator as HealthMultiDecorator != null) AddDecoratorToSingle(decorators, 1, decorator, decorators[0].Count > 0 ? decorators[0].Last() as TProvider : baseProvider);
         else
         {
-            Debug.Log(typeof(TDecorator));
             AddDecoratorToSingle(decorators, 2, decorator, decorators[1].Count > 0 ? decorators[1].Last() as TProvider : baseProvider);
         }
     }
@@ -169,10 +148,29 @@ public class EntityModifier
         }
     }
 
+    public void AddDecorator(IStatDecorator dec, ModMathType mathtype)
+    {
+        AddDecoratorSorted(sortedStatDecorators, dec, statProvider, mathtype);
+    }
+    public void AddDecorator(IHealthDecorator dec)
+    {
+        AddDecoratorSorted(sortedHealthDecorators, dec, healthProvider, ModMathType.Additive);
+    }
+    public void RemoveDecorator(IStatDecorator dec)
+    {
+        RemoveDecorator(sortedStatDecorators, new[] { dec }, statProvider);
+    }
+    public void RemoveDecorator(IHealthDecorator dec)
+    {
+        RemoveDecorator(sortedHealthDecorators, new[] { dec }, healthProvider);
+    }
+
     public void RemoveItem(EquipableItem item)
     {
-        foreach (var stat in item.statDecorators) RemoveDecorator(sortedStatDecorators, stat, statProvider);
-        foreach (var hp in item.healthDecorators) RemoveDecorator(sortedHealthDecorators, hp, healthProvider);
+        RemoveDecorator(sortedStatDecorators, item.statDecorators.ToArray(), statProvider);
+        RemoveDecorator(sortedHealthDecorators, item.healthDecorators.ToArray(), healthProvider);
+        item.statDecorators.Clear();
+        item.healthDecorators.Clear();
     }
 
     #region Current
@@ -189,7 +187,7 @@ public class EntityModifier
 
     public IEntityResourceProvider GetCurrentResourceProvider()
     {
-        return resourceDecorators.Count > 0 ? resourceDecorators.Last() as BaseEntityResourceProvider : resourceProvider;
+        return resourceDecorators.Count > 0 ? resourceDecorators.Last() as IEntityResourceProvider : resourceProvider;
     }
 
     TProvider GetProvider<TDecorator, TProvider>(List<List<TDecorator>> list, TProvider baseProvider) 
@@ -208,14 +206,25 @@ public class EntityModifier
 
     public void OutputHealthDecorators()
     {
+        //foreach(var list in sortedHealthDecorators)
+        //{
+        //    foreach(var dec in list)
+        //    {
+        //        Debug.Log(dec);
+        //        Debug.Log(dec.provider.GetCurrent());
+        //        Debug.Log(dec.provider.GetMax());
+        //        Debug.Log(dec.provider.GetPercentage());
+        //    }
+        //}
+
         foreach(var list in sortedHealthDecorators)
         {
-            foreach(var dec in list)
+            for (int i = 0; i < list.Count - 1; ++i)
             {
-                Debug.Log(dec);
-                Debug.Log(dec.provider.GetCurrent());
-                Debug.Log(dec.provider.GetMax());
-                Debug.Log(dec.provider.GetPercentage());
+                if (list[i].provider != healthProvider && list[i + 1].provider != list[i] as BaseProvider)
+                {
+                    Debug.Log(i);
+                }
             }
         }
     }

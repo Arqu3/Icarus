@@ -10,8 +10,8 @@ public class HeroEntity : BaseEntity
     [Header("Roles")]
     [SerializeField]
     HeroRole mainRole = HeroRole.DamageDealer;
-    [SerializeField]
-    HeroRole secondaryRole = HeroRole.None;
+    //[SerializeField]
+    //HeroRole secondaryRole = HeroRole.None;
 
     [Header("Attack")]
     [SerializeField]
@@ -65,7 +65,7 @@ public class HeroEntity : BaseEntity
                 switch (attackType)
                 {
                     case AttackType.Melee:
-                        mainAction = new MeleeActionProvider(this, damageType);
+                        mainAction = new MeleeRogueActionProvider(this, damageType);
                         break;
                     case AttackType.Ranged:
                         mainAction = new RangedActionProvider(this, damageType, projectilePrefab);
@@ -82,24 +82,24 @@ public class HeroEntity : BaseEntity
                 break;
         }
 
-        if (secondaryRole != mainRole)
-        {
-            switch (secondaryRole)
-            {
-                case HeroRole.None:
-                    break;
-                case HeroRole.Tank:
-                    break;
-                case HeroRole.Support:
-                    break;
-                case HeroRole.DamageDealer:
-                    break;
-                case HeroRole.Healer:
-                    break;
-                default:
-                    break;
-            }
-        }
+        //if (secondaryRole != mainRole)
+        //{
+        //    switch (secondaryRole)
+        //    {
+        //        case HeroRole.None:
+        //            break;
+        //        case HeroRole.Tank:
+        //            break;
+        //        case HeroRole.Support:
+        //            break;
+        //        case HeroRole.DamageDealer:
+        //            break;
+        //        case HeroRole.Healer:
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
 
         currentAction = mainAction;
     }
@@ -120,11 +120,6 @@ public class HeroEntity : BaseEntity
     protected override EntityModifier CreateModifier()
     {
         return new EntityModifier(baseHealthProvider, baseResourceProvider, mainAction.CreateBaseStatProvider());
-    }
-
-    protected override void Update()
-    {
-        if (Valid) base.Update();
     }
 
     IEnumerator _GetDowned()
@@ -162,9 +157,9 @@ public class HeroEntity : BaseEntity
         }
     }
 
-    public override float Resource => CurrentResourceProvider.GetCurrent();
+    public override float Resource => CurrentResourceProvider != null ? CurrentResourceProvider.GetCurrent() : 0f;
 
-    public override float ResourcePercentage => CurrentResourceProvider.GetPercentage();
+    public override float ResourcePercentage => CurrentResourceProvider != null ? CurrentResourceProvider.GetPercentage() : 0f;
 
     public override EntityType EntityType => EntityType.Friendly;
 

@@ -35,7 +35,7 @@ public class HealthAndResourceCanvas : InstantiatableCanvas
             }
 
             if (!bar.gameObject.activeSelf) bar.gameObject.SetActive(true);
-            bar.transform.position = Camera.main.WorldToScreenPoint(entity.transform.position + Vector3.up * 1.3f);
+            bar.transform.position = Camera.main.WorldToScreenPoint(entity.transform.position + Vector3.up * 1.6f);
             bar.UpdateHealth(entity.HealthPercentage);
             bar.UpdateResource(entity.ResourcePercentage);
 
