@@ -34,9 +34,7 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     protected virtual void Awake()
     {
-        baseHealthProvider = new EntityHealthProvider(startHealth);
-        //Needed to make sure that the internal logics of this provider are properly updated no matter what provider is active
-        (baseHealthProvider as EntityHealthProvider).GetCurrentProvider = () => CurrentHealthProvider;
+        baseHealthProvider = new EntityHealthProvider(startHealth, () => CurrentHealthProvider);
 
         flash = GetComponent<ObjectFlash>();
         agent = GetComponent<NavMeshAgent>();
