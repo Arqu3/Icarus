@@ -20,6 +20,7 @@ public abstract class EntityResourceData<TData> : ScriptableObject where TData :
         }
     }
 
+    public int StartHealth = 100;
     public int Power = 10;
     public float ResourceGain = 0.25f;
     public float ActionCooldown = 0.5f;

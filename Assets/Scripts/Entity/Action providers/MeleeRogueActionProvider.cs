@@ -9,11 +9,6 @@ public class MeleeRogueActionProvider : MeleeActionProvider
     {
     }
 
-    protected override void PerformBasic()
-    {
-        base.PerformBasic();
-    }
-
     protected override void PerformSpecial()
     {
         if (NavMesh.SamplePosition(Target.transform.position - Target.transform.forward, out NavMeshHit hit, 10f, NavMesh.AllAreas))
@@ -38,9 +33,9 @@ public class MeleeRogueActionProvider : MeleeActionProvider
         owner.GetModifier().RemoveDecorator(deco);
     }
 
-    public override IStatProvider CreateBaseStatProvider()
+    public override IStatProvider CreateBaseStatProvider(BaseEntity.StatMultipliers mod, out int startHealth)
     {
-        var c = base.CreateBaseStatProvider();
+        var c = base.CreateBaseStatProvider(mod, out startHealth);
         return new StatRangeConditionDecorator(c as BaseStatProvider, 5f, () => owner.ResourcePercentage > SpecialResourcePercentageCost);
     }
 }

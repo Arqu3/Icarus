@@ -74,9 +74,10 @@ public class RangedActionProvider : BaseActionProvider
         Object.Destroy(projectile, 5f);
     }
 
-    public override IStatProvider CreateBaseStatProvider()
+    public override IStatProvider CreateBaseStatProvider(BaseEntity.StatMultipliers mod, out int startHealth)
     {
         var data = HeroRangedData.Instance;
-        return new RangedStatProvider(data.Power, data.ResourceGain, data.ActionCooldown, 1, data.Range);
+        startHealth = data.StartHealth;
+        return new RangedStatProvider(mod.power + data.Power, mod.resource + data.ResourceGain, mod.cd + data.ActionCooldown, 1, mod.range + data.Range);
     }
 }

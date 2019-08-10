@@ -46,12 +46,26 @@ public abstract class BaseActionProvider : IActionProvider
 
     #region Power/resource
 
-    public abstract IStatProvider CreateBaseStatProvider();
+    public abstract IStatProvider CreateBaseStatProvider(BaseEntity.StatMultipliers mod, out int startHealth);
     protected virtual float SpecialResourcePercentageCost => 0.99f;
 
     #endregion
 
     #region Targeting help functions
+
+    protected ICombatEntity[] GetEnemyEntitiesInSphere(Vector3 position, float range)
+        => (from h
+            in Physics.OverlapSphere(position, range)
+            let e = h.GetComponent<ICombatEntity>()
+            where e != null && e.EntityType != owner.EntityType
+            select e).ToArray();
+
+    protected ICombatEntity[] GetFriendlyEntitiesInSphere(Vector3 position, float range)
+        => (from h
+            in Physics.OverlapSphere(position, range)
+            let e = h.GetComponent<ICombatEntity>()
+            where e != null && e.EntityType == owner.EntityType
+            select e).ToArray();
 
     protected ICombatEntity[] GetFriendlyEntitiesIncludingSelf()
     {

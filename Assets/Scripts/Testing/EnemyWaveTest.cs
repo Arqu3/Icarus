@@ -6,10 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class EnemyWaveTest : MonoBehaviour
 {
-    [Header("Enemies to spawn")]
-    [SerializeField]
-    List<BaseEnemyEntity> enemies = new List<BaseEnemyEntity>();
-
     [Header("Testing params")]
     [SerializeField]
     float checkInterval = 0.5f;
@@ -27,6 +23,8 @@ public class EnemyWaveTest : MonoBehaviour
 
     IEnumerator Start()
     {
+        foreach (var h in EntityPrefabs.Instance.heroes) Instantiate(h);
+
         currentHeroes = FindObjectsOfType<HeroEntity>().ToList();
         SpawnEnemies();
 
@@ -49,6 +47,7 @@ public class EnemyWaveTest : MonoBehaviour
     void SpawnEnemies()
     {
         int num = Random.Range(minEnemiesToSpawn, maxEnemiesToSpawn + 1);
+        var enemies = EntityPrefabs.Instance.enemies;
 
         for(int i = 0; i < num; ++i)
         {

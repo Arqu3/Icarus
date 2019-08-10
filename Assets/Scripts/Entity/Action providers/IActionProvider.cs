@@ -6,7 +6,7 @@
 
     bool IsInRange { get; }
 
-    IStatProvider CreateBaseStatProvider();
+    IStatProvider CreateBaseStatProvider(BaseEntity.StatMultipliers mod, out int startHealth);
 
     void Update();
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public static class TargetProvider
 {
@@ -17,4 +18,6 @@ public static class TargetProvider
     }
 
     public static List<ICombatEntity> Get() => entities;
+    public static List<ICombatEntity> GetHeroes() => (from h in entities where h.EntityType == EntityType.Friendly select h).ToList();
+    public static List<ICombatEntity> GetEnemies() => (from h in entities where h.EntityType == EntityType.Enemy select h).ToList();
 }

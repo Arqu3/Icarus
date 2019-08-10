@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3460788408830155206}
   - component: {fileID: 3460788408830155207}
   - component: {fileID: 3460788408830155204}
-  - component: {fileID: 3460788408830155205}
+  - component: {fileID: -7291599901653957073}
   - component: {fileID: 3460788408830155226}
   - component: {fileID: 3460788408830155227}
   - component: {fileID: 1555159438}
@@ -96,7 +96,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3460788408830155205
+--- !u!114 &-7291599901653957073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,16 +105,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 3460788408830155224}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40adefe7517615f47a08187b250cc687, type: 3}
+  m_Script: {fileID: 11500000, guid: 6e1979ec3e2dc914590a4cd1610eeba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startHealth: 50
-  mainRole: 1
-  secondaryRole: -1
   attackType: 1
-  projectilePrefab: {fileID: 5396764010486090531, guid: b21c4f346da0c714d88acc12ba5e90d6,
-    type: 3}
-  damageType: 0
+  projectilePrefab: {fileID: 0}
+  damageType: 1
+  timesDownedBeforeDeath: 3
+  downTime: 2
+  healthPercentageToReturn: 0.33
+  debug: 0
+  radius: 1
 --- !u!195 &3460788408830155226
 NavMeshAgent:
   m_ObjectHideFlags: 0

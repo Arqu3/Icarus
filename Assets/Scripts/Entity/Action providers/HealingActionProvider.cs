@@ -40,10 +40,11 @@ public class HealingActionProvider : BaseActionProvider
         }
     }
 
-    public override IStatProvider CreateBaseStatProvider()
+    public override IStatProvider CreateBaseStatProvider(BaseEntity.StatMultipliers mod, out int startHealth)
     {
         var data = HeroHealingData.Instance;
-        return new DefaultStatProvider(data.Power, data.ResourceGain, data.ActionCooldown, data.Range);
+        startHealth = data.StartHealth;
+        return new DefaultStatProvider(mod.power + data.Power, mod.resource + data.ResourceGain, mod.cd + data.ActionCooldown, mod.range + data.Range);
     }
 
     protected override void PerformBasic()

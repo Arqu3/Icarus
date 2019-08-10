@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43bbd149853dc6148849e5f4239c3f0f, type: 3}
   m_Name: EnemyRangedData
   m_EditorClassIdentifier: 
+  StartHealth: 40
   Power: 10
   ResourceGain: 0.25
   ActionCooldown: 1.2

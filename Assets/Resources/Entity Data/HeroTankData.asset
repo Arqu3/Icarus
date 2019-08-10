@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa095233abd0ef94f8c0f18599be44bb, type: 3}
   m_Name: HeroTankData
   m_EditorClassIdentifier: 
+  StartHealth: 130
   Power: 1
   ResourceGain: 0.15
   ActionCooldown: 0.6
+  Range: 3

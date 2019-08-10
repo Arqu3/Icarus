@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6404cc433e321345bf6588062b8953d, type: 3}
   m_Name: HeroSupportData
   m_EditorClassIdentifier: 
+  StartHealth: 60
   Power: 1
   ResourceGain: 0.2
   ActionCooldown: 1

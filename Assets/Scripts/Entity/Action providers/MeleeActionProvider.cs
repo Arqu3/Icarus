@@ -39,20 +39,19 @@ public class MeleeActionProvider : BaseActionProvider
     protected override void PerformSpecial()
     {
         Target.RemoveHealth(CurrentStatProvider.GetPower());
-        var hits = Physics.OverlapSphere(owner.transform.position, 5f);
-
+        var hits = GetEnemyEntitiesInSphere(owner.transform.position, 5f);
         foreach(var hit in hits)
         {
-            var entity = hit.GetComponent<BaseEntity>();
-            if (entity && entity.EntityType != owner.EntityType) entity.RemoveHealth(CurrentStatProvider.GetPower() * 2);
+            hit.RemoveHealth(CurrentStatProvider.GetPower() * 2);
         }
 
         StartCooldown();
     }
 
-    public override IStatProvider CreateBaseStatProvider()
+    public override IStatProvider CreateBaseStatProvider(BaseEntity.StatMultipliers mod, out int startHealth)
     {
         var data = HeroMeleeData.Instance;
-        return new DefaultStatProvider(data.Power, data.ResourceGain, data.ActionCooldown, data.Range);
+        startHealth = data.StartHealth;
+        return new DefaultStatProvider(mod.power + data.Power, mod.resource + data.ResourceGain, mod.cd + data.ActionCooldown, mod.range + data.Range);
     }
 }

@@ -7,22 +7,11 @@ public class HeroEntity : BaseEntity
 {
     #region Serialized
 
-    [Header("Roles")]
-    [SerializeField]
-    HeroRole mainRole = HeroRole.DamageDealer;
+    //[Header("Roles")]
+    //[SerializeField]
+    //HeroRole mainRole = HeroRole.DamageDealer;
     //[SerializeField]
     //HeroRole secondaryRole = HeroRole.None;
-
-    [Header("Attack")]
-    [SerializeField]
-    AttackType attackType = AttackType.Melee;
-    [SerializeField]
-    #if UNITY_EDITOR
-    [ConditionalField(nameof(attackType), AttackType.Ranged)]
-    #endif
-    GameObject projectilePrefab;
-    [SerializeField]
-    DamageType damageType = DamageType.Physical;
 
     [Header("Down times")]
     [SerializeField]
@@ -49,59 +38,34 @@ public class HeroEntity : BaseEntity
 
         baseResourceProvider = new EntityResourceProvider(1f);
 
-        switch (mainRole)
-        {
-            case HeroRole.None:
-                break;
-            case HeroRole.Tank:
-                mainAction = new TankActionProvider(this);
-                baseHealthProvider = new HealthBlockDecorator(baseHealthProvider as BaseEntityHealthProvider, 0.2f);
-                break;
-            case HeroRole.Support:
-                mainAction = new SupportActionProvider(this);
-                break;
-            case HeroRole.DamageDealer:
 
-                switch (attackType)
-                {
-                    case AttackType.Melee:
-                        mainAction = new MeleeRogueActionProvider(this, damageType);
-                        break;
-                    case AttackType.Ranged:
-                        mainAction = new RangedActionProvider(this, damageType, projectilePrefab);
-                        break;
-                    default:
-                        break;
-                }
 
-                break;
-            case HeroRole.Healer:
-                mainAction = new HealingActionProvider(this, damageType);
-                break;
-            default:
-                break;
-        }
 
-        //if (secondaryRole != mainRole)
+        //mainAction = new TankActionProvider(this);
+        //baseHealthProvider = new HealthBlockDecorator(baseHealthProvider as BaseEntityHealthProvider, 0.2f);
+
+
+
+        //mainAction = new SupportActionProvider(this);
+
+
+
+        //switch (attackType)
         //{
-        //    switch (secondaryRole)
-        //    {
-        //        case HeroRole.None:
-        //            break;
-        //        case HeroRole.Tank:
-        //            break;
-        //        case HeroRole.Support:
-        //            break;
-        //        case HeroRole.DamageDealer:
-        //            break;
-        //        case HeroRole.Healer:
-        //            break;
-        //        default:
-        //            break;
-        //    }
+        //    case AttackType.Melee:
+        //        mainAction = new MeleeActionProvider(this, damageType);
+        //        break;
+        //    case AttackType.Ranged:
+        //        mainAction = new RangedActionProvider(this, damageType, projectilePrefab);
+        //        break;
+        //    default:
+        //        break;
         //}
 
-        currentAction = mainAction;
+
+
+
+        //mainAction = new HealingActionProvider(this, damageType);
     }
 
     protected override void Start()
@@ -119,7 +83,12 @@ public class HeroEntity : BaseEntity
 
     protected override EntityModifier CreateModifier()
     {
-        return new EntityModifier(baseHealthProvider, baseResourceProvider, mainAction.CreateBaseStatProvider());
+        return new EntityModifier(baseHealthProvider, baseResourceProvider, baseStatProvider);
+    }
+
+    protected override IActionProvider CreateActionProvider()
+    {
+        return new MeleeActionProvider(this, damageType);
     }
 
     IEnumerator _GetDowned()
@@ -152,7 +121,6 @@ public class HeroEntity : BaseEntity
         else
         {
             ++numTimesDowned;
-
             StartCoroutine(_GetDowned());
         }
     }

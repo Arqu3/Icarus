@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa6d7aed4819b3e47b502b633a34fffd, type: 3}
   m_Name: EnemyMeleeData
   m_EditorClassIdentifier: 
+  StartHealth: 60
   Power: 10
   ResourceGain: 0.25
   ActionCooldown: 1
+  Range: 3

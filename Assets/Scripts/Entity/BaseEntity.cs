@@ -3,19 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent), typeof(ObjectFlash))]
 public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 {
     #region Serialized
 
-    [Header("Health")]
+    //[Header("Health")]
+    //[SerializeField]
+    //protected int startHealth = 100;
+
+    [Header("Start stat mods")]
     [SerializeField]
-    protected int startHealth = 100;
+    int startHealthAdd = 0;
+    [SerializeField]
+    int startPowerAdd = 0;
+    [SerializeField]
+    float startCDAdd = 0f;
+    [SerializeField]
+    float startResourceAdd = 0f;
+    [SerializeField]
+    float startRangeAdd = 0f;
+
+    [Header("Attack")]
+    [SerializeField]
+    protected AttackType attackType = AttackType.Melee;
+    [SerializeField]
+#if UNITY_EDITOR
+    [ConditionalField(nameof(attackType), AttackType.Ranged)]
+#endif
+    protected GameObject projectilePrefab;
+    [SerializeField]
+    protected DamageType damageType = DamageType.Physical;
 
     #endregion
 
     #region Providers
 
     protected IEntityHealthProvider baseHealthProvider;
+    protected IStatProvider baseStatProvider;
     protected IActionProvider mainAction;
     protected IActionProvider secondaryAction;
     protected IActionProvider currentAction;
@@ -32,14 +57,35 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     #endregion
 
+    public struct StatMultipliers
+    {
+        public int hp;
+        public int power;
+        public float resource;
+        public float cd;
+        public float range;
+    }
+
     protected virtual void Awake()
     {
         TargetProvider.Add(this);
-        baseHealthProvider = new EntityHealthProvider(startHealth, () => CurrentHealthProvider);
 
         flash = GetComponent<ObjectFlash>();
         agent = GetComponent<NavMeshAgent>();
         if (agent) agent.updateUpAxis = false;
+
+        mainAction = currentAction = CreateActionProvider();
+        baseStatProvider = mainAction.CreateBaseStatProvider(new StatMultipliers
+        {
+            cd = startCDAdd,
+            hp = startHealthAdd,
+            power = startPowerAdd,
+            range = startRangeAdd,
+            resource = startResourceAdd
+        }, 
+        out int startHealth);
+
+        baseHealthProvider = new EntityHealthProvider(startHealth, () => CurrentHealthProvider);
     }
 
     protected virtual void Start()
@@ -65,6 +111,7 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
         currentAction?.Update();
     }
 
+    protected abstract IActionProvider CreateActionProvider();
     protected abstract EntityModifier CreateModifier();
 
     protected virtual void Die()
