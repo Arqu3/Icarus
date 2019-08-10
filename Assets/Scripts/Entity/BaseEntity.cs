@@ -34,6 +34,7 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     protected virtual void Awake()
     {
+        TargetProvider.Add(this);
         baseHealthProvider = new EntityHealthProvider(startHealth, () => CurrentHealthProvider);
 
         flash = GetComponent<ObjectFlash>();
@@ -44,6 +45,11 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     protected virtual void Start()
     {
         modifier = CreateModifier();
+    }
+
+    protected virtual void OnDestroy()
+    {
+        TargetProvider.Remove(this);
     }
 
     protected virtual void Update()

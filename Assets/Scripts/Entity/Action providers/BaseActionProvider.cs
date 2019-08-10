@@ -53,19 +53,19 @@ public abstract class BaseActionProvider : IActionProvider
 
     #region Targeting help functions
 
-    protected BaseEntity[] GetFriendlyEntitiesIncludingSelf()
+    protected ICombatEntity[] GetFriendlyEntitiesIncludingSelf()
     {
-        return (from t in Object.FindObjectsOfType<BaseEntity>() where t.EntityType == owner.EntityType select t).ToArray();
+        return (from t in TargetProvider.Get() where t.EntityType == owner.EntityType select t).ToArray();
     }
 
-    protected BaseEntity[] GetFriendlyEntities()
+    protected ICombatEntity[] GetFriendlyEntities()
     {
-        return (from t in Object.FindObjectsOfType<BaseEntity>() where (ICombatEntity)t != owner && t.EntityType == owner.EntityType select t).ToArray();
+        return (from t in TargetProvider.Get() where (ICombatEntity)t != owner && t.EntityType == owner.EntityType select t).ToArray();
     }
 
-    protected BaseEntity[] GetEnemyEntities()
+    protected ICombatEntity[] GetEnemyEntities()
     {
-        return (from t in Object.FindObjectsOfType<BaseEntity>() where (ICombatEntity)t != owner && t.EntityType != owner.EntityType select t).ToArray();
+        return (from t in TargetProvider.Get() where (ICombatEntity)t != owner && t.EntityType != owner.EntityType select t).ToArray();
     }
 
     protected ICombatEntity LookForNearestEnemy()

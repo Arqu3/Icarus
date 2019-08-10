@@ -23,12 +23,12 @@ public class HealthAndResourceCanvas : InstantiatableCanvas
 
     class EntityBarPair
     {
-        public BaseEntity entity;
+        public ICombatEntity entity;
         public HealthAndResourceBar bar;
 
         public void Update()
         {
-            if (!entity)
+            if (entity == null || !entity.Valid)
             {
                 if (bar.gameObject.activeSelf) bar.gameObject.SetActive(false);
                 return;
@@ -58,8 +58,8 @@ public class HealthAndResourceCanvas : InstantiatableCanvas
 
     private void Update()
     {
-        var entities = FindObjectsOfType<BaseEntity>();
-        for (int i = 0; i < entities.Length; ++i)
+        var entities = TargetProvider.Get();
+        for (int i = 0; i < entities.Count; ++i)
         {
             var alreadyExistsPair = (from p in pairs where p.entity == entities[i] select p).FirstOrDefault();
             if (alreadyExistsPair != null) continue;

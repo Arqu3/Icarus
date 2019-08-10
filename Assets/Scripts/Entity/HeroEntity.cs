@@ -55,7 +55,7 @@ public class HeroEntity : BaseEntity
                 break;
             case HeroRole.Tank:
                 mainAction = new TankActionProvider(this);
-                baseHealthProvider = new HealthBlockDecorator((BaseEntityHealthProvider)baseHealthProvider, 0.2f);
+                baseHealthProvider = new HealthBlockDecorator(baseHealthProvider as BaseEntityHealthProvider, 0.2f);
                 break;
             case HeroRole.Support:
                 mainAction = new SupportActionProvider(this);
@@ -113,7 +113,7 @@ public class HeroEntity : BaseEntity
         {
             var item = ItemCreator.CreateRandomItem();
             s.Equip(item);
-            //if (Random.Range(0f, 1f) < 0.33f) s.UnEquip(item);
+            if (Random.Range(0f, 1f) < 0.33f) s.UnEquip(item);
         }
     }
 
