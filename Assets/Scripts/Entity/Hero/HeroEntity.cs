@@ -37,48 +37,20 @@ public class HeroEntity : BaseEntity
         base.Awake();
 
         baseResourceProvider = new EntityResourceProvider(1f);
-
-
-
-
-        //mainAction = new TankActionProvider(this);
-        //baseHealthProvider = new HealthBlockDecorator(baseHealthProvider as BaseEntityHealthProvider, 0.2f);
-
-
-
-        //mainAction = new SupportActionProvider(this);
-
-
-
-        //switch (attackType)
-        //{
-        //    case AttackType.Melee:
-        //        mainAction = new MeleeActionProvider(this, damageType);
-        //        break;
-        //    case AttackType.Ranged:
-        //        mainAction = new RangedActionProvider(this, damageType, projectilePrefab);
-        //        break;
-        //    default:
-        //        break;
-        //}
-
-
-
-
-        //mainAction = new HealingActionProvider(this, damageType);
     }
 
     protected override void Start()
     {
         base.Start();
 
-        for(int i = 0; i < 3; ++i) equipmentSlots.Add(new EquipmentSlot(GetModifier(), FindObjectOfType<BasePlayer>().Inventory));
-        foreach (var s in equipmentSlots)
-        {
-            var item = ItemCreator.CreateRandomItem();
-            s.Equip(item);
-            if (Random.Range(0f, 1f) < 0.33f) s.UnEquip(item);
-        }
+        var inventory = FindObjectOfType<BasePlayer>().Inventory;
+        for(int i = 0; i < 3; ++i) equipmentSlots.Add(new EquipmentSlot(GetModifier(), inventory));
+        //foreach (var s in equipmentSlots)
+        //{
+        //    var item = ItemCreator.CreateRandomItem();
+        //    s.Equip(item);
+        //    if (Random.Range(0f, 1f) < 0.33f) s.UnEquip(item);
+        //}
     }
 
     protected override EntityModifier CreateModifier()

@@ -15,7 +15,7 @@ public class MeleeActionProvider : BaseActionProvider
 
     public override void Update()
     {
-        if (!HasTarget) Target = LookForRandomEnemyTarget();
+        if (!HasTarget) Target = LookForNearestEnemy();
         else
         {
             UpdateMovement();
@@ -42,7 +42,7 @@ public class MeleeActionProvider : BaseActionProvider
         var hits = GetEnemyEntitiesInSphere(owner.transform.position, 5f);
         foreach(var hit in hits)
         {
-            hit.RemoveHealth(CurrentStatProvider.GetPower() * 2);
+            hit.RemoveHealth(CurrentStatProvider.GetPower() + 4);
         }
 
         StartCooldown();

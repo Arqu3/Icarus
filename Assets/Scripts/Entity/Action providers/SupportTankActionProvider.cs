@@ -57,11 +57,15 @@ public class SupportTankActionProvider : TankActionProvider
 
     IEnumerator _ApplyDecorator(ICombatEntity entity, float duration)
     {
-        var dec = new SingleStatDecorator(null, StatType.Resource, ModMathType.Multiplicative, 1.1f);
+        var dec = new SingleStatDecorator(null, StatType.Resource, ModMathType.Multiplicative, 1.05f);
         entity.GetModifier().AddDecorator(dec, ModMathType.Multiplicative);
+
+        var hpDec = new HealthRedirectDecorator(null, owner, 0.4f);
+        entity.GetModifier().AddDecorator(hpDec);
 
         yield return new WaitForSeconds(duration);
 
         entity.GetModifier().RemoveDecorator(dec);
+        entity.GetModifier().RemoveDecorator(hpDec);
     }
 }

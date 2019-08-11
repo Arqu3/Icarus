@@ -56,6 +56,6 @@ public class HealingDamageActionProvider : HealingActionProvider
     {
         var data = HeroHealingData.Instance;
         startHealth = data.StartHealth;
-        return new DefaultStatProvider(mod.power + data.Power, mod.resource + 0.33f, mod.cd + data.ActionCooldown, mod.range + data.Range);
+        return new DefaultStatProvider(mod.power + data.Power, mod.resource + data.ResourceGain, mod.cd + data.ActionCooldown, mod.range + data.Range);
     }
 }

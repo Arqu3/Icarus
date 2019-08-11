@@ -49,15 +49,11 @@ public class SupportActionProvider : BaseActionProvider
 
     void GiveEnergyRadius(float radius, float amount)
     {
-        var hits = Physics.OverlapSphere(Target.transform.position, radius);
+        var hits = GetFriendlyEntitiesInSphere(Target.transform.position, radius);
 
         for(int i = 0; i < hits.Length; ++i)
         {
-            var entity = hits[i].GetComponent<BaseEntity>();
-            if (entity && entity.EntityType == Target.EntityType)
-            {
-                entity.GiveResource(amount);
-            }
+            hits[i].GiveResource(amount);
         }
     }
 
