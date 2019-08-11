@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class HeroEntity : BaseEntity
+public abstract class HeroEntity : BaseEntity
 {
     #region Serialized
 
@@ -151,7 +151,7 @@ public class HeroEntity : BaseEntity
     [SerializeField]
     float radius = 1f;
 
-    private void OnDrawGizmosSelected()
+    protected virtual void OnDrawGizmosSelected()
     {
         if (!debug) return;
 

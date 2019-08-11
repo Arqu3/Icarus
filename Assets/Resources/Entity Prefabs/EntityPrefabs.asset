@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroes:
   - {fileID: 6528118307003736684, guid: a2f68039a889ae44fada8664035880e8, type: 3}
+  - {fileID: 7638045510315519701, guid: 90ef248d3b0ba8240996b7ba4ae4301e, type: 3}
   - {fileID: -2501770169858860919, guid: 983bf50fa1433124f8bd3f439784a13e, type: 3}
+  - {fileID: 403297740914076894, guid: d3a711a85b261bb40be0328ebbcbf72d, type: 3}
   - {fileID: 8291503850649661637, guid: f96babfa24dd2b645a7731524accdec8, type: 3}
   - {fileID: 4185246386280200078, guid: 4300617352000eb47b428ba4c4427582, type: 3}
   - {fileID: -7800646053411572388, guid: c95e34e4d77352b41b3bf7ded7438559, type: 3}
   - {fileID: -7291599901653957073, guid: 70ea2f47d8a9d05418e8622b63b66528, type: 3}
+  - {fileID: -7164540153271304660, guid: 671187e2799f47a4abec307ac2917725, type: 3}
   - {fileID: -3313214805064416701, guid: 023833396d9ca7a4d94fdc615e609be5, type: 3}
   enemies:
   - {fileID: 727192127475003554, guid: 93ed1bb0b9e0ef94ea1c8671e7e72193, type: 3}

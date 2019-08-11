@@ -15,9 +15,6 @@ public class RangedActionProvider : BaseActionProvider
 
     public override void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.K)) owner.GetModifier().ApplyProjectileDecorator(2);
-        //else if (Input.GetKeyDown(KeyCode.L)) owner.GetModifier().RemoveProjectileDecorator();
-
         if (!HasTarget) Target = LookForRandomEnemyTarget();
         else
         {
@@ -46,7 +43,7 @@ public class RangedActionProvider : BaseActionProvider
         StartCooldown();
     }
 
-    void ShootSpread(int projectileCount)
+    protected void ShootSpread(int projectileCount)
     {
         int iterations = Mathf.Max(1, projectileCount);
 
@@ -63,9 +60,9 @@ public class RangedActionProvider : BaseActionProvider
         }
     }
 
-    void Shoot(Vector3 origin, Quaternion direction)
+    protected void Shoot(Vector3 origin, Quaternion direction, bool alignToNormal = true)
     {
-        direction = Quaternion.Euler(0f, direction.eulerAngles.y, 0f);
+        if (alignToNormal) direction = Quaternion.Euler(0f, direction.eulerAngles.y, 0f);
         var projectile = Object.Instantiate(projectilePrefab);
         projectile.GetComponent<Projectile>()?.Initialize(damageType, CurrentStatProvider.GetPower(), owner.EntityType);
         projectile.transform.position = origin;

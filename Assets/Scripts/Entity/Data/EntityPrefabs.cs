@@ -53,6 +53,8 @@ public class EntityPrefabsEditor : Editor
                     }
                 }
             }
+
+            EditorUtility.SetDirty(targetData);
         }
 
         serializedObject.ApplyModifiedProperties();
