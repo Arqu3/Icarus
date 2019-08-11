@@ -18,6 +18,8 @@ public abstract class BaseActionProvider : IActionProvider
     {
         this.owner = owner;
         agent = owner.gameObject.GetComponent<NavMeshAgent>();
+
+        actionTimestamp = Time.time + 1f;
     }
 
     public bool HasTarget => Target != null && Target.Valid;

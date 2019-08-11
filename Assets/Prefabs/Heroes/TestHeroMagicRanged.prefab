@@ -109,12 +109,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHealthAdd: 0
-  startPowerAdd: 0
+  startPowerAdd: -10
   startCDAdd: 0
   startResourceAdd: 0
   startRangeAdd: 0
   attackType: 1
-  projectilePrefab: {fileID: 5396764010486090531, guid: b21c4f346da0c714d88acc12ba5e90d6,
+  projectilePrefab: {fileID: 5228724057209947708, guid: 246292bd41c13484f8b99bb32472ab95,
     type: 3}
   damageType: 1
   timesDownedBeforeDeath: 3

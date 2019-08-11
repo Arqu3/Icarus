@@ -2,23 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody), typeof(Collider))]
 public class Projectile : MonoBehaviour
 {
     [Header("Damage, speed")]
     [SerializeField]
-    float speed = 50f;
+    protected float speed = 50f;
 
-    int damage = 15;
-    DamageType damageType = DamageType.Magical;
-    EntityType ownerType = EntityType.Neutral;
+    protected int damage = 15;
+    protected DamageType damageType = DamageType.Magical;
+    protected EntityType ownerType = EntityType.Neutral;
 
-    private IEnumerator Start()
+    protected Rigidbody body;
+
+    protected virtual void Awake()
     {
-        yield return null;
-        GetComponent<Rigidbody>().AddForce(transform.forward * speed, ForceMode.Impulse);
+        body = GetComponent<Rigidbody>();
     }
 
-    public void Initialize(DamageType dType, int damage, EntityType ownerType)
+    protected virtual IEnumerator Start()
+    {
+        yield return null;
+        body.AddForce(transform.forward * speed, ForceMode.Impulse);
+    }
+
+    public virtual void Initialize(DamageType dType, int damage, EntityType ownerType)
     {
         this.ownerType = ownerType;
         this.damage = damage;
@@ -27,12 +35,17 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var entity = other.GetComponent<BaseEntity>();
-        if (entity)
+        var entity = other.GetComponent<ICombatEntity>();
+        if (entity != null)
         {
             if (entity.EntityType == ownerType) return;
-            entity.RemoveHealth(damage);
-            Destroy(gameObject);
+            OnHitEntity(entity);
         }
+    }
+
+    protected virtual void OnHitEntity(ICombatEntity entity)
+    {
+        entity.RemoveHealth(damage);
+        Destroy(gameObject);
     }
 }
