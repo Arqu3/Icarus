@@ -13,6 +13,13 @@ struct StatText
 public class EquipItemUIElement : MonoBehaviour
 {
     [SerializeField]
+    Color commonColor = Color.white;
+    [SerializeField]
+    Color rareColor = Color.blue;
+    [SerializeField]
+    Color legendaryColor = new Color(1f, 0.5f, 0f);
+
+    [SerializeField]
     TMP_Text header, body, extra;
 
     public RectTransform rectTransform { get; private set; }
@@ -40,6 +47,22 @@ public class EquipItemUIElement : MonoBehaviour
     public void SetItem(EquipableItem item)
     {
         ItemStringBuilder.Build(item, out string header, out string body, out string extra);
+
+        switch (item.rarity)
+        {
+            case ItemRarity.Common:
+                this.header.color = commonColor;
+                break;
+            case ItemRarity.Rare:
+                this.header.color = rareColor;
+                break;
+            case ItemRarity.Legendary:
+                this.header.color = legendaryColor;
+                break;
+            default:
+                break;
+        }
+
         SetHeader(header);
         SetBody(body);
         SetExtra(extra);

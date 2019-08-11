@@ -74,8 +74,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284595959
-  m_fontColor: {r: 0.9716981, g: 0.74530834, b: 0.38042897, a: 1}
+    rgba: 4285637312
+  m_fontColor: {r: 0.754717, g: 0.63575214, b: 0.44499823, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -231,8 +231,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4293635296
-  m_fontColor: {r: 0.8813546, g: 0.6759523, b: 0.9245283, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -388,8 +388,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4289196684
-  m_fontColor: {r: 0.5528213, g: 0.9528302, b: 0.65753907, a: 1}
+    rgba: 4284722943
+  m_fontColor: {r: 1, g: 0.68252665, b: 0.3915094, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -526,6 +526,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ee1efec27ad9a41bf7989cf991d6e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  commonColor: {r: 0.34653282, g: 0.990566, b: 0.21960661, a: 1}
+  rareColor: {r: 0.6084906, g: 0.885252, b: 1, a: 1}
+  legendaryColor: {r: 1, g: 0.68235296, b: 0.38431376, a: 1}
   header: {fileID: 7156177613526718783}
   body: {fileID: 6537792672740199332}
   extra: {fileID: 7662080196697192973}
@@ -575,7 +578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.19077814, b: 0.5, a: 0.38431373}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.9098039}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:

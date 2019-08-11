@@ -50,7 +50,7 @@ public class ItemContainerElement : MonoBehaviour
             switch (item.rarity)
             {
                 case ItemRarity.Common:
-                    image.color = Color.gray;
+                    image.color = Color.white;
                     break;
                 case ItemRarity.Rare:
                     image.color = Color.blue;
@@ -62,6 +62,6 @@ public class ItemContainerElement : MonoBehaviour
                     break;
             }
         }
-        else image.color = Color.black;
+        else image.color = Color.gray;
     }
 }
