@@ -15,6 +15,13 @@ public class EquipItemUIElement : MonoBehaviour
     [SerializeField]
     TMP_Text header, body, extra;
 
+    public RectTransform rectTransform { get; private set; }
+
+    private void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+    }
+
     public void SetHeader(string text)
     {
         header.text = text;

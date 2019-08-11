@@ -7,10 +7,20 @@ public class PlayerInventory : BaseInventory
     [SerializeField]
     List<EquipableItem> items = new List<EquipableItem>();
 
+    InventoryUI ui;
+
+    public PlayerInventory(out InventoryUI ui)
+    {
+        ui = new InventoryUI();
+        ui.Show();
+        this.ui = ui;
+    }
+
     public override InventoryInteraction Give(EquipableItem item, out EquipableItem result)
     {
         result = null;
         items.Add(item);
+        ui.Give(item);
         return InventoryInteraction.Give;
     }
 
@@ -18,6 +28,7 @@ public class PlayerInventory : BaseInventory
     {
         result = item;
         items.Remove(item);
+        ui.Take(item);
         return InventoryInteraction.Take;
     }
 }

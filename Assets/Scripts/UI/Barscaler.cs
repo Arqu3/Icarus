@@ -11,6 +11,6 @@ public class Barscaler : MonoBehaviour
 
     public void UpdateScale(float percentage)
     {
-        bar.transform.localScale = new Vector3(Mathf.MoveTowards(bar.transform.localScale.x, percentage, 1f * Time.deltaTime), 1f, 1f);
+        bar.transform.localScale = new Vector3(Mathf.MoveTowards(bar.transform.localScale.x, percentage, 2f * Time.deltaTime), 1f, 1f);
     }
 }

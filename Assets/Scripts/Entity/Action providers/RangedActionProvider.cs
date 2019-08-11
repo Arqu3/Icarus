@@ -47,7 +47,7 @@ public class RangedActionProvider : BaseActionProvider
     {
         int iterations = Mathf.Max(1, projectileCount);
 
-        float arc = 80f;
+        float arc = 60f;
         Vector3 direction = Target.transform.position - owner.transform.position;
         Quaternion rot = Quaternion.Euler(0f, 0, 0f);
 
