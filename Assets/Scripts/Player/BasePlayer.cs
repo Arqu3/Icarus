@@ -11,11 +11,15 @@ public class BasePlayer : MonoBehaviour
     {
         Inventory = new PlayerInventory(out InventoryUI ui);
         IUI = ui;
+
+        ui.Hide();
         inventoryShowing = ui.IsShowing;
     }
 
     private void Start()
     {
+        HeroCollection.Instance.GenerateApplying(4);
+
         for (int i = 0; i < 16; ++i) Inventory.Give(ItemCreator.CreateRandomItem(), out EquipableItem result);
     }
 

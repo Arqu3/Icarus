@@ -45,6 +45,8 @@ public class ItemContainerElement : MonoBehaviour
     {
         Item = item;
 
+        if (!image) image = GetComponent<Image>();
+
         if (item != null)
         {
             switch (item.rarity)

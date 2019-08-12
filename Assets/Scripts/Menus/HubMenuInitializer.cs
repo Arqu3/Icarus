@@ -7,9 +7,23 @@ public class HubMenuInitializer : MonoBehaviour
 {
     void Awake()
     {
-        var ui = new HubUI();
-        ui.Show();
+        var rui = new RecruitUI();
 
-        ui.OnExitToMenu.AddListener(() => SceneManager.LoadScene(0));
+        var hui = new HubUI();
+        hui.Show();
+
+        rui.OnBack.AddListener(() =>
+        {
+            rui.Hide();
+            hui.Show();
+        });
+
+        hui.OnApplications.AddListener(() =>
+        {
+            hui.Hide();
+            rui.Show();
+        });
+
+        hui.OnExitToMenu.AddListener(() => SceneManager.LoadScene(0));
     }
 }
