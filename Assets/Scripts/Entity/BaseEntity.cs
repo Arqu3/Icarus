@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(ObjectFlash))]
 public abstract class BaseEntity : MonoBehaviour, ICombatEntity
@@ -44,6 +45,12 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     protected IActionProvider mainAction;
     protected IActionProvider secondaryAction;
     protected IActionProvider currentAction;
+
+    #endregion
+
+    #region Events
+
+    private readonly UnityEvent onDeath = new UnityEvent();
 
     #endregion
 
@@ -117,6 +124,7 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     protected virtual void Die()
     {
         Valid = false;
+        OnDeath.Invoke();
         Destroy(gameObject);
     }
 
@@ -145,6 +153,8 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     public abstract EntityType EntityType { get; }
 
     public bool Valid { get; protected set; } = true;
+
+    public UnityEvent OnDeath => onDeath;
 
     public void GiveHealth(int amount)
     {

@@ -5,7 +5,7 @@ using System.Linq;
 
 public class HeroCollection : MonoSingleton<HeroCollection>
 {
-    public List<Hero> representations = new List<Hero>();
+    public List<Hero> heroes = new List<Hero>();
 
     public void Select(Hero rep)
     {
@@ -24,7 +24,7 @@ public class HeroCollection : MonoSingleton<HeroCollection>
 
     public void Remove(Hero rep)
     {
-        representations.Remove(rep);
+        heroes.Remove(rep);
     }
 
     public List<Hero> GenerateApplying(int num, bool clearCurrent = true)
@@ -32,14 +32,14 @@ public class HeroCollection : MonoSingleton<HeroCollection>
         if (clearCurrent)
         {
             var rec = GetApplying();
-            foreach (var r in rec) representations.Remove(r);
+            foreach (var r in rec) heroes.Remove(r);
         }
 
         for (int i = 0; i < num; ++i)
         {
             var rep = HeroCreator.CreateRandomHero();
             rep.state = HeroState.Applying;
-            representations.Add(rep);
+            heroes.Add(rep);
         }
 
         return GetApplying();
@@ -51,6 +51,6 @@ public class HeroCollection : MonoSingleton<HeroCollection>
 
     List<Hero> GetRepresentations(HeroState state)
     {
-        return (from h in representations where h.state == state select h).ToList();
+        return (from h in heroes where h.state == state select h).ToList();
     }
 }

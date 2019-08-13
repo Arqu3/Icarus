@@ -35,8 +35,6 @@ public class HubMenuInitializer : MonoBehaviour
             hui.Show();
         });
 
-        eUI.OnStart.AddListener(() => SceneManager.LoadScene("Arena"));
-
         hui.OnEmbark.AddListener(() =>
         {
             hui.Hide();

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public interface ICombatEntity
 {
@@ -38,6 +39,8 @@ public interface ICombatEntity
     Coroutine Stop(float duration);
 
     bool IsStopped();
+
+    UnityEvent OnDeath { get; }
 }
 
 public enum DamageResult
