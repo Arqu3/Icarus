@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class HeroRepresentation : IHeroRepresentation
+public class Hero : IHero
 {
-    public HeroRepresentation(HeroEntity prefab)
+    public Hero(HeroEntity prefab)
     {
         Prefab = prefab;
     }
 
-    public HeroRepState repState = HeroRepState.Applying;
+    public HeroState state = HeroState.Applying;
     List<EquipableItem> items = new List<EquipableItem>();
     public HeroEntity Prefab { get; private set; }
     public List<EquipableItem> Items => items;
 }
 
-public enum HeroRepState
+public enum HeroState
 {
     Applying = 0,
     Recruited = 1,

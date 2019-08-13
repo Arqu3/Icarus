@@ -5,29 +5,29 @@ using System.Linq;
 
 public class HeroCollection : MonoSingleton<HeroCollection>
 {
-    public List<HeroRepresentation> representations = new List<HeroRepresentation>();
+    public List<Hero> representations = new List<Hero>();
 
-    public void Select(HeroRepresentation rep)
+    public void Select(Hero rep)
     {
-        rep.repState = HeroRepState.Selected;
+        rep.state = HeroState.Selected;
     }
 
-    public void DeSelect(HeroRepresentation rep)
+    public void DeSelect(Hero rep)
     {
-        rep.repState = HeroRepState.Recruited;
+        rep.state = HeroState.Recruited;
     }
 
-    public void Recruit(HeroRepresentation rep)
+    public void Recruit(Hero rep)
     {
-        rep.repState = HeroRepState.Recruited;
+        rep.state = HeroState.Recruited;
     }
 
-    public void Remove(HeroRepresentation rep)
+    public void Remove(Hero rep)
     {
         representations.Remove(rep);
     }
 
-    public List<HeroRepresentation> GenerateApplying(int num, bool clearCurrent = true)
+    public List<Hero> GenerateApplying(int num, bool clearCurrent = true)
     {
         if (clearCurrent)
         {
@@ -37,20 +37,20 @@ public class HeroCollection : MonoSingleton<HeroCollection>
 
         for (int i = 0; i < num; ++i)
         {
-            var rep = HeroCreator.CreateRandomRepresentation();
-            rep.repState = HeroRepState.Applying;
+            var rep = HeroCreator.CreateRandomHero();
+            rep.state = HeroState.Applying;
             representations.Add(rep);
         }
 
         return GetApplying();
     }
 
-    public List<HeroRepresentation> GetApplying() => GetRepresentations(HeroRepState.Applying);
-    public List<HeroRepresentation> GetRecruited() => GetRepresentations(HeroRepState.Recruited);
-    public List<HeroRepresentation> GetSelected() => GetRepresentations(HeroRepState.Selected);
+    public List<Hero> GetApplying() => GetRepresentations(HeroState.Applying);
+    public List<Hero> GetRecruited() => GetRepresentations(HeroState.Recruited);
+    public List<Hero> GetSelected() => GetRepresentations(HeroState.Selected);
 
-    List<HeroRepresentation> GetRepresentations(HeroRepState state)
+    List<Hero> GetRepresentations(HeroState state)
     {
-        return (from h in representations where h.repState == state select h).ToList();
+        return (from h in representations where h.state == state select h).ToList();
     }
 }

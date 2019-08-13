@@ -5,18 +5,18 @@ using System.Linq;
 
 public static class HeroCreator
 {
-    public static HeroEntity CreateLiveFrom(IHeroRepresentation rep, Vector3 position)
+    public static HeroEntity CreateLiveFrom(IHero hero, Vector3 position)
     {
-        var inst = Object.Instantiate(rep.Prefab, position, rep.Prefab.transform.rotation);
-        for (int i = 0; i < Mathf.Min(rep.Items.Count, inst.EquipmentSlots.Length); ++i)
+        var inst = Object.Instantiate(hero.Prefab, position, hero.Prefab.transform.rotation);
+        for (int i = 0; i < Mathf.Min(hero.Items.Count, inst.EquipmentSlots.Length); ++i)
         {
-            if (rep.Items[i] != null) inst.EquipmentSlots[i].Equip(rep.Items[i]);
+            if (hero.Items[i] != null) inst.EquipmentSlots[i].Equip(hero.Items[i]);
         }
         return inst;
     }
 
-    public static HeroRepresentation CreateRandomRepresentation()
+    public static Hero CreateRandomHero()
     {
-        return new HeroRepresentation(EntityPrefabs.Instance.heroes.Random());
+        return new Hero(EntityPrefabs.Instance.heroes.Random());
     }
 }

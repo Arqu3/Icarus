@@ -32,6 +32,8 @@ public class InventoryCanvas : InstantiatableCanvas
             slot = (from s in slots where s.Item == null select s).FirstOrDefault();
         }
         slot.SetItem(item);
+
+        if ((from s in slots where s.Item == null select s).ToArray().Length == 0) AddRow();
     }
 
     public EquipableItem Take(EquipableItem item)

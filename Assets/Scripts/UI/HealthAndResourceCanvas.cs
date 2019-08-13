@@ -14,8 +14,12 @@ public class HealthAndResourceCanvas : InstantiatableCanvas
 
     List<EntityBarPair> pairs = new List<EntityBarPair>();
 
+    Camera cam;
+
     private void Start()
     {
+        cam = Camera.main;
+
         AddPairs(10);
 
         pairs.Add(new EntityBarPair { bar = baseBar, entity = null });
@@ -26,7 +30,7 @@ public class HealthAndResourceCanvas : InstantiatableCanvas
         public ICombatEntity entity;
         public HealthAndResourceBar bar;
 
-        public void Update()
+        public void Update(Camera cam)
         {
             if (entity == null || !entity.Valid)
             {
@@ -35,7 +39,7 @@ public class HealthAndResourceCanvas : InstantiatableCanvas
             }
 
             if (!bar.gameObject.activeSelf) bar.gameObject.SetActive(true);
-            bar.transform.position = Camera.main.WorldToScreenPoint(entity.transform.position + Vector3.up * 1.6f);
+            bar.transform.position = cam.WorldToScreenPoint(entity.transform.position + Vector3.up * 1.6f);
             bar.UpdateHealth(entity.HealthPercentage);
             bar.UpdateResource(entity.ResourcePercentage);
 
@@ -76,6 +80,6 @@ public class HealthAndResourceCanvas : InstantiatableCanvas
             }
         }
 
-        for (int i = 0; i < pairs.Count; ++i) pairs[i].Update();
+        for (int i = 0; i < pairs.Count; ++i) pairs[i].Update(cam);
     }
 }

@@ -7,7 +7,9 @@ public class HubMenuInitializer : MonoBehaviour
 {
     void Awake()
     {
-        var rui = new RecruitUI();
+        var heroUI = new HeroUI();
+        heroUI.Show();
+        var rui = new RecruitUI(heroUI);
 
         var hui = new HubUI();
         hui.Show();
@@ -25,5 +27,20 @@ public class HubMenuInitializer : MonoBehaviour
         });
 
         hui.OnExitToMenu.AddListener(() => SceneManager.LoadScene(0));
+
+        var eUI = new EmbarkUI(heroUI);
+        eUI.OnBack.AddListener(() =>
+        {
+            eUI.Hide();
+            hui.Show();
+        });
+
+        eUI.OnStart.AddListener(() => SceneManager.LoadScene("Arena"));
+
+        hui.OnEmbark.AddListener(() =>
+        {
+            hui.Hide();
+            eUI.Show();
+        });
     }
 }
