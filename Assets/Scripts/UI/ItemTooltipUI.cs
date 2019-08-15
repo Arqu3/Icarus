@@ -9,7 +9,7 @@ public class ItemTooltipUI : InstantiatableUI<ItemTooltipUI, ItemTooltipCanvas>
     private static ItemTooltipUI _Instance;
     public static ItemTooltipUI Instance => _Instance ?? (_Instance = new ItemTooltipUI());
 
-    private ItemTooltipUI( UnityAction<ItemTooltipUI> configure = null ) : base( configure )
+    private ItemTooltipUI(UnityAction<ItemTooltipUI> configure = null ) : base( configure )
 	{
 	}
 

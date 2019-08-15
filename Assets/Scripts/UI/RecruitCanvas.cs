@@ -61,4 +61,12 @@ public static class HeroUIHelper
         b.GetComponentInChildren<TMP_Text>().text = hero.Prefab.name;
         return b;
     }
+
+    public static Image CreateHeroImage(Image original, Hero hero)
+    {
+        var b = Object.Instantiate(original, original.transform.parent);
+        b.gameObject.SetActive(true);
+        b.GetComponentInChildren<TMP_Text>().text = hero.Prefab.name;
+        return b;
+    }
 }

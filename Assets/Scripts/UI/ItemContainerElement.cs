@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using Spark.UI;
 
 [RequireComponent(typeof(Image))]
 public class ItemContainerElement : MonoBehaviour
@@ -21,24 +22,16 @@ public class ItemContainerElement : MonoBehaviour
         SetItem(null);
 
         trigger = GetComponent<EventTrigger>();
-        SetupEvent(EventTriggerType.PointerEnter, () =>
+
+        trigger.AddTriggerEvent(EventTriggerType.PointerEnter, () =>
         {
             if (Item != null) ItemTooltipUI.Instance.SetItem(Item, rTransform.position);
         });
 
-        SetupEvent(EventTriggerType.PointerExit, () =>
+        trigger.AddTriggerEvent(EventTriggerType.PointerExit, () =>
         {
             if (Item != null) ItemTooltipUI.Instance.Clear();
         });
-    }
-
-    void SetupEvent(EventTriggerType type, System.Action action)
-    {
-        var entry = new EventTrigger.Entry();
-        entry.eventID = type;
-        entry.callback.AddListener((eventData) => action());
-
-        trigger.triggers.Add(entry);
     }
 
     public void SetItem(EquipableItem item)

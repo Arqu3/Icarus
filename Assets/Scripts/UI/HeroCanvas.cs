@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Spark.UI;
+using UnityEngine.EventSystems;
 
 [AddComponentMenu("")]
 public class HeroCanvas : InstantiatableCanvas
 {
-    public Button originalButton;
+    public Image original;
 
-    List<Button> createdButtons = new List<Button>();
+    List<Image> createdImages = new List<Image>();
 
     public readonly GenericUnityEvent<Hero> OnHeroSelected = new GenericUnityEvent<Hero>();
+    public readonly GenericUnityEvent<Hero> OnHeroInspected = new GenericUnityEvent<Hero>();
 
     private void Awake()
     {
-        originalButton.gameObject.SetActive(false);
+        original.gameObject.SetActive(false);
     }
 
     public void UpdateList()
@@ -24,15 +26,18 @@ public class HeroCanvas : InstantiatableCanvas
 
         foreach (var h in HeroCollection.Instance.GetRecruited())
         {
-            var b = HeroUIHelper.CreateHeroButton(originalButton, h);
-            createdButtons.Add(b);
-            b.onClick.AddListener(() => OnHeroSelected.Invoke(h));
+            var b = HeroUIHelper.CreateHeroImage(original, h);
+            createdImages.Add(b);
+
+            var eb = b.gameObject.AddComponent<EventButton>();
+            eb.OnClick.AddListener(() => OnHeroSelected.Invoke(h));
+            eb.OnRightClick.AddListener(() => OnHeroInspected.Invoke(h));
         }
     }
 
     public void ClearButtons()
     {
-        foreach (var b in createdButtons) Destroy(b.gameObject);
-        createdButtons.Clear();
+        foreach (var b in createdImages) Destroy(b.gameObject);
+        createdImages.Clear();
     }
 }

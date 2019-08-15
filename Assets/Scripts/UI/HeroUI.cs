@@ -8,8 +8,9 @@ public class HeroUI : InstantiatableUI<HeroUI, HeroCanvas>
 {
     public GenericUnityEvent<Hero> OnHeroSelected => Canvas.OnHeroSelected;
 
-	public HeroUI( UnityAction<HeroUI> configure = null ) : base( configure )
+	public HeroUI(HeroInspectUI inspectUI, UnityAction<HeroUI> configure = null ) : base( configure )
 	{
+        Canvas.OnHeroInspected.AddListener((h) => inspectUI.ShowAndSet(h));
 	}
 
     public void UpdateList()

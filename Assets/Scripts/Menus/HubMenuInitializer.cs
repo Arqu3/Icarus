@@ -7,12 +7,15 @@ public class HubMenuInitializer : MonoBehaviour
 {
     void Awake()
     {
-        var heroUI = new HeroUI();
+        var inspectUI = new HeroInspectUI();
+
+        var heroUI = new HeroUI(inspectUI);
         heroUI.Show();
         var rui = new RecruitUI(heroUI);
 
         var hui = new HubUI();
         hui.Show();
+
 
         rui.OnBack.AddListener(() =>
         {
