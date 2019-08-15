@@ -8,4 +8,9 @@ public class HeroDebuffSupport : HeroSupport
     {
         return new DebuffSupportActionProvider(this);
     }
+
+    protected override string GetAdditionalDescription()
+    {
+        return "Ranged support, debuffs enemy output, spends energy to debuff enemy cooldown times";
+    }
 }

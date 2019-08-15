@@ -52,15 +52,7 @@ public class EntityModifier
             }
         }
 
-        List<TDecorator> builtList = new List<TDecorator>();
-        decorators.ForEach(x =>
-        {
-            x.ForEach(y => builtList.Add(y));
-        });
-
-        if (builtList.Count > 0) builtList[0].provider = baseProvider;
-
-        for (int i = 0; i < builtList.Count - 1; i++) builtList[i + 1].provider = builtList[i] as TProvider;
+        RebuildDecorators(decorators, baseProvider);
     }
 
     #endregion
@@ -120,19 +112,20 @@ public class EntityModifier
             {
                 case ModMathType.Additive:
                     AddDecoratorToSingle(decorators, 0, decorator, baseProvider);
+
                     break;
                 case ModMathType.Multiplicative:
-                    AddDecoratorToSingle(decorators, 1, decorator, decorators[0].Count > 0 ? decorators[0].Last() as TProvider : baseProvider);
+                    AddDecoratorToSingle(decorators, 1, decorator, baseProvider);
                     break;
                 default:
                     break;
             }
         }
         else if (decorator as HealthAddDecorator != null) AddDecoratorToSingle(decorators, 0, decorator, baseProvider);
-        else if (decorator as HealthMultiDecorator != null) AddDecoratorToSingle(decorators, 1, decorator, decorators[0].Count > 0 ? decorators[0].Last() as TProvider : baseProvider);
+        else if (decorator as HealthMultiDecorator != null) AddDecoratorToSingle(decorators, 1, decorator, baseProvider);
         else
         {
-            AddDecoratorToSingle(decorators, 2, decorator, decorators[1].Count > 0 ? decorators[1].Last() as TProvider : baseProvider);
+            AddDecoratorToSingle(decorators, 2, decorator, baseProvider);
         }
     }
 
@@ -140,12 +133,23 @@ public class EntityModifier
         where TProvider : BaseProvider
         where TDecorator : IDecorator<TProvider>
     {
-        decorator.provider = decorators[subIndex].Count > 0 ? decorators[subIndex].Last() as TProvider : baseProvider;
         decorators[subIndex].Add(decorator);
-        if (subIndex != decorators.Count - 1)
+        RebuildDecorators(decorators, baseProvider);
+    }
+
+    void RebuildDecorators<TDecorator, TProvider>(List<List<TDecorator>> decorators, TProvider baseProvider)
+        where TProvider : BaseProvider
+        where TDecorator : IDecorator<TProvider>
+    {
+        List<TDecorator> builtList = new List<TDecorator>();
+        decorators.ForEach(x =>
         {
-            if (decorators[subIndex + 1].Count > 0) decorators[subIndex + 1].First().provider = decorator as TProvider;
-        }
+            x.ForEach(y => builtList.Add(y));
+        });
+
+        if (builtList.Count > 0) builtList[0].provider = baseProvider;
+
+        for (int i = 0; i < builtList.Count - 1; i++) builtList[i + 1].provider = builtList[i] as TProvider;
     }
 
     public void AddDecorator(IStatDecorator dec, ModMathType mathtype)

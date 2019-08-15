@@ -18,7 +18,7 @@ public class BasePlayer : MonoBehaviour
 
     private void Start()
     {
-        HeroCollection.Instance.GenerateApplying(4);
+        HeroCollection.Instance.GenerateApplying(6);
 
         for (int i = 0; i < 15; ++i) Inventory.Give(ItemCreator.CreateRandomItem(), out EquipableItem result);
     }

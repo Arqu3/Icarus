@@ -21,6 +21,11 @@ public abstract class HeroEntity : BaseEntity
     [SerializeField]
     float healthPercentageToReturn = 0.33f;
 
+    [Header("Description")]
+    [SerializeField]
+    [Multiline]
+    protected string description = "PH DESCRIPTION";
+
     #endregion
 
     #region Private
@@ -45,12 +50,6 @@ public abstract class HeroEntity : BaseEntity
 
         var inventory = FindObjectOfType<BasePlayer>().Inventory;
         for(int i = 0; i < 3; ++i) equipmentSlots.Add(new EquipmentSlot(GetModifier(), inventory));
-        //foreach (var s in equipmentSlots)
-        //{
-        //    var item = ItemCreator.CreateRandomItem();
-        //    s.Equip(item);
-        //    if (Random.Range(0f, 1f) < 0.33f) s.UnEquip(item);
-        //}
     }
 
     protected override EntityModifier CreateModifier()
@@ -140,6 +139,24 @@ public abstract class HeroEntity : BaseEntity
     public bool Downed { get; protected set; } = false;
 
     public EquipmentSlot[] EquipmentSlots => equipmentSlots.ToArray();
+
+    #region Description
+
+    const string BaseDescription =
+    "{0} - {1}\n" +
+    "{2}\n" +
+    "Base health: {3}\n\n";
+
+    public string GetDescription()
+    {
+        return string.Format(BaseDescription + GetAdditionalDescription(), "Name", gameObject.name, GetClassType(), GetStartHealth().ToString());
+    }
+
+    protected abstract string GetAdditionalDescription();
+    protected abstract int GetStartHealth();
+    protected abstract string GetClassType();
+
+    #endregion
 
     #region DEBUG
 

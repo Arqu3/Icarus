@@ -8,4 +8,13 @@ public class HeroRogue : HeroEntity
     {
         return new MeleeRogueActionProvider(this, damageType);
     }
+
+    protected override string GetAdditionalDescription()
+    {
+        return "Melee damage dealer, spends energy to jump to target and gain 100% chance to evade attacks for a short period of time";
+    }
+
+    protected override string GetClassType() => "Melee";
+
+    protected override int GetStartHealth() => HeroMeleeData.Instance.StartHealth + startHealthAdd;
 }

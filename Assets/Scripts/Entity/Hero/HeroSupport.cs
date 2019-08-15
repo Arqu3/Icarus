@@ -8,4 +8,13 @@ public class HeroSupport : HeroEntity
     {
         return new SupportActionProvider(this);
     }
+
+    protected override string GetAdditionalDescription()
+    {
+        return "Ranged support, gives energy, spends energy to give energy to allies in targeted radius";
+    }
+
+    protected override string GetClassType() => "Support";
+
+    protected override int GetStartHealth() => HeroSupportData.Instance.StartHealth + startHealthAdd;
 }

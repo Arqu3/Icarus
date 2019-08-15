@@ -8,4 +8,13 @@ public class HeroRanger : HeroEntity
     {
         return new RangedActionProvider(this, damageType, projectilePrefab);
     }
+
+    protected override string GetAdditionalDescription()
+    {
+        return "Ranged damage dealer, spends energy to shoot multiple projectiles in a cone";
+    }
+
+    protected override string GetClassType() => "Ranged";
+
+    protected override int GetStartHealth() => HeroRangedData.Instance.StartHealth + startHealthAdd;
 }

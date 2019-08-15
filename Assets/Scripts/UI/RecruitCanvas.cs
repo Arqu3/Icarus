@@ -12,6 +12,7 @@ public class RecruitCanvas : InstantiatableCanvas
     public Button back;
     public GameObject inspectorPanel;
     public Button recruitButton;
+    public TMP_Text description;
 
     List<Button> createdButtons = new List<Button>();
     public Hero currentlySelected;
@@ -33,6 +34,7 @@ public class RecruitCanvas : InstantiatableCanvas
             {
                 SetInspectorPanelState(true);
                 currentlySelected = hero;
+                description.text = hero.GetDescription();
             }
         });
     }

@@ -26,6 +26,19 @@ public class EnemyWaveTest : MonoBehaviour
         foreach (var h in EntityPrefabs.Instance.heroes) Instantiate(h);
 
         currentHeroes = FindObjectsOfType<HeroEntity>().ToList();
+
+        yield return null;
+
+        foreach(var hero in currentHeroes)
+        {
+            foreach(var slot in hero.EquipmentSlots)
+            {
+                var item = ItemCreator.CreateRandomItem();
+                slot.Equip(item);
+                if (Random.Range(0f, 1f) < 0.33f) slot.UnEquip(item);
+            }
+        }
+
         SpawnEnemies();
 
         while(true)

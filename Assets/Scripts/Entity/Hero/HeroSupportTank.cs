@@ -6,7 +6,14 @@ public class HeroSupportTank : HeroTank
 {
     protected override IActionProvider CreateActionProvider()
     {
-        baseHealthProvider = new HealthBlockDecorator(baseHealthProvider as BaseEntityHealthProvider, 0.1f);
+        blockChance = 0.1f;
+        baseHealthProvider = new HealthBlockDecorator(baseHealthProvider as BaseEntityHealthProvider, blockChance);
         return new SupportTankActionProvider(this);
+    }
+
+    protected override string GetAdditionalDescription()
+    {
+        blockChance = 0.1f;
+        return base.GetAdditionalDescription() + ", buffs ally energy gain";
     }
 }

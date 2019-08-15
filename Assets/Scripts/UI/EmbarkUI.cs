@@ -25,6 +25,8 @@ public class EmbarkUI : InstantiatableUI<EmbarkUI, EmbarkCanvas>
             if (Canvas.AddToRoster(h)) heroUI.UpdateList();
         });
 
+        Canvas.OnHeroRemovedFromRoster.AddListener(() => heroUI.UpdateList());
+
         HookSelectableEvent(Canvas.start, OnStart);
         HookSelectableEvent(Canvas.back, OnBack);
 	}

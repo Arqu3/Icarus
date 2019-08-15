@@ -8,4 +8,9 @@ public class HeroMagicRanger : HeroRanger
     {
         return new MagicRangedActionProvider(this, damageType, projectilePrefab);
     }
+
+    protected override string GetAdditionalDescription()
+    {
+        return "Ranged damage dealer, shoots lightning bolts that bounce between enemies, spends energy to shoot 3 lightning bolts at once";
+    }
 }

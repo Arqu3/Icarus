@@ -8,4 +8,13 @@ public class HeroDamageHealer : HeroEntity
     {
         return new HealingDamageActionProvider(this, damageType);
     }
+
+    protected override string GetAdditionalDescription()
+    {
+        return "Ranged healer, damages enemies to heal self, spends energy to heal all allies";
+    }
+
+    protected override string GetClassType() => "Healer";
+
+    protected override int GetStartHealth() => HeroHealingData.Instance.StartHealth + startHealthAdd;
 }

@@ -35,6 +35,7 @@ public class HealingDamageActionProvider : HealingActionProvider
     {
         Target.RemoveHealth(CurrentStatProvider.GetPower());
         owner.GiveResource(CurrentStatProvider.GetResourceGain());
+        owner.GiveHealth(Mathf.CeilToInt(CurrentStatProvider.GetPower() / 2f));
         StartCooldown();
     }
 

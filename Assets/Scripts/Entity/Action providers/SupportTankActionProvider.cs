@@ -44,7 +44,7 @@ public class SupportTankActionProvider : TankActionProvider
         var hits = GetFriendlyEntitiesInSphere(owner.transform.position, 7f);
         foreach(var hit in hits)
         {
-            if (hit == owner) continue;
+            if (hit == owner || hit as HeroSupportTank) continue;
 
             hit.StartCoroutine(_ApplyDecorator(hit, 3f));
         }
@@ -57,7 +57,7 @@ public class SupportTankActionProvider : TankActionProvider
 
     IEnumerator _ApplyDecorator(ICombatEntity entity, float duration)
     {
-        var dec = new SingleStatDecorator(null, StatType.Resource, ModMathType.Multiplicative, 1.05f);
+        var dec = new SingleStatDecorator(null, StatType.Resource, ModMathType.Multiplicative, 1.2f);
         entity.GetModifier().AddDecorator(dec, ModMathType.Multiplicative);
 
         var hpDec = new HealthRedirectDecorator(null, owner, 0.4f);

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Spark.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 [AddComponentMenu("")]
 public class EmbarkCanvas : InstantiatableCanvas
@@ -13,6 +14,8 @@ public class EmbarkCanvas : InstantiatableCanvas
     public TMP_Text difficultyText;
     public Button back, start, baseRosterButton;
     public Button[] difficultyButtons;
+
+    public readonly UnityEvent OnHeroRemovedFromRoster = new UnityEvent();
 
     List<Button> selectedHeroes = new List<Button>();
     const int MAXIMUM_HEROES = 4;
@@ -63,6 +66,7 @@ public class EmbarkCanvas : InstantiatableCanvas
     public void RemoveFromRoster(Hero hero)
     {
         hero.state = HeroState.Recruited;
+        OnHeroRemovedFromRoster.Invoke();
         ChangeRoster();
     }
 

@@ -15,15 +15,15 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     [Header("Start stat mods")]
     [SerializeField]
-    int startHealthAdd = 0;
+    protected int startHealthAdd = 0;
     [SerializeField]
-    int startPowerAdd = 0;
+    protected int startPowerAdd = 0;
     [SerializeField]
-    float startCDAdd = 0f;
+    protected float startCDAdd = 0f;
     [SerializeField]
-    float startResourceAdd = 0f;
+    protected float startResourceAdd = 0f;
     [SerializeField]
-    float startRangeAdd = 0f;
+    protected float startRangeAdd = 0f;
 
     [Header("Attack")]
     [SerializeField]

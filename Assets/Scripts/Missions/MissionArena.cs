@@ -18,7 +18,7 @@ public class MissionArena : MonoBehaviour
 
         for(int i = 0; i < amount; ++i)
         {
-            Vector3 r = Random.insideUnitSphere * 4f;
+            Vector3 r = Random.insideUnitSphere * 10f;
             r.y = 0f;
             var e = Instantiate(enemies[Random.Range(0, enemies.Count)]);
             e.transform.position += r;
