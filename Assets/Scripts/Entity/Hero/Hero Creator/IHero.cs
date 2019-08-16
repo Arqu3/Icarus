@@ -5,5 +5,4 @@ using UnityEngine;
 public interface IHero
 {
     HeroEntity Prefab { get; }
-    List<EquipableItem> Items { get; }
 }

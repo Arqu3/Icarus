@@ -19,8 +19,6 @@ public class InventoryCanvas : InstantiatableCanvas
         ui.Show();
 
         baseRow.SetActive(false);
-
-        for (int i = 0; i < 3; ++i) AddRow();
     }
 
     public void Give(EquipableItem item)

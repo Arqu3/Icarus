@@ -10,10 +10,11 @@ public class Hero : IHero
         Prefab = prefab;
     }
 
+    public const int ITEMSLOTS = 3;
+
     public HeroState state = HeroState.Applying;
-    List<EquipableItem> items = new List<EquipableItem>();
+    public List<EquipableItem> Items = new List<EquipableItem>();
     public HeroEntity Prefab { get; private set; }
-    public List<EquipableItem> Items => items;
 
     public string GetDescription() => Prefab.GetDescription();
 }

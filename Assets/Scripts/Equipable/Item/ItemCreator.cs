@@ -47,11 +47,13 @@ public static class ItemCreator
             var selectedMod = mods.Random();
 
             var selectedUsed = selectedMod.GetUsedStats().FirstOrDefault();
-            bool reroll = (from m
-                           in selectedMods
-                           let used = m.GetUsedStats().FirstOrDefault()
-                           where used.mathType == selectedUsed.mathType && used.type == selectedUsed.type
-                           select m).Count() > 0;
+            //Does not take hybrid mods into consideration
+            var same = (from m
+                        in selectedMods
+                        let used = m.GetUsedStats().FirstOrDefault()
+                        where used.mathType == selectedUsed.mathType && used.type == selectedUsed.type
+                        select m).ToArray();
+            bool reroll = same.Length > 0;
 
             if (reroll) selectedMod = mods.Random();
 

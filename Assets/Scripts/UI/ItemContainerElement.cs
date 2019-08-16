@@ -7,42 +7,66 @@ using UnityEngine.Events;
 using Spark.UI;
 
 [RequireComponent(typeof(Image))]
-public class ItemContainerElement : MonoBehaviour
+public class ItemContainerElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     Image image;
     public EquipableItem Item { get; private set; }
     EventTrigger trigger;
     RectTransform rTransform;
+    public readonly GenericUnityEvent<EquipableItem, EquipableItem> OnItemChanged = new GenericUnityEvent<EquipableItem, EquipableItem>();
 
     private void Awake()
     {
         image = GetComponent<Image>();
         rTransform = GetComponent<RectTransform>();
 
-        SetItem(null);
+        //trigger = GetComponent<EventTrigger>();
+        //if (!trigger) trigger = gameObject.AddComponent<EventTrigger>();
 
-        trigger = GetComponent<EventTrigger>();
+        //trigger.AddTriggerEvent(EventTriggerType.PointerEnter, () =>
+        //{
+        //    if (Item != null) ItemTooltipUI.Instance.SetItem(Item, rTransform.position);
+        //});
 
-        trigger.AddTriggerEvent(EventTriggerType.PointerEnter, () =>
-        {
-            if (Item != null) ItemTooltipUI.Instance.SetItem(Item, rTransform.position);
-        });
+        //trigger.AddTriggerEvent(EventTriggerType.PointerExit, () =>
+        //{
+        //    if (Item != null) ItemTooltipUI.Instance.Clear();
+        //});
 
-        trigger.AddTriggerEvent(EventTriggerType.PointerExit, () =>
-        {
-            if (Item != null) ItemTooltipUI.Instance.Clear();
-        });
+        //trigger.AddTriggerEvent(EventTriggerType.PointerClick, () =>
+        //{
+        //    if (ItemManager.Instance.fromElement == null && Item == null) return;
+
+        //    Debug.Log("event");
+        //    if (ItemManager.Instance.fromElement == null) ItemManager.Instance.fromElement = this;
+        //    else if (ItemManager.Instance.toElement == null)
+        //    {
+        //        ItemManager.Instance.toElement = this;
+        //        ItemManager.Instance.TransferItem();
+        //    }
+        //});
+    }
+
+    IEnumerator Start()
+    {
+        yield return new WaitForEndOfFrame();
+        UpdateColors();
     }
 
     public void SetItem(EquipableItem item)
     {
+        OnItemChanged.Invoke(Item, item);
         Item = item;
+        UpdateColors();
+    }
 
+    void UpdateColors()
+    {
         if (!image) image = GetComponent<Image>();
 
-        if (item != null)
+        if (Item != null)
         {
-            switch (item.rarity)
+            switch (Item.rarity)
             {
                 case ItemRarity.Common:
                     image.color = Color.white;
@@ -58,5 +82,28 @@ public class ItemContainerElement : MonoBehaviour
             }
         }
         else image.color = Color.gray;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (Item != null) ItemTooltipUI.Instance.SetItem(Item, rTransform.position);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (Item != null) ItemTooltipUI.Instance.Clear();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (eventData.button != PointerEventData.InputButton.Left) return;
+        if (!ItemManager.Instance.fromElement && Item == null) return;
+
+        if (!ItemManager.Instance.fromElement) ItemManager.Instance.fromElement = this;
+        else if (!ItemManager.Instance.toElement)
+        {
+            ItemManager.Instance.toElement = this;
+            ItemManager.Instance.TransferItem();
+        }
     }
 }

@@ -49,7 +49,7 @@ public abstract class HeroEntity : BaseEntity
         base.Start();
 
         var inventory = FindObjectOfType<BasePlayer>().Inventory;
-        for(int i = 0; i < 3; ++i) equipmentSlots.Add(new EquipmentSlot(GetModifier(), inventory));
+        for(int i = 0; i < Hero.ITEMSLOTS; ++i) equipmentSlots.Add(new EquipmentSlot(GetModifier(), inventory));
     }
 
     protected override EntityModifier CreateModifier()
@@ -82,6 +82,20 @@ public abstract class HeroEntity : BaseEntity
 
         Downed = false;
         Valid = true;
+    }
+
+    public Coroutine EquipItemsDelayed(List<EquipableItem> items)
+    {
+        return StartCoroutine(_EquipItemsDelayed(items));
+    }
+
+    IEnumerator _EquipItemsDelayed(List<EquipableItem> items)
+    {
+        yield return new WaitWhile(() => equipmentSlots.Count <= 0);
+
+        for (int i = 0; i < items.Count; ++i) equipmentSlots[i].Equip(items[i]);
+
+        GiveHealthPercentage(1f);
     }
 
     #region Combat entity interface
