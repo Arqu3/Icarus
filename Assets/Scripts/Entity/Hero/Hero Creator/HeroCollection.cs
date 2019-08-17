@@ -46,23 +46,33 @@ public class HeroCollection : MonoSingleton<HeroCollection>
     }
 
     public List<Hero> GetApplying() => GetHeroes(HeroState.Applying);
-    public List<Hero> GetRecruited() => GetHeroes(HeroState.Recruited);
+    public List<Hero> GetRecruited(HeroSortMode sortMode) => GetHeroes(HeroState.Recruited, sortMode);
     public List<Hero> GetSelected() => GetHeroes(HeroState.Selected);
 
-    List<Hero> GetHeroes(HeroState state)
+    List<Hero> GetHeroes(HeroState state, HeroSortMode sortMode = HeroSortMode.None)
     {
-        return (from h in heroes where h.state == state select h).ToList();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
+        var list = (from h in heroes where h.state == state select h).ToList();
+        switch (sortMode)
         {
-            foreach(var h in GetRecruited())
-            {
-                Debug.Log(h.Prefab.name);
-                Debug.Log(h.Items.Count);
-            }
+            case HeroSortMode.None:
+                break;
+            case HeroSortMode.ClassType:
+                list = list.OrderBy(x => x.Prefab.name).ToList();
+                break;
+            case HeroSortMode.Level:
+                list = list.OrderBy(x => x.Level).Reverse().ToList();
+                break;
+            default:
+                break;
         }
+
+        return list;
     }
+}
+
+public enum HeroSortMode
+{
+    None = 0,
+    ClassType = 1,
+    Level = 2
 }

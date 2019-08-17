@@ -48,8 +48,8 @@ public abstract class HeroEntity : BaseEntity
     {
         base.Start();
 
-        var inventory = FindObjectOfType<BasePlayer>().Inventory;
-        for(int i = 0; i < Hero.ITEMSLOTS; ++i) equipmentSlots.Add(new EquipmentSlot(GetModifier(), inventory));
+        //var inventory = FindObjectOfType<BasePlayer>().Inventory;
+        for (int i = 0; i < Hero.ITEMSLOTS; ++i) equipmentSlots.Add(new EquipmentSlot(GetModifier()));//, inventory));
     }
 
     protected override EntityModifier CreateModifier()
@@ -67,7 +67,7 @@ public abstract class HeroEntity : BaseEntity
         Valid = false;
         Downed = true;
 
-        GetComponent<NavMeshAgent>().isStopped = true;
+        agent.isStopped = true;
 
         float timer = 0.0f;
 
@@ -157,13 +157,13 @@ public abstract class HeroEntity : BaseEntity
     #region Description
 
     const string BaseDescription =
-    "{0} - {1}\n" +
-    "{2}\n" +
-    "Base health: {3}\n\n";
+    "{0} - Level {1} {2}\n" +
+    "{3}\n" +
+    "Base health: {4}\n\n";
 
-    public string GetDescription(string heroName)
+    public string GetDescription(string heroName, int level)
     {
-        return string.Format(BaseDescription + GetAdditionalDescription(), heroName, gameObject.name, GetClassType(), GetStartHealth().ToString());
+        return string.Format(BaseDescription + GetAdditionalDescription(), heroName, level, gameObject.name, GetClassType(), GetStartHealth().ToString());
     }
 
     protected abstract string GetAdditionalDescription();

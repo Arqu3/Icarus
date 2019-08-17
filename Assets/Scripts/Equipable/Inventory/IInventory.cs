@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IInventory
-{
-    InventoryInteraction Give(EquipableItem item, out EquipableItem result);
-    InventoryInteraction Take(EquipableItem item, out EquipableItem result);
-}
+//public interface IInventory
+//{
+//    InventoryInteraction Give(EquipableItem item, out EquipableItem result);
+//    InventoryInteraction Take(EquipableItem item, out EquipableItem result);
+//}

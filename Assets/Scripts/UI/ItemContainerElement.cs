@@ -53,23 +53,24 @@ public class ItemContainerElement : MonoBehaviour, IPointerEnterHandler, IPointe
         UpdateColors();
     }
 
-    public void Clear()
-    {
-        Item = null;
-        UpdateColors();
-    }
-
-    public void SetFromHero(EquipableItem item)
-    {
-        Item = item;
-        UpdateColors();
-    }
-
+    /// <summary>
+    /// Use this to override held item without invoking events
+    /// </summary>
+    /// <param name="item"></param>
     public void SetItem(EquipableItem item)
     {
-        OnItemChanged.Invoke(Item, item);
         Item = item;
         UpdateColors();
+    }
+
+    /// <summary>
+    /// Use this to change item and invoke events
+    /// </summary>
+    /// <param name="item"></param>
+    public void GiveItem(EquipableItem item)
+    {
+        OnItemChanged.Invoke(Item, item);
+        SetItem(item);
     }
 
     void UpdateColors()

@@ -59,8 +59,25 @@ public static class NameGenerator
         "Mal",
         "Luci",
         "Felix",
-        "Cal",
-        "Nei"
+        "Kalle",
+        "Nei",
+        "Karl",
+        "Fia",
+        "Lars",
+        "Yen",
+        "Triss",
+        "Geralt",
+        "Geraldo",
+        "Ciri",
+        "Sara",
+        "Zem",
+        "Nort",
+        "Mort",
+        "Vide",
+        "Harald",
+        "Frida",
+        "Freya",
+        "Kleo"
     };
 
     public static string GetRandom() => names.Random();

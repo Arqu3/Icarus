@@ -65,7 +65,7 @@ public static class ItemCreator
     static ItemRarity GetItemRarity()
     {
         var list = new List<ItemRarity> { ItemRarity.Legendary, ItemRarity.Rare, ItemRarity.Common };
-        return GetWeightedEntry(list, 0f, 0.1f, 0.25f, 1f);
+        return GetWeightedEntry(list, 0.1f, 0.25f, 1f);
     }
 
     static ItemMod[] GetRarityMods(ItemMod[] available, ItemRarity rarity)
@@ -81,11 +81,11 @@ public static class ItemCreator
         switch (rarity)
         {
             case ItemRarity.Common:
-                return GetWeightedEntry(tiers, 0f, 0.7f, 0.4f, 0.1f);
+                return GetWeightedEntry(tiers, 0.7f, 0.4f, 0.1f);
             case ItemRarity.Rare:
-                return GetWeightedEntry(tiers, 0f, 0.3f, 0.7f, 0.15f);
+                return GetWeightedEntry(tiers, 0.3f, 0.7f, 0.15f);
             case ItemRarity.Legendary:
-                return GetWeightedEntry(tiers, 0.1f, 0.1f, 0.35f, 1f);
+                return GetWeightedEntry(tiers, 0.2f, 0.45f, 1f);
             default:
                 break;
         }
@@ -93,9 +93,9 @@ public static class ItemCreator
         return tiers.First();
     }
 
-    static T GetWeightedEntry<T>(List<T> list, float bias, params float[] weights)
+    static T GetWeightedEntry<T>(List<T> list, params float[] weights)
     {
-        float chance = Mathf.Clamp01(Random.Range(0f, 1f) + bias);
+        float chance = Random.Range(0f, 1f);
         for(int i = 0; i < list.Count; ++i)
         {
             int wi = Mathf.Min(i, weights.Length - 1);

@@ -20,4 +20,9 @@ public class InventoryUI : InstantiatableUI<InventoryUI, InventoryCanvas>
     {
         Canvas.Give(item);
     }
+
+    public void SetItem(EquipableItem item)
+    {
+        Canvas.SetItem(item);
+    }
 }

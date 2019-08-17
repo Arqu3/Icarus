@@ -58,7 +58,7 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     EntityModifier modifier;
     ObjectFlash flash;
-    NavMeshAgent agent;
+    protected NavMeshAgent agent;
     int locks;
     float regenTimestamp = 0f;
 

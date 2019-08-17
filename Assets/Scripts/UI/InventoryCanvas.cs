@@ -19,9 +19,19 @@ public class InventoryCanvas : InstantiatableCanvas
         ui.Show();
 
         baseRow.SetActive(false);
+
+        for (int i = 0; i < 5; ++i) AddRow();
     }
 
-    public void Give(EquipableItem item)
+    public void SetItem(EquipableItem item)
+    {
+        var slot = GetFirstAvailableSlot();
+        slot.SetItem(item);
+
+        if ((from s in slots where s.Item == null select s).ToArray().Length == 0) AddRow();
+    }
+
+    ItemContainerElement GetFirstAvailableSlot()
     {
         var slot = (from s in slots where s.Item == null select s).FirstOrDefault();
         if (!slot)
@@ -29,14 +39,20 @@ public class InventoryCanvas : InstantiatableCanvas
             AddRow();
             slot = (from s in slots where s.Item == null select s).FirstOrDefault();
         }
-        slot.SetItem(item);
+        return slot;
+    }
+
+    public void Give(EquipableItem item)
+    {
+        var slot = GetFirstAvailableSlot();
+        slot.GiveItem(item);
 
         if ((from s in slots where s.Item == null select s).ToArray().Length == 0) AddRow();
     }
 
     public EquipableItem Take(EquipableItem item)
     {
-        (from s in slots where s.Item == item select s).FirstOrDefault().SetItem(null);
+        (from s in slots where s.Item == item select s).FirstOrDefault().GiveItem(null);
         return item;
     }
 
@@ -44,7 +60,16 @@ public class InventoryCanvas : InstantiatableCanvas
     {
         var row = Instantiate(baseRow, baseRow.transform.parent);
         row.gameObject.SetActive(true);
-        foreach (var slot in row.GetComponentsInChildren<ItemContainerElement>()) slots.Add(slot);
+        foreach (var slot in row.GetComponentsInChildren<ItemContainerElement>())
+        {
+            slot.OnItemChanged.AddListener((oldi, newi) =>
+            {
+                ItemCollection.Instance.items.Remove(oldi);
+                if (newi != null) ItemCollection.Instance.items.Add(newi);
+            });
+
+            slots.Add(slot);
+        }
     }
 
 //#if UNITY_EDITOR

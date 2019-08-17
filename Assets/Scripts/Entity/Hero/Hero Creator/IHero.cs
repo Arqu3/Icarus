@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IHero
-{
-    HeroEntity Prefab { get; }
-}
+//public interface IHero
+//{
+//    HeroEntity Prefab { get; }
+//}

@@ -5,22 +5,30 @@ using UnityEngine;
 public class BasePlayer : MonoBehaviour
 {
     InventoryUI IUI;
-    bool inventoryShowing = true;
-
+    
     private void Awake()
     {
-        Inventory = new PlayerInventory(out InventoryUI ui);
-        IUI = ui;
+        //Inventory = new PlayerInventory(out InventoryUI ui);
+        IUI = new InventoryUI();
+        IUI.Hide();
+        //ui.Hide();
 
-        ui.Hide();
-        inventoryShowing = ui.IsShowing;
+        if (MissionSingleton.Instance.HasLoot())
+        {
+            foreach (var item in MissionSingleton.Instance.GetLoot()) ItemCollection.Instance.items.Add(item);
+        }
+
+        foreach (var item in ItemCollection.Instance.items) IUI.SetItem(item);
     }
 
     private void Start()
     {
         HeroCollection.Instance.GenerateApplying(6);
 
-        for (int i = 0; i < 15; ++i) Inventory.Give(ItemCreator.CreateRandomItem(), out EquipableItem result);
+        //for (int i = 0; i < 50; i++)
+        //{
+        //    IUI.Give(ItemCreator.CreateRandomItem());
+        //}
     }
 
 
@@ -28,11 +36,11 @@ public class BasePlayer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            inventoryShowing = !inventoryShowing;
-            if (inventoryShowing) IUI.Show();
+            bool toggle = !IUI.IsShowing;
+            if (toggle) IUI.Show();
             else IUI.Hide();
         }
     }
 
-    public PlayerInventory Inventory { get; private set; }
+    //public PlayerInventory Inventory { get; private set; }
 }

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Hero : IHero
+public class Hero //: IHero
 {
     string heroName;
+    public int Level { get; private set; } = 1;
 
     public Hero(HeroEntity prefab)
     {
@@ -19,7 +20,11 @@ public class Hero : IHero
     public List<EquipableItem> Items = new List<EquipableItem>();
     public HeroEntity Prefab { get; private set; }
 
-    public string GetDescription() => Prefab.GetDescription(heroName);
+    public string GetDescription() => Prefab.GetDescription(heroName, Level);
+    public void LevelUp()
+    {
+        ++Level;
+    }
 }
 
 public enum HeroState

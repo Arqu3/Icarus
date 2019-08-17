@@ -24,13 +24,13 @@ public class ItemManager : MonoSingleton<ItemManager>
         if (toElement.Item != null)
         {
             var item = toElement.Item;
-            toElement.SetItem(fromElement.Item);
-            fromElement.SetItem(item);
+            toElement.GiveItem(fromElement.Item);
+            fromElement.GiveItem(item);
         }
         else
         {
-            toElement.SetItem(fromElement.Item);
-            fromElement.SetItem(null);
+            toElement.GiveItem(fromElement.Item);
+            fromElement.GiveItem(null);
         }
 
         if (toElement.Item != null) ItemTooltipUI.Instance.SetItem(toElement.Item, toElement.GetComponent<RectTransform>().position);

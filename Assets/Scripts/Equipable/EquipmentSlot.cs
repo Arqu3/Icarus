@@ -5,12 +5,12 @@ using UnityEngine;
 public class EquipmentSlot
 {
     EntityModifier modifier;
-    IInventory inventory;
+    //IInventory inventory;
     EquipableItem current;
 
-    public EquipmentSlot(EntityModifier modifier, IInventory inventory)
+    public EquipmentSlot(EntityModifier modifier)//, IInventory inventory)
     {
-        this.inventory = inventory;
+        //this.inventory = inventory;
         this.modifier = modifier;
     }
 
@@ -26,7 +26,7 @@ public class EquipmentSlot
 
     public EquipableItem UnEquip(EquipableItem item)
     {
-        inventory.Give(current, out EquipableItem result);
+        //inventory.Give(current, out EquipableItem result);
         modifier.RemoveItem(current);
         current = null;
         return item;

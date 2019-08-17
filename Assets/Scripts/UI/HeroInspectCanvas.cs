@@ -34,14 +34,14 @@ public class HeroInspectCanvas : InstantiatableCanvas
     private void OnDisable()
     {
         currentHero = null;
-        createdElements.ForEach(x => x.Clear());
+        createdElements.ForEach(x => x.SetItem(null));
     }
 
     public void ShowHero(Hero hero)
     {
         descriptionText.text = hero.GetDescription();
-        createdElements.ForEach(x => x.Clear());
-        for (int i = 0; i < hero.Items.Count; ++i) createdElements[i].SetFromHero(hero.Items[i]);
+        createdElements.ForEach(x => x.SetItem(null));
+        for (int i = 0; i < hero.Items.Count; ++i) createdElements[i].SetItem(hero.Items[i]);
         currentHero = hero;
     }
 }

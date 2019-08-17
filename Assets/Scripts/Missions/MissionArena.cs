@@ -32,7 +32,15 @@ public class MissionArena : MonoBehaviour
             if (e.Length <= 0)
             {
                 Debug.Log("Victory!");
+
+                foreach (var hero in HeroCollection.Instance.GetSelected()) hero.LevelUp();
                 MoveHeroes();
+
+                int numItems = diff + 1;
+                var loot = new EquipableItem[numItems];
+                for (int i = 0; i < numItems; ++i) loot[i] = ItemCreator.CreateRandomItem();
+                MissionSingleton.Instance.GiveLoot(new MissionLoot(loot));
+
                 SceneManager.LoadScene("Hub");
             }
 
