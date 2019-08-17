@@ -45,12 +45,24 @@ public class HeroCollection : MonoSingleton<HeroCollection>
         return GetApplying();
     }
 
-    public List<Hero> GetApplying() => GetRepresentations(HeroState.Applying);
-    public List<Hero> GetRecruited() => GetRepresentations(HeroState.Recruited);
-    public List<Hero> GetSelected() => GetRepresentations(HeroState.Selected);
+    public List<Hero> GetApplying() => GetHeroes(HeroState.Applying);
+    public List<Hero> GetRecruited() => GetHeroes(HeroState.Recruited);
+    public List<Hero> GetSelected() => GetHeroes(HeroState.Selected);
 
-    List<Hero> GetRepresentations(HeroState state)
+    List<Hero> GetHeroes(HeroState state)
     {
         return (from h in heroes where h.state == state select h).ToList();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            foreach(var h in GetRecruited())
+            {
+                Debug.Log(h.Prefab.name);
+                Debug.Log(h.Items.Count);
+            }
+        }
     }
 }

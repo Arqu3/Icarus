@@ -31,7 +31,7 @@ public class HubMenuInitializer : MonoBehaviour
 
         hui.OnExitToMenu.AddListener(() => SceneManager.LoadScene(0));
 
-        var eUI = new EmbarkUI(heroUI);
+        var eUI = new EmbarkUI(heroUI, inspectUI);
         eUI.OnBack.AddListener(() =>
         {
             eUI.Hide();

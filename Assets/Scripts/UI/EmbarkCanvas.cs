@@ -12,12 +12,14 @@ public class EmbarkCanvas : InstantiatableCanvas
 {
     public TMP_Text rosterText;
     public TMP_Text difficultyText;
-    public Button back, start, baseRosterButton;
+    public Button back, start;
+    public Image baseRosterImage;
     public Button[] difficultyButtons;
 
-    public readonly UnityEvent OnHeroRemovedFromRoster = new UnityEvent();
+    public readonly GenericUnityEvent<Hero> OnHeroRemovedFromRoster = new GenericUnityEvent<Hero>();
+    public readonly GenericUnityEvent<Hero> OnHeroInspected = new GenericUnityEvent<Hero>();
 
-    List<Button> selectedHeroes = new List<Button>();
+    List<EventButton> selectedHeroes = new List<EventButton>();
     const int MAXIMUM_HEROES = 4;
 
     string rosterFormat;
@@ -27,7 +29,7 @@ public class EmbarkCanvas : InstantiatableCanvas
 
     private void Awake()
     {
-        baseRosterButton.gameObject.SetActive(false);
+        baseRosterImage.gameObject.SetActive(false);
         rosterFormat = rosterText.text;
         difficultyFormat = difficultyText.text;
         UpdateRosterText();
@@ -66,7 +68,7 @@ public class EmbarkCanvas : InstantiatableCanvas
     public void RemoveFromRoster(Hero hero)
     {
         hero.state = HeroState.Recruited;
-        OnHeroRemovedFromRoster.Invoke();
+        OnHeroRemovedFromRoster.Invoke(hero);
         ChangeRoster();
     }
 
@@ -76,8 +78,9 @@ public class EmbarkCanvas : InstantiatableCanvas
 
         foreach (var h in HeroCollection.Instance.GetSelected())
         {
-            var b = HeroUIHelper.CreateHeroButton(baseRosterButton, h);
-            b.onClick.AddListener(() => RemoveFromRoster(h));
+            var b = HeroUIHelper.CreateHeroEventButton(baseRosterImage, h);
+            b.OnClick.AddListener(() => RemoveFromRoster(h));
+            b.OnRightClick.AddListener(() => OnHeroInspected.Invoke(h));
             selectedHeroes.Add(b);
         }
         start.interactable = selectedHeroes.Count > 0;

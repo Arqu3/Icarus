@@ -10,7 +10,7 @@ public class HeroCanvas : InstantiatableCanvas
 {
     public Image original;
 
-    List<Image> createdImages = new List<Image>();
+    List<EventButton> createdButtons = new List<EventButton>();
 
     public readonly GenericUnityEvent<Hero> OnHeroSelected = new GenericUnityEvent<Hero>();
     public readonly GenericUnityEvent<Hero> OnHeroInspected = new GenericUnityEvent<Hero>();
@@ -26,8 +26,8 @@ public class HeroCanvas : InstantiatableCanvas
 
         foreach (var h in HeroCollection.Instance.GetRecruited())
         {
-            var b = HeroUIHelper.CreateHeroImage(original, h);
-            createdImages.Add(b);
+            var b = HeroUIHelper.CreateHeroEventButton(original, h);
+            createdButtons.Add(b);
 
             var eb = b.gameObject.AddComponent<EventButton>();
             eb.OnClick.AddListener(() => OnHeroSelected.Invoke(h));
@@ -37,7 +37,7 @@ public class HeroCanvas : InstantiatableCanvas
 
     public void ClearButtons()
     {
-        foreach (var b in createdImages) Destroy(b.gameObject);
-        createdImages.Clear();
+        foreach (var b in createdButtons) Destroy(b.gameObject);
+        createdButtons.Clear();
     }
 }

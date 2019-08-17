@@ -10,7 +10,8 @@ public class HeroUI : InstantiatableUI<HeroUI, HeroCanvas>
 
 	public HeroUI(HeroInspectUI inspectUI, UnityAction<HeroUI> configure = null ) : base( configure )
 	{
-        Canvas.OnHeroInspected.AddListener((h) => inspectUI.ShowAndSet(h));
+        HeroUIHelper.SetupInspectEvent(inspectUI, Canvas.OnHeroInspected);
+        //Canvas.OnHeroInspected.AddListener((h) => inspectUI.ShowAndSet(h));
 	}
 
     public void UpdateList()

@@ -12,6 +12,7 @@ public class HeroInspectCanvas : InstantiatableCanvas
     public TMP_Text descriptionText;
     public ItemContainerElement baseItemslot;
     Hero currentHero;
+    List<ItemContainerElement> createdElements = new List<ItemContainerElement>();
 
     private void Awake()
     {
@@ -30,19 +31,17 @@ public class HeroInspectCanvas : InstantiatableCanvas
         }
     }
 
-    List<ItemContainerElement> createdElements = new List<ItemContainerElement>();
-
     private void OnDisable()
     {
         currentHero = null;
-        createdElements.ForEach(x => x.SetItem(null));
+        createdElements.ForEach(x => x.Clear());
     }
 
     public void ShowHero(Hero hero)
     {
         descriptionText.text = hero.GetDescription();
-        createdElements.ForEach(x => x.SetItem(null));
-        for (int i = 0; i < hero.Items.Count; ++i) createdElements[i].SetItem(hero.Items[i]);
+        createdElements.ForEach(x => x.Clear());
+        for (int i = 0; i < hero.Items.Count; ++i) createdElements[i].SetFromHero(hero.Items[i]);
         currentHero = hero;
     }
 }

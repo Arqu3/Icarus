@@ -8,26 +8,26 @@ using TMPro;
 [AddComponentMenu("")]
 public class RecruitCanvas : InstantiatableCanvas
 {
-    public Button baseRecruitButton;
+    public Image baseRecruitImage;
     public Button back;
     public GameObject inspectorPanel;
     public Button recruitButton;
     public TMP_Text description;
 
-    List<Button> createdButtons = new List<Button>();
+    List<EventButton> createdButtons = new List<EventButton>();
     public Hero currentlySelected;
 
     private void Awake()
     {
-        baseRecruitButton.gameObject.SetActive(false);
+        baseRecruitImage.gameObject.SetActive(false);
     }
 
     public void CreateButton(Hero hero)
     {
-        var b = HeroUIHelper.CreateHeroButton(baseRecruitButton, hero);
+        var b = HeroUIHelper.CreateHeroEventButton(baseRecruitImage, hero);
         createdButtons.Add(b);
 
-        b.onClick.AddListener(() =>
+        b.OnClick.AddListener(() =>
         {
             if (currentlySelected == hero) SetInspectorPanelState(!inspectorPanel.activeSelf);
             else
@@ -54,19 +54,32 @@ public class RecruitCanvas : InstantiatableCanvas
 
 public static class HeroUIHelper
 {
-    public static Button CreateHeroButton(Button original, Hero hero)
+    //public static Button CreateHeroButton(Button original, Hero hero)
+    //{
+    //    var b = Object.Instantiate(original, original.transform.parent);
+    //    b.gameObject.SetActive(true);
+    //    b.GetComponentInChildren<TMP_Text>().text = hero.Prefab.name;
+    //    return b;
+    //}
+
+    public static EventButton CreateHeroEventButton(Image original, Hero hero)
     {
         var b = Object.Instantiate(original, original.transform.parent);
         b.gameObject.SetActive(true);
         b.GetComponentInChildren<TMP_Text>().text = hero.Prefab.name;
-        return b;
+
+        var eb = b.GetComponent<EventButton>();
+        if (!eb) eb = b.gameObject.AddComponent<EventButton>();
+
+        return eb;
     }
 
-    public static Image CreateHeroImage(Image original, Hero hero)
+    public static void SetupInspectEvent(HeroInspectUI ui, GenericUnityEvent<Hero> heroEvent)
     {
-        var b = Object.Instantiate(original, original.transform.parent);
-        b.gameObject.SetActive(true);
-        b.GetComponentInChildren<TMP_Text>().text = hero.Prefab.name;
-        return b;
+        heroEvent.AddListener((hero) =>
+        {
+            if (ui.CurrentHero == hero) ui.Hide();
+            else ui.ShowAndSet(hero);
+        });
     }
 }

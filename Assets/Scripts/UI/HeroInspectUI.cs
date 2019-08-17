@@ -7,6 +7,7 @@ using Spark.UI;
 public class HeroInspectUI : InstantiatableUI<HeroInspectUI, HeroInspectCanvas>
 {
     public readonly UnityEvent OnClose = new UnityEvent();
+    public Hero CurrentHero { get; private set; }
 
 	public HeroInspectUI(UnityAction<HeroInspectUI> configure = null ) : base( configure )
 	{
@@ -18,5 +19,12 @@ public class HeroInspectUI : InstantiatableUI<HeroInspectUI, HeroInspectCanvas>
     {
         Show();
         Canvas.ShowHero(hero);
+        CurrentHero = hero;
+    }
+
+    public override void Hide()
+    {
+        CurrentHero = null;
+        base.Hide();
     }
 }

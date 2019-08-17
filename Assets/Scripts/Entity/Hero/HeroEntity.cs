@@ -161,9 +161,9 @@ public abstract class HeroEntity : BaseEntity
     "{2}\n" +
     "Base health: {3}\n\n";
 
-    public string GetDescription()
+    public string GetDescription(string heroName)
     {
-        return string.Format(BaseDescription + GetAdditionalDescription(), "Name", gameObject.name, GetClassType(), GetStartHealth().ToString());
+        return string.Format(BaseDescription + GetAdditionalDescription(), heroName, gameObject.name, GetClassType(), GetStartHealth().ToString());
     }
 
     protected abstract string GetAdditionalDescription();

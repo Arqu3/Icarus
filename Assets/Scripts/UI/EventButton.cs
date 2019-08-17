@@ -10,12 +10,14 @@ public class EventButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     public readonly UnityEvent OnClick = new UnityEvent();
     public readonly UnityEvent OnRightClick = new UnityEvent();
 
+    Image image;
     Color baseColor;
     Color hoverColor;
 
     void Awake()
     {
-        baseColor = GetComponent<Image>().color;
+        image = GetComponent<Image>();
+        baseColor = image.color;
         hoverColor = baseColor * 0.8f;
     }
 
@@ -27,11 +29,11 @@ public class EventButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        GetComponent<Image>().CrossFadeColor(hoverColor, 0.1f, true, false);
+        image.CrossFadeColor(hoverColor, 0.1f, true, false);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        GetComponent<Image>().CrossFadeColor(baseColor, 0.1f, true, false);
+        image.CrossFadeColor(baseColor, 0.1f, true, false);
     }
 }

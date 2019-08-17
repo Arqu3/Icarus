@@ -53,6 +53,18 @@ public class ItemContainerElement : MonoBehaviour, IPointerEnterHandler, IPointe
         UpdateColors();
     }
 
+    public void Clear()
+    {
+        Item = null;
+        UpdateColors();
+    }
+
+    public void SetFromHero(EquipableItem item)
+    {
+        Item = item;
+        UpdateColors();
+    }
+
     public void SetItem(EquipableItem item)
     {
         OnItemChanged.Invoke(Item, item);

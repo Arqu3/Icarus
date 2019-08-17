@@ -33,8 +33,9 @@ public class ItemManager : MonoSingleton<ItemManager>
             fromElement.SetItem(null);
         }
 
+        if (toElement.Item != null) ItemTooltipUI.Instance.SetItem(toElement.Item, toElement.GetComponent<RectTransform>().position);
+        else ItemTooltipUI.Instance.Clear();
         fromElement = toElement = null;
-        ItemTooltipUI.Instance.Clear();
     }
 
     int counter = 0;

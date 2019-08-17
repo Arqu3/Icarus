@@ -5,9 +5,12 @@ using UnityEngine;
 [System.Serializable]
 public class Hero : IHero
 {
+    string heroName;
+
     public Hero(HeroEntity prefab)
     {
         Prefab = prefab;
+        heroName = NameGenerator.GetRandom();
     }
 
     public const int ITEMSLOTS = 3;
@@ -16,7 +19,7 @@ public class Hero : IHero
     public List<EquipableItem> Items = new List<EquipableItem>();
     public HeroEntity Prefab { get; private set; }
 
-    public string GetDescription() => Prefab.GetDescription();
+    public string GetDescription() => Prefab.GetDescription(heroName);
 }
 
 public enum HeroState
