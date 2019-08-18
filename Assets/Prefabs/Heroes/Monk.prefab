@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3460788408830155227}
   - component: {fileID: 1555159438}
   m_Layer: 0
-  m_Name: TestHeroSupport
+  m_Name: Monk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,7 +108,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e1979ec3e2dc914590a4cd1610eeba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 50
+  startHealthAdd: -5
+  startPowerAdd: 0
+  startCDAdd: 0
+  startResourceAdd: 0
+  startRangeAdd: 0
   attackType: 1
   projectilePrefab: {fileID: 0}
   damageType: 1

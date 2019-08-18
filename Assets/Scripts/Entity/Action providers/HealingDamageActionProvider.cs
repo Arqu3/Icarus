@@ -42,7 +42,7 @@ public class HealingDamageActionProvider : HealingActionProvider
     protected override void PerformSpecial()
     {
         Target.GiveHealth(CurrentStatProvider.GetPower() + 5);
-        Target.GiveHealthPercentage(0.05f);
+        Target.GiveHealthPercentage(0.05f * CurrentStatProvider.GetPower());
 
         foreach(var hero in GetFriendlyEntitiesIncludingSelf())
         {

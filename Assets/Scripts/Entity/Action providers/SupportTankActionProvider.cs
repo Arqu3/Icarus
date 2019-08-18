@@ -25,7 +25,7 @@ public class SupportTankActionProvider : TankActionProvider
 
     protected override void PerformBasic()
     {
-        Target.RemoveHealth(CurrentStatProvider.GetPower(), damageType);
+        Target.RemoveHealth(CurrentStatProvider.GetPower() - 3, damageType);
 
         var hits = GetFriendlyEntitiesInSphere(owner.transform.position, 3f);
         foreach (var hit in hits)

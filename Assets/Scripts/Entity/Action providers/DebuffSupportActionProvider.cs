@@ -57,7 +57,7 @@ public class DebuffSupportActionProvider : SupportActionProvider
     {
         foreach(var entity in debuffedEntities)
         {
-            entity.StartCoroutine(_DebuffEntityNoList(entity, 3f, new SingleStatDecorator(null, StatType.ActionCooldown, ModMathType.Multiplicative, 2f)));
+            entity.StartCoroutine(_DebuffEntityNoList(entity, 3f, new SingleStatDecorator(null, StatType.ActionCooldown, ModMathType.Multiplicative, 0.4f * CurrentStatProvider.GetPower())));
         }
 
         StartCooldown();

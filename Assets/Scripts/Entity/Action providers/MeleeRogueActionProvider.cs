@@ -18,7 +18,7 @@ public class MeleeRogueActionProvider : MeleeActionProvider
 
         Target.RemoveHealth(5 + CurrentStatProvider.GetPower(), damageType);
         Target.RemoveHealthPercentage(0.015f * CurrentStatProvider.GetPower(), damageType);
-        owner.StartCoroutine(_Evasion(1.5f));
+        owner.StartCoroutine(_Evasion(1.25f));
 
         StartCooldown();
     }

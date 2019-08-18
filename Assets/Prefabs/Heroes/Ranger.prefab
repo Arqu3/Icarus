@@ -114,13 +114,12 @@ MonoBehaviour:
   startResourceAdd: 0
   startRangeAdd: 0
   attackType: 1
-  projectilePrefab: {fileID: 5396764010486090535, guid: b21c4f346da0c714d88acc12ba5e90d6,
+  projectilePrefab: {fileID: 5396764010486090535, guid: e564042e7f0b33541912403aec713831,
     type: 3}
   damageType: 0
   timesDownedBeforeDeath: 3
   downTime: 2
   healthPercentageToReturn: 0.33
-  description: PH DESCRIPTION
   debug: 0
   radius: 1
 --- !u!195 &2923582103235840829

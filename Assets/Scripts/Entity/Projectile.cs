@@ -5,15 +5,18 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
 public class Projectile : MonoBehaviour
 {
-    [Header("Damage, speed")]
+    [Header("Stats")]
     [SerializeField]
     protected float speed = 50f;
+    [SerializeField]
+    protected int pierceCount = 0;
 
     protected int damage = 15;
     protected DamageType damageType = DamageType.Magical;
     protected EntityType ownerType = EntityType.Neutral;
-
     protected Rigidbody body;
+
+    protected int currentPierce = 0;
 
     protected virtual void Awake()
     {
@@ -46,6 +49,7 @@ public class Projectile : MonoBehaviour
     protected virtual void OnHitEntity(ICombatEntity entity)
     {
         entity.RemoveHealth(damage, damageType);
-        Destroy(gameObject);
+        ++currentPierce;
+        if (currentPierce > pierceCount) Destroy(gameObject);
     }
 }

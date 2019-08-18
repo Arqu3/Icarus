@@ -37,7 +37,6 @@ public class LightningProjectile : Projectile
             Destroy(gameObject);
             yield break;
         }
-        float bounceInterval = 0.1f;
         Vector3 previousPosition = transform.position;
 
         system.Emit(1);

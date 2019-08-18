@@ -32,8 +32,7 @@ public class TankActionProvider : BaseActionProvider
 
     protected override void PerformBasic()
     {
-        Target.RemoveHealth(CurrentStatProvider.GetPower() + 2, damageType);
-        owner.GiveHealth(CurrentStatProvider.GetPower());
+        Target.RemoveHealth(CurrentStatProvider.GetPower(), damageType);
         owner.GiveResource(CurrentStatProvider.GetResourceGain());
 
         StartCooldown();
@@ -46,7 +45,7 @@ public class TankActionProvider : BaseActionProvider
         var hits = GetEnemyEntitiesInSphere(owner.transform.position, 7f);
         for(int i = 0; i < hits.Length; ++i)
         {
-            owner.GiveHealth(CurrentStatProvider.GetPower());
+            owner.GiveHealth(Mathf.CeilToInt(CurrentStatProvider.GetPower() / 5f));
             hits[i].OverrideTarget(owner);
         }
 

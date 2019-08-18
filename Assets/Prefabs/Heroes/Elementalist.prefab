@@ -109,8 +109,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHealthAdd: 0
-  startPowerAdd: -10
-  startCDAdd: 0
+  startPowerAdd: -4
+  startCDAdd: 0.1
   startResourceAdd: 0
   startRangeAdd: 0
   attackType: 1
@@ -120,7 +120,6 @@ MonoBehaviour:
   timesDownedBeforeDeath: 3
   downTime: 2
   healthPercentageToReturn: 0.33
-  description: PH DESCRIPTION
   debug: 0
   radius: 1
 --- !u!195 &2923582103235840829

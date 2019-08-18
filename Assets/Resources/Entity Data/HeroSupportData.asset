@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HeroSupportData
   m_EditorClassIdentifier: 
   StartHealth: 60
-  Power: 1
+  Power: 5
   ResourceGain: 0.2
   ActionCooldown: 1
   Range: 8

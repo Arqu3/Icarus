@@ -34,7 +34,7 @@ public class SupportActionProvider : BaseActionProvider
 
     protected override void PerformBasic()
     {
-        Target.GiveResource(CurrentStatProvider.GetPower() * 0.025f);
+        Target.GiveResource(CurrentStatProvider.GetPower() * 0.005f);
         owner.GiveResource(CurrentStatProvider.GetResourceGain());
 
         StartCooldown();
@@ -59,10 +59,10 @@ public class SupportActionProvider : BaseActionProvider
 
     IEnumerator _EnergyBurst(float waitTime)
     {
-        GiveEnergyRadius(4f, CurrentStatProvider.GetPower() * 0.05f);
+        GiveEnergyRadius(4f, CurrentStatProvider.GetPower() * 0.01f);
 
         yield return new WaitForSeconds(waitTime);
 
-        GiveEnergyRadius(6f, CurrentStatProvider.GetPower() * 0.15f);
+        GiveEnergyRadius(6f, CurrentStatProvider.GetPower() * 0.03f);
     }
 }

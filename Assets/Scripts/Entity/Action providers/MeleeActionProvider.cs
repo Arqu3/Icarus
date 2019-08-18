@@ -39,7 +39,7 @@ public class MeleeActionProvider : BaseActionProvider
         var hits = GetEnemyEntitiesInSphere(owner.transform.position, 5f);
         foreach(var hit in hits)
         {
-            hit.RemoveHealth(CurrentStatProvider.GetPower() + 4, damageType);
+            hit.RemoveHealth(CurrentStatProvider.GetPower() + 2, damageType);
         }
 
         StartCooldown();

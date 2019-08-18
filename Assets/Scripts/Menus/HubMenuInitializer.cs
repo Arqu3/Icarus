@@ -7,6 +7,10 @@ public class HubMenuInitializer : MonoBehaviour
 {
     void Awake()
     {
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         var inspectUI = new HeroInspectUI();
 
         var heroUI = new HeroUI(inspectUI);

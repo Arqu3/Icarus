@@ -65,7 +65,7 @@ public static class ItemCreator
     static ItemRarity GetItemRarity()
     {
         var list = new List<ItemRarity> { ItemRarity.Legendary, ItemRarity.Rare, ItemRarity.Common };
-        return GetWeightedEntry(list, 0.1f, 0.33f, 1f);
+        return GetWeightedEntry(list, 0.1f, 0.4f, 1f);
     }
 
     static ItemMod[] GetRarityMods(ItemMod[] available, ItemRarity rarity)
