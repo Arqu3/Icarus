@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SupportTankActionProvider : TankActionProvider
 {
-    public SupportTankActionProvider(ICombatEntity owner) : base(owner)
+    public SupportTankActionProvider(ICombatEntity owner, DamageType damageType) : base(owner, damageType)
     {
     }
 
@@ -25,7 +25,7 @@ public class SupportTankActionProvider : TankActionProvider
 
     protected override void PerformBasic()
     {
-        Target.RemoveHealth(CurrentStatProvider.GetPower());
+        Target.RemoveHealth(CurrentStatProvider.GetPower(), damageType);
 
         var hits = GetFriendlyEntitiesInSphere(owner.transform.position, 3f);
         foreach (var hit in hits)

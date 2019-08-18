@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5669078978728528908}
   - component: {fileID: 783753171}
   m_Layer: 0
-  m_Name: TestHeroDamageHealer
+  m_Name: Inquisitor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
   startCDAdd: 0
   startResourceAdd: 0.2
   startRangeAdd: 0
-  attackType: 0
+  attackType: 1
   projectilePrefab: {fileID: 0}
   damageType: 1
   timesDownedBeforeDeath: 3

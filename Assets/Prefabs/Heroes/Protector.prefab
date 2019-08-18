@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3971625367694705652}
   - component: {fileID: 959814943}
   m_Layer: 0
-  m_Name: TestHeroTank
+  m_Name: Protector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,10 +108,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662e9db9146913543b9c00d262ebb036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 130
+  startHealthAdd: 0
+  startPowerAdd: 0
+  startCDAdd: 0
+  startResourceAdd: 0
+  startRangeAdd: 0
   attackType: 0
   projectilePrefab: {fileID: 0}
-  damageType: 1
+  damageType: 0
   timesDownedBeforeDeath: 3
   downTime: 2
   healthPercentageToReturn: 0.33

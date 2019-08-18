@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MagicRangedActionProvider : RangedActionProvider
 {
-    public MagicRangedActionProvider(ICombatEntity owner, DamageType damageType, GameObject projectilePrefab) : base(owner, damageType, projectilePrefab)
+    public MagicRangedActionProvider(ICombatEntity owner, DamageType damageType, Projectile projectilePrefab) : base(owner, damageType, projectilePrefab)
     {
     }
 

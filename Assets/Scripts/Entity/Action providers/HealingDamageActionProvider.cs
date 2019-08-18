@@ -33,7 +33,7 @@ public class HealingDamageActionProvider : HealingActionProvider
 
     protected override void PerformBasic()
     {
-        Target.RemoveHealth(CurrentStatProvider.GetPower());
+        Target.RemoveHealth(CurrentStatProvider.GetPower(), damageType);
         owner.GiveResource(CurrentStatProvider.GetResourceGain());
         owner.GiveHealth(Mathf.CeilToInt(CurrentStatProvider.GetPower() / 2f));
         StartCooldown();

@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class BaseEnemyEntity : BaseEntity
 {
-    protected override EntityModifier CreateModifier()
-    {
-        return new EntityModifier((BaseEntityHealthProvider)baseHealthProvider, null, baseStatProvider);
-    }
-
     protected override IActionProvider CreateActionProvider()
     {
         switch (attackType)
@@ -44,6 +39,11 @@ public class BaseEnemyEntity : BaseEntity
     public override bool SpendResourcePercentage(float percentage)
     {
         return false;
+    }
+
+    protected override IEntityResourceProvider CreateResourceProvider()
+    {
+        return null;
     }
 
     #endregion

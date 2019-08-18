@@ -77,7 +77,7 @@ public class LightningProjectile : Projectile
 
     void DealDamage(ICombatEntity entity)
     {
-        entity.RemoveHealth(damage);
+        entity.RemoveHealth(damage, damageType);
         hits.Add(entity);
     }
 

@@ -8,7 +8,7 @@ public class HealingActionProvider : BaseActionProvider
     const float TargetUpdateCooldown = 4f;
     float targetUpdateTimer = 0f;
 
-    public HealingActionProvider(ICombatEntity owner, DamageType damageType) : base(owner)
+    public HealingActionProvider(ICombatEntity owner, DamageType damageType) : base(owner, damageType)
     {
         
     }

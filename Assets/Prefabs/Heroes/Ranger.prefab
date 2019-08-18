@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2923582103235840826}
   - component: {fileID: 901498971}
   m_Layer: 0
-  m_Name: TestHeroRanged
+  m_Name: Ranger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,14 +108,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af585a38497e3214ea3f01d00bbc077f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 50
+  startHealthAdd: 0
+  startPowerAdd: 0
+  startCDAdd: 0
+  startResourceAdd: 0
+  startRangeAdd: 0
   attackType: 1
-  projectilePrefab: {fileID: 5396764010486090531, guid: b21c4f346da0c714d88acc12ba5e90d6,
+  projectilePrefab: {fileID: 5396764010486090535, guid: b21c4f346da0c714d88acc12ba5e90d6,
     type: 3}
   damageType: 0
   timesDownedBeforeDeath: 3
   downTime: 2
   healthPercentageToReturn: 0.33
+  description: PH DESCRIPTION
   debug: 0
   radius: 1
 --- !u!195 &2923582103235840829

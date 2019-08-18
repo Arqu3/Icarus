@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SupportActionProvider : BaseActionProvider
 {
-    public SupportActionProvider(ICombatEntity owner) : base(owner)
+    public SupportActionProvider(ICombatEntity owner, DamageType damageType) : base(owner, damageType)
     {
     }
 

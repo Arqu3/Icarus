@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class HeroSupportTank : HeroTank
 {
+    const float OverrideBlockchance = 0.15f;
+
     protected override IActionProvider CreateActionProvider()
     {
-        blockChance = 0.1f;
-        baseHealthProvider = new HealthBlockDecorator(baseHealthProvider as BaseEntityHealthProvider, blockChance);
-        return new SupportTankActionProvider(this);
+        return new SupportTankActionProvider(this, damageType);
+    }
+
+    protected override IEntityHealthProvider CreateHealthProvider(int startHealth)
+    {
+        var health = base.CreateHealthProvider(startHealth);
+        return new HealthBlockDecorator(health as BaseEntityHealthProvider, blockChance = OverrideBlockchance);
     }
 
     protected override string GetAdditionalDescription()
     {
-        blockChance = 0.1f;
+        blockChance = OverrideBlockchance;
         return base.GetAdditionalDescription() + ", buffs ally energy gain";
     }
 }

@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class RangedActionProvider : BaseActionProvider
 {
-    GameObject projectilePrefab;
-    DamageType damageType;
+    Projectile projectilePrefab;
 
-    public RangedActionProvider(ICombatEntity owner, DamageType damageType, GameObject projectilePrefab) : base(owner)
+    public RangedActionProvider(ICombatEntity owner, DamageType damageType, Projectile projectilePrefab) : base(owner, damageType)
     {
-        this.damageType = damageType;
         this.projectilePrefab = projectilePrefab;
     }
 
@@ -64,7 +62,7 @@ public class RangedActionProvider : BaseActionProvider
     {
         if (alignToNormal) direction = Quaternion.Euler(0f, direction.eulerAngles.y, 0f);
         var projectile = Object.Instantiate(projectilePrefab);
-        projectile.GetComponent<Projectile>()?.Initialize(damageType, CurrentStatProvider.GetPower(), owner.EntityType);
+        projectile.Initialize(damageType, CurrentStatProvider.GetPower(), owner.EntityType);
         projectile.transform.position = origin;
         projectile.transform.rotation = direction;
 

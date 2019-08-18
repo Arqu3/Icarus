@@ -36,14 +36,14 @@ public class HealthDecorator : BaseEntityHealthProvider, IHealthDecorator
         provider.GivePercentage(percentage);
     }
 
-    public override DamageResult Remove(int amount)
+    public override DamageResult Remove(int amount, DamageType type)
     {
-        return provider.Remove(amount);
+        return provider.Remove(amount, type);
     }
 
-    public override DamageResult RemovePercentage(float percentage)
+    public override DamageResult RemovePercentage(float percentage, DamageType type)
     {
-        return provider.RemovePercentage(percentage);
+        return provider.RemovePercentage(percentage, type);
     }
 
     public override int GetRegenAmount()

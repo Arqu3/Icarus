@@ -11,12 +11,13 @@ public abstract class BaseActionProvider : IActionProvider
     protected NavMeshAgent agent;
     protected float actionTimestamp;
     protected virtual IStatProvider CurrentStatProvider => owner.GetModifier().GetCurrentStatProvider();
-
     public const float MinimumActionCooldown = 0.1f;
+    protected DamageType damageType;
 
-    public BaseActionProvider(ICombatEntity owner)
+    public BaseActionProvider(ICombatEntity owner, DamageType damageType)
     {
         this.owner = owner;
+        this.damageType = damageType;
         agent = owner.gameObject.GetComponent<NavMeshAgent>();
 
         actionTimestamp = Time.time + 1f;

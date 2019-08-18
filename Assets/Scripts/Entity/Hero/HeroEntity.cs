@@ -21,45 +21,20 @@ public abstract class HeroEntity : BaseEntity
     [SerializeField]
     float healthPercentageToReturn = 0.33f;
 
-    [Header("Description")]
-    [SerializeField]
-    [Multiline]
-    protected string description = "PH DESCRIPTION";
-
     #endregion
 
     #region Private
 
-    IEntityResourceProvider baseResourceProvider;
     int numTimesDowned = 0;
 
     List<EquipmentSlot> equipmentSlots = new List<EquipmentSlot>();
 
     #endregion
 
-    protected override void Awake()
+    void Start()
     {
-        base.Awake();
-
-        baseResourceProvider = new EntityResourceProvider(1f);
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-
         //var inventory = FindObjectOfType<BasePlayer>().Inventory;
         for (int i = 0; i < Hero.ITEMSLOTS; ++i) equipmentSlots.Add(new EquipmentSlot(GetModifier()));//, inventory));
-    }
-
-    protected override EntityModifier CreateModifier()
-    {
-        return new EntityModifier(baseHealthProvider, baseResourceProvider, baseStatProvider);
-    }
-
-    protected override IActionProvider CreateActionProvider()
-    {
-        return new MeleeActionProvider(this, damageType);
     }
 
     IEnumerator _GetDowned()
@@ -96,6 +71,11 @@ public abstract class HeroEntity : BaseEntity
         for (int i = 0; i < items.Count; ++i) equipmentSlots[i].Equip(items[i]);
 
         GiveHealthPercentage(1f);
+    }
+
+    protected override IEntityResourceProvider CreateResourceProvider()
+    {
+        return new EntityResourceProvider(1f);
     }
 
     #region Combat entity interface
@@ -136,15 +116,15 @@ public abstract class HeroEntity : BaseEntity
         CurrentResourceProvider.GivePercentage(percentage);
     }
 
-    public override DamageResult RemoveHealth(int amount)
+    public override DamageResult RemoveHealth(int amount, DamageType type)
     {
-        if (Valid) return base.RemoveHealth(amount);
+        if (Valid) return base.RemoveHealth(amount, type);
         else return DamageResult.Immune;
     }
 
-    public override DamageResult RemoveHealthPercentage(float percentage)
+    public override DamageResult RemoveHealthPercentage(float percentage, DamageType type)
     {
-        if (Valid) return base.RemoveHealthPercentage(percentage);
+        if (Valid) return base.RemoveHealthPercentage(percentage, type);
         else return DamageResult.Immune;
     }
 

@@ -6,7 +6,7 @@ public class HeroSupport : HeroEntity
 {
     protected override IActionProvider CreateActionProvider()
     {
-        return new SupportActionProvider(this);
+        return new SupportActionProvider(this, damageType);
     }
 
     protected override string GetAdditionalDescription()

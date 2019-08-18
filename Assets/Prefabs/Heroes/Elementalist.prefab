@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2923582103235840826}
   - component: {fileID: 901498971}
   m_Layer: 0
-  m_Name: TestHeroMagicRanged
+  m_Name: Elementalist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -114,12 +114,13 @@ MonoBehaviour:
   startResourceAdd: 0
   startRangeAdd: 0
   attackType: 1
-  projectilePrefab: {fileID: 5228724057209947708, guid: 246292bd41c13484f8b99bb32472ab95,
+  projectilePrefab: {fileID: 3116668792918235552, guid: 246292bd41c13484f8b99bb32472ab95,
     type: 3}
   damageType: 1
   timesDownedBeforeDeath: 3
   downTime: 2
   healthPercentageToReturn: 0.33
+  description: PH DESCRIPTION
   debug: 0
   radius: 1
 --- !u!195 &2923582103235840829

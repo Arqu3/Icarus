@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyRangedActionProvider : RangedActionProvider
 {
-    public EnemyRangedActionProvider(ICombatEntity owner, DamageType damageType, GameObject projectilePrefab) : base(owner, damageType, projectilePrefab)
+    public EnemyRangedActionProvider(ICombatEntity owner, DamageType damageType, Projectile projectilePrefab) : base(owner, damageType, projectilePrefab)
     {
     }
 

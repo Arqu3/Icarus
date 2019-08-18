@@ -16,8 +16,8 @@ public class MeleeRogueActionProvider : MeleeActionProvider
             agent.Warp(hit.position);
         }
 
-        Target.RemoveHealth(5 + CurrentStatProvider.GetPower());
-        Target.RemoveHealthPercentage(0.015f * CurrentStatProvider.GetPower());
+        Target.RemoveHealth(5 + CurrentStatProvider.GetPower(), damageType);
+        Target.RemoveHealthPercentage(0.015f * CurrentStatProvider.GetPower(), damageType);
         owner.StartCoroutine(_Evasion(1.5f));
 
         StartCooldown();
@@ -36,6 +36,6 @@ public class MeleeRogueActionProvider : MeleeActionProvider
     public override IStatProvider CreateBaseStatProvider(BaseEntity.StatMultipliers mod, out int startHealth)
     {
         var c = base.CreateBaseStatProvider(mod, out startHealth);
-        return new StatRangeConditionDecorator(c as BaseStatProvider, 5f, () => owner.ResourcePercentage > SpecialResourcePercentageCost);
+        return new StatRangeConditionDecorator(c as BaseStatProvider, 10f, () => owner.ResourcePercentage > SpecialResourcePercentageCost);
     }
 }

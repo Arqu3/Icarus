@@ -13,15 +13,6 @@ public class ItemStatTest : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            hero.RemoveHealth(5);
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            hero.GiveHealth(5);
-        }
-
         if (Input.GetKeyDown(KeyCode.L))
         {
             Debug.Log(hero.MaxHealth);

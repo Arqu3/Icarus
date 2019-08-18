@@ -6,8 +6,8 @@
 
     void Give(int amount);
     void GivePercentage(float percentage);
-    DamageResult Remove(int amount);
-    DamageResult RemovePercentage(float percentage);
+    DamageResult Remove(int amount, DamageType type);
+    DamageResult RemovePercentage(float percentage, DamageType type);
 
     int GetRegenAmount();
     float GetRegenInterval();

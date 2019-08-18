@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TankActionProvider : BaseActionProvider
 {
-    public TankActionProvider(ICombatEntity owner) : base(owner)
+    public TankActionProvider(ICombatEntity owner, DamageType damageType) : base(owner, damageType)
     {
     }
 
@@ -32,7 +32,7 @@ public class TankActionProvider : BaseActionProvider
 
     protected override void PerformBasic()
     {
-        Target.RemoveHealth(CurrentStatProvider.GetPower() + 2);
+        Target.RemoveHealth(CurrentStatProvider.GetPower() + 2, damageType);
         owner.GiveHealth(CurrentStatProvider.GetPower());
         owner.GiveResource(CurrentStatProvider.GetResourceGain());
 
@@ -41,7 +41,7 @@ public class TankActionProvider : BaseActionProvider
 
     protected override void PerformSpecial()
     {
-        Target.RemoveHealthPercentage(0.1f);
+        Target.RemoveHealthPercentage(0.1f, damageType);
         owner.GiveHealthPercentage(0.05f);
         var hits = GetEnemyEntitiesInSphere(owner.transform.position, 7f);
         for(int i = 0; i < hits.Length; ++i)

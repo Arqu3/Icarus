@@ -6,7 +6,7 @@ public class HeroDebuffSupport : HeroSupport
 {
     protected override IActionProvider CreateActionProvider()
     {
-        return new DebuffSupportActionProvider(this);
+        return new DebuffSupportActionProvider(this, damageType);
     }
 
     protected override string GetAdditionalDescription()

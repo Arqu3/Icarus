@@ -5,7 +5,7 @@ using System.Linq;
 
 public class DebuffSupportActionProvider : SupportActionProvider
 {
-    public DebuffSupportActionProvider(ICombatEntity owner) : base(owner)
+    public DebuffSupportActionProvider(ICombatEntity owner, DamageType damageType) : base(owner, damageType)
     {
     }
 

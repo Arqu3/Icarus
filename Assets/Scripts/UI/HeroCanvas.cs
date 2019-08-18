@@ -19,6 +19,8 @@ public class HeroCanvas : InstantiatableCanvas
     public readonly GenericUnityEvent<Hero> OnHeroSelected = new GenericUnityEvent<Hero>();
     public readonly GenericUnityEvent<Hero> OnHeroInspected = new GenericUnityEvent<Hero>();
 
+    const string PlayerPrefsName = "HeroSortMode";
+
     private void Awake()
     {
         original.gameObject.SetActive(false);
@@ -29,9 +31,14 @@ public class HeroCanvas : InstantiatableCanvas
 
         sortModeDropdown.AddOptions(stringList);
 
+        int last = PlayerPrefs.GetInt(PlayerPrefsName, 0);
+        currentSortmode = (HeroSortMode)last;
+        sortModeDropdown.value = last;
+
         sortModeDropdown.onValueChanged.AddListener((i) =>
         {
             currentSortmode = (HeroSortMode)i;
+            PlayerPrefs.SetInt(PlayerPrefsName, i);
             UpdateList();
         });
     }

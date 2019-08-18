@@ -8,8 +8,14 @@ public class HeroTank : HeroEntity
 
     protected override IActionProvider CreateActionProvider()
     {
-        baseHealthProvider = new HealthBlockDecorator(baseHealthProvider as BaseEntityHealthProvider, blockChance);
-        return new TankActionProvider(this);
+
+        return new TankActionProvider(this, damageType);
+    }
+
+    protected override IEntityHealthProvider CreateHealthProvider(int startHealth)
+    {
+        var health = base.CreateHealthProvider(startHealth);
+        return new HealthBlockDecorator(health as BaseEntityHealthProvider, blockChance);
     }
 
     protected override string GetAdditionalDescription()

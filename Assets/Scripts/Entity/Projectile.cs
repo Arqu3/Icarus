@@ -45,7 +45,7 @@ public class Projectile : MonoBehaviour
 
     protected virtual void OnHitEntity(ICombatEntity entity)
     {
-        entity.RemoveHealth(damage);
+        entity.RemoveHealth(damage, damageType);
         Destroy(gameObject);
     }
 }

@@ -10,8 +10,8 @@ public interface ICombatEntity
     float HealthPercentage { get; }
     void GiveHealth(int amount);
     void GiveHealthPercentage(float percentage);
-    DamageResult RemoveHealth(int amount);
-    DamageResult RemoveHealthPercentage(float percentage);
+    DamageResult RemoveHealth(int amount, DamageType type);
+    DamageResult RemoveHealthPercentage(float percentage, DamageType type);
 
     float Resource { get; }
     float ResourcePercentage { get; }
@@ -48,6 +48,6 @@ public enum DamageResult
     Hit = 0,
     Missed = 1,
     Avoided = 2,
-    Negated = 3,
+    Blocked = 3,
     Immune = 4
 }

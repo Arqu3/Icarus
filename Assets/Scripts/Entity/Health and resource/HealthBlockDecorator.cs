@@ -11,10 +11,10 @@ public class HealthBlockDecorator : HealthDecorator
         this.blockChance = blockChance;
     }
 
-    public override DamageResult Remove(int amount)
+    public override DamageResult Remove(int amount, DamageType type)
     {
-        if (Random.Range(0f, 1f) <= blockChance) return DamageResult.Avoided;
+        if (Random.Range(0f, 1f) <= blockChance) return DamageResult.Blocked;
 
-        return base.Remove(amount);
+        return base.Remove(amount, type);
     }
 }

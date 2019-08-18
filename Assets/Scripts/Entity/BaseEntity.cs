@@ -32,7 +32,7 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 #if UNITY_EDITOR
     [ConditionalField(nameof(attackType), AttackType.Ranged)]
 #endif
-    protected GameObject projectilePrefab;
+    protected Projectile projectilePrefab;
     [SerializeField]
     protected DamageType damageType = DamageType.Physical;
 
@@ -40,8 +40,6 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
 
     #region Providers
 
-    protected IEntityHealthProvider baseHealthProvider;
-    protected IStatProvider baseStatProvider;
     protected IActionProvider mainAction;
     protected IActionProvider secondaryAction;
     protected IActionProvider currentAction;
@@ -82,21 +80,6 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
         if (agent) agent.updateUpAxis = false;
 
         mainAction = currentAction = CreateActionProvider();
-        baseStatProvider = mainAction.CreateBaseStatProvider(new StatMultipliers
-        {
-            cd = startCDAdd,
-            hp = startHealthAdd,
-            power = startPowerAdd,
-            range = startRangeAdd,
-            resource = startResourceAdd
-        }, 
-        out int startHealth);
-
-        baseHealthProvider = new EntityHealthProvider(startHealth, () => CurrentHealthProvider);
-    }
-
-    protected virtual void Start()
-    {
         modifier = CreateModifier();
     }
 
@@ -119,7 +102,29 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
     }
 
     protected abstract IActionProvider CreateActionProvider();
-    protected abstract EntityModifier CreateModifier();
+    EntityModifier CreateModifier()
+    {
+        var stat = CreateStatProvider(out int health);
+        return new EntityModifier(CreateHealthProvider(health), CreateResourceProvider(), stat);
+    }
+
+    protected abstract IEntityResourceProvider CreateResourceProvider();
+    protected virtual IEntityHealthProvider CreateHealthProvider(int startHealth) => new EntityHealthProvider(startHealth, () => CurrentHealthProvider);
+    protected virtual IStatProvider CreateStatProvider(out int health)
+    {
+        var stat = mainAction.CreateBaseStatProvider(new StatMultipliers
+        {
+            cd = startCDAdd,
+            hp = startHealthAdd,
+            power = startPowerAdd,
+            range = startRangeAdd,
+            resource = startResourceAdd
+        },
+        out int startHealth);
+
+        health = startHealth;
+        return stat;
+    }
 
     protected virtual void Die()
     {
@@ -166,16 +171,16 @@ public abstract class BaseEntity : MonoBehaviour, ICombatEntity
         CurrentHealthProvider.GivePercentage(percentage);
     }
 
-    public virtual DamageResult RemoveHealth(int amount)
+    public virtual DamageResult RemoveHealth(int amount, DamageType type)
     {
-        var result = CurrentHealthProvider.Remove(amount);
+        var result = CurrentHealthProvider.Remove(amount, type);
         OnHealthRemoveAttempt(result);
         return result;
     }
 
-    public virtual DamageResult RemoveHealthPercentage(float percentage)
+    public virtual DamageResult RemoveHealthPercentage(float percentage, DamageType type)
     {
-        var result = CurrentHealthProvider.RemovePercentage(percentage);
+        var result = CurrentHealthProvider.RemovePercentage(percentage, type);
         OnHealthRemoveAttempt(result);
         return result;
     }
